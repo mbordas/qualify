@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<options qualify_version="0.6">
+<option name="sut_name">Scripted test cases</option>
+<option name="sut_date">02/09/2011</option>
+<option name="sut_version">1.0</option>
+<option name="result_dir">./result</option>
+<option name="script_dirs">./tests</option>
+<option name="script_preprocessors_dirs">./preprocessors</option>
+
+<option name="log_level">DEBUG</option>
+</options>

@@ -1,0 +1,16 @@
+2012-08-22 11:12:38,501 INFO - Setting log level to: DEBUG
+2012-08-22 11:12:38,501 INFO - Loading preprocessors...
+2012-08-22 11:12:38,517 ERROR - Folder './bad_dir' does not exist or is not a directory.
+2012-08-22 11:12:38,517 INFO - Loading scripts...
+2012-08-22 11:12:38,532 INFO - loading test script: C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\TC_Preprocessors\.\tests\Test1.groovy
+2012-08-22 11:12:38,829 INFO - loading script: C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\TC_Preprocessors\.\tests\Test1.groovy
+2012-08-22 11:12:38,829 DEBUG - Looking for keywords for test C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\TC_Preprocessors\.\tests\Test1.groovy
+2012-08-22 11:12:39,219 INFO - loading test script: C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\TC_Preprocessors\.\tests\Test2.groovy
+2012-08-22 11:12:39,219 INFO - loading script: C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\TC_Preprocessors\.\tests\Test2.groovy
+2012-08-22 11:12:39,219 DEBUG - Looking for keywords for test C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\TC_Preprocessors\.\tests\Test2.groovy
+2012-08-22 11:12:39,250 INFO - loading test script: C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\TC_Preprocessors\.\tests\Test3.tst
+2012-08-22 11:12:39,250 INFO - loading test script: C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\TC_Preprocessors\.\tests\Test4.unknown
+2012-08-22 11:12:39,250 INFO - ******************************************
+2012-08-22 11:12:39,250 INFO - * TEST HARNESS STOPPED BECAUSE OF ERRORS *
+2012-08-22 11:12:39,250 INFO - ******************************************
+2012-08-22 11:12:39,250 INFO - * To continue execution even with errors, use the option: run_on_error

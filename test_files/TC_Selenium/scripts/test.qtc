@@ -1,0 +1,10 @@
+selenium.get(TestObject.getFromRepo('site(QualifyWiki)>page(home)').attribute('url'))
+sikuli.captureScreen()
+
+check(selenium.find('site(QualifyWiki)>page(home)>link(online documentation)') != null)
+
+selenium.click('site(QualifyWiki)>page(home)>link(online documentation)')
+
+pause(2.0)
+sikuli.captureScreen()
+//sikuli.captureArea(sikuli.getScreen().left(50.0))

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<options qualify_version="0.2">
+<option name="sut_name">Project Sample 001</option>
+<option name="sut_date">18/12/2010</option>
+<option name="sut_version">1.0</option>
+<option name="source_dirs">./src</option>
+<option name="result_dir">./results</option>
+</options>

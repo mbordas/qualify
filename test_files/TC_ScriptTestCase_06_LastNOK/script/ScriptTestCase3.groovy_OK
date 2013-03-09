@@ -1,0 +1,13 @@
+import java.io.File;
+import java.io.IOException;
+
+import qualify.TestCase;
+import qualify.tools.*;
+
+public class ScriptTestCase3 extends TestCase {
+	
+	public void run() {
+		check(true);
+	}
+
+}

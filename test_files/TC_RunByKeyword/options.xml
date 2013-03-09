@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<options qualify_version="0.2">
+<option name="result_dir">./rst</option>
+<option name="script_dirs">./tests</option>
+<option name="keyword">GOOD_KEYWORD</option>
+<option name="log_level">DEBUG</option>
+</options>

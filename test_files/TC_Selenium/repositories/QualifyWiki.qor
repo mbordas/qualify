@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site id="QualifyWiki">
+	<page id="home" url="http://sites.google.com/site/qualifywiki/home">
+		<link id="online documentation">
+			<identifier id="linkText" value="Online documentation"/>
+		</link>
+	</page>
+</site>

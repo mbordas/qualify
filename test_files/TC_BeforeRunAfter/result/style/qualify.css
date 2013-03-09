@@ -1,0 +1,229 @@
+/* CSS made from a template under creativecommons license:*/
+/* ==============================================
+   FEUILLE DE STYLES DES GABARITS HTML/CSS --- 05
+   © Elephorm & Alsacreations.com
+   Conditions d'utilisation:
+   http://creativecommons.org/licenses/by/2.0/fr/
+   ============================================== */
+
+body {
+	font-family:'Segoe UI',Verdana,Arial;
+	font-size: 14px;
+	padding: 10px 20px 10px 20px;
+}
+
+h1 {
+	color: #6E6E6E;
+	font-weight: 700;
+	font-size: 40px;
+}
+h2 {
+	color: #6E6E6E;
+	font-weight: 700;
+	font-size: 25px;
+}
+h3 {
+	color: #6E6E6E;
+	font-weight: 700;
+	font-size: 20px;
+}
+
+.code {
+	font-family: Verdana,Helvetica,Arial,sans-serif;
+    font-size: 13px;
+	padding: 0px;
+	margin: 0px;
+}
+
+.line_number {
+	width: 20px;
+	text-align: right;
+	padding-right: 10px;
+	color: white;
+	background-color: grey;/*#A4A4A4;*/
+}
+
+.source_line {
+	margin-left: 10px;
+}
+
+.page {
+	margin: 25px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: 1px 1px 12px #555;
+}
+
+table{
+	border-style:solid;
+	border-width:1px;
+	border-color:#bbb;
+	border-collapse:collapse;
+	width:100%;
+}
+table th {
+	background-color:#E5E5E5;
+	color:#000000;
+	height:21px;
+	padding:4px;
+	padding-left:25px;
+	text-align:left;
+}
+
+table td {
+	padding:4px;
+	padding-left:25px;
+	vertical-align: center;
+}
+span {
+	margin:0px;
+	padding:0px;
+}
+span.steptitle{
+	border-style:solid;
+	border-width:1px;
+	border-color:#bbb;
+	border-collapse:collapse;
+	background-color:white;
+	color:black;
+	margin-right:5px;
+	padding-left:10px;
+	padding-right:10px;
+	text-align:center;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+span.steptitle:hover{
+	border-color:black;
+	/*-moz-box-shadow: 1px 1px 1px #555;*/
+}
+span.steptitle a{
+	text-decoration: none;
+}
+span.ok{
+	background-color:#ACFA58;
+}
+span.nok{
+	background-color:#FF5F5F;
+}
+span.nok a {
+	color:white;
+}
+span.mark {
+	float:right;
+	border-style:solid;
+	border-width:1px;
+	border-color:#bbb;
+	border-collapse:collapse;
+	background-color:white;
+	color:black;
+	margin-right:5px;
+	padding-left:10px;
+	padding-right:10px;
+	text-align:center;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+span.label {
+	background-color:grey;
+	color:white;
+	border-style:none;
+	border-width:0px;
+	padding-left:10px;
+	padding-right:10px;
+	margin-right:10px;
+	text-align:center;
+}
+span.insert {
+	background-color:#FF5F5F;
+}
+span.delete {
+	background-color:#FF5F5F;
+}
+
+.counter {
+	border-style:solid;
+	border-width:1px;
+	border-color:#bbb;
+	border-collapse:collapse;
+	text-align:center;
+	width:50px;
+}
+.time {
+	border-style:solid;
+	border-width:1px;
+	border-color:#bbb;
+	border-collapse:collapse;
+	text-align:left;
+	font-style:italic
+	width:50px;
+}
+
+.ok {
+	color:#0B610B;
+}
+
+.nok {
+	color:#FF5F5F;
+}
+
+.nok_bg {
+	color: white;
+	background-color:#FF5F5F;
+}
+
+#navigation {
+	width: 30%;
+	float: left;
+}
+#navigation a {
+	display: block;
+	height: 1%;
+	line-height: 1.5;
+	font-size: .9em;
+	text-decoration: none;
+}
+
+#navigation ul {
+	margin: 0;
+	padding: 20px 10px;
+	list-style: none;
+}
+
+#global {
+	width: 100%;
+	overflow: hidden;
+}
+
+#header {
+	padding: 10px;
+}
+#header h1 {
+	margin: 0;
+}
+#header h1 img {
+	float: left;
+	margin: 7px 20px 10px 0;
+}
+#header .sous-titre {
+	margin: 4px 0 15px 0;
+}
+
+#content {
+	/*margin-left: 30%;*/
+	padding: 10px;
+}
+#content > :first-child {
+	margin-top: 10px;
+}
+#content p, #content li {
+	line-height: 1.5;
+}
+
+#code {
+	padding: 0px;
+	maring: 0px;
+}
+
+
+

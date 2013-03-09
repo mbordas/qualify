@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requirements qualify_version="0.2">
+	<requirement id="REQ-0"/>
+	<requirement id="REQ-1"/>
+</requirements>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<options qualify_version="0.2">
+<option name="sut_name">Project Sample 005 no source</option>
+<option name="sut_date">18/12/2010</option>
+<option name="sut_version">1.0</option>
+<option name="release_note">result/result.xml</option>
+<option name="log_level">DEBUG</option>
+<option name="log_file">run.log</option>
+</options>

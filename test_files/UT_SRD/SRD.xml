@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requirements qualify_version="0.2">
+<requirement id="CommandLine">
+	<requirement id="CommandLine : Option recognition"/>
+	<requirement id="CommandLine : Option parameters"/>
+</requirement>
+<requirement id="Requirement">
+	<requirement id="Requirement without test"/>
+	<requirement id="Inline requirement overriding"/>
+	<requirement id="Test case without check"/>	
+</requirement>
+<requirement id="Compilation">
+	<requirement id="Compile"/>
+	<requirement id="Run"/>
+</requirement>
+<requirement id="Checking">
+	<requirement id="OK check"/>
+	<requirement id="NOK check"/>
+</requirement>
+<requirement id="Export">
+	<requirement id="Export : Release note"/>
+	<requirement id="Export : Test cases table"/>
+	<requirement id="Export : Test source"/>
+</requirement>
+<requirement id="TestRunner">
+</requirement>
+<requirement id="TestTool">
+	<requirement id="TestToolNumbers"/>
+	<requirement id="TestToolStrings"/>
+	<requirement id="TestToolXML"/>
+	<requirement id="TestToolGroovy"/>
+</requirement>
+</requirements>

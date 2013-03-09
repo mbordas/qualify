@@ -1,0 +1,14 @@
+import java.io.File;
+import java.io.IOException;
+import qualify.TestCase;
+public class Test3 extends TestCase {
+public void run() {
+
+setRequirementTarget("Requirement 3");
+step('one');
+check(true);
+
+comment(" dummy comment");
+step('two');
+check(false);
+}}

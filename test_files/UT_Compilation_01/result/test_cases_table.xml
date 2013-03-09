@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="style/test_cases_table.xsl"?>
+<test_cases elapsed_time="00:00:00.820">
+  <test_case name="Test" elapsed_time="00:00:00.820" result="NOK" test_source="Test/Test.xml">
+    <test_result result="OK" test_source="Test/Test.xml" test_source_line="10" />
+    <test_result result="NOK" test_source="Test/Test.xml" test_source_line="12" />
+  </test_case>
+</test_cases>
+

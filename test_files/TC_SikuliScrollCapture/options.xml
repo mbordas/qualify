@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<options qualify_version="0.2">
+<option name="object_repositories_dirs">./repo</option>
+<option name="script_dirs">./script</option>
+<option name="sut_name">sample</option>
+<option name="release_note">./result/index.xml</option>
+<option name="log_level">INFO</option>
+<option name="log_file">log.txt</option>
+
+<option name="test">ScriptTestCase</option>
+</options>
