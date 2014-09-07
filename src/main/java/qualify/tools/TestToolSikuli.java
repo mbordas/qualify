@@ -49,11 +49,14 @@ import qualify.tools.pattern.AreaTransformer;
 import qualify.tools.pattern.StringSelector;
 
 /**
- * The TestToolSikuli provides methods to manipulate the mouse and the keyboard, and to analyze the screen. That tool uses the great MIT's
- * library called Sikuli, based on OpenCV (for the Computer Vision part) and Tesseract (for the Character Recognition). TestToolSikuli uses
- * PNG images as pattern to find in screen the area where to click, get text, type characters, etc. These pattern images can identified by
- * two ways: - the relative path to the PNG file. In that case, the origin folder is the one given at construction by
- * 'sikuliImagesDirectory' - the path of the image in an object repository (see the TestObject class for more information).
+ * The TestToolSikuli provides methods to manipulate the mouse and the keyboard, and to analyze the screen.
+ * That tool uses the great MIT's library called Sikuli, based on OpenCV (for the Computer Vision part)
+ * and Tesseract (for the Character Recognition).
+ * 
+ * TestToolSikuli uses PNG images as pattern to find in screen the area where to click, get text, type characters, etc.
+ * These pattern images can identified by two ways:
+ * - the relative path to the PNG file. In that case, the origin folder is the one given at construction by 'sikuliImagesDirectory'
+ * - the path of the image in an object repository (see the TestObject class for more information).
  */
 public class TestToolSikuli {
 
@@ -67,7 +70,7 @@ public class TestToolSikuli {
 	public final static String DEFAULT_IMAGES_DIRECTORY = "tmp_images";
 	public final static String AUTO_CAPTURED_IMAGES_PREFIX = "autoCapture_";
 	private static int AUTO_CAPTURED_IMAGES_COUNT = 0;
-	public static final float DEFAULT_SIMILARITY = (float) 0.7;
+	public static final float DEFAULT_SIMILARITY = (float)0.7;
 	private static double DEFAULT_WAIT_TIMEOUT = 10.0;
 	private Screen screen = null;
 	private IRobot robot = null;
@@ -100,10 +103,10 @@ public class TestToolSikuli {
 
 	private void setImagesDirectory(File dir) {
 		imgDir = dir;
-		if(!imgDir.exists()) {
+		if(! imgDir.exists()) {
 			try {
 				TestToolFile.createDir(dir);
-			} catch(IOException e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 				ErrorsAndWarnings.addError("Images directory '" + imgDir.getAbsolutePath() + "' cannot be created.");
 			}
@@ -116,7 +119,6 @@ public class TestToolSikuli {
 
 	/**
 	 * Returns the main sikuli.Screen object used by this instance.
-	 * 
 	 * @return The main sikuli.Screen object used by this instance.
 	 */
 	public Area getScreenArea() {
@@ -129,7 +131,6 @@ public class TestToolSikuli {
 
 	/**
 	 * Returns the java.awt.Robot object used by this instance.
-	 * 
 	 * @return the java.awt.Robot object used by this instance.
 	 */
 	public IRobot getRobot() {
@@ -138,9 +139,8 @@ public class TestToolSikuli {
 
 	/**
 	 * Focuses on one application, or launch it if needed.
-	 * 
-	 * @param applicationPath
-	 *            The path to the executable or the name of the application (e.g. "Mozilla Firefox")
+	 * @param applicationPath The path to the executable or the name of the
+	 * application (e.g. "Mozilla Firefox")
 	 */
 	public void switchMSWindowsApp(String applicationPath) {
 		Win32Util win = new Win32Util();
@@ -149,22 +149,17 @@ public class TestToolSikuli {
 
 	/**
 	 * Clicks on the center of the best matching region of the screen.
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern
+	 * @param imageIdentifier The identifier of the image used as pattern
 	 */
 	public void click(String imageIdentifier) {
 		click(imageIdentifier, DEFAULT_SIMILARITY);
 	}
 
 	/**
-	 * See click(String). Here the similarity factor (see Sikuli's doc for more details) is given through parameters: the first matching
-	 * region is used.
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern
-	 * @param similarity
-	 *            The similarity factor.
+	 * See click(String). Here the similarity factor (see Sikuli's doc for more details)
+	 * is given through parameters: the first matching region is used.
+	 * @param imageIdentifier The identifier of the image used as pattern
+	 * @param similarity The similarity factor.
 	 */
 	public void click(String imageIdentifier, float similarity) {
 		List<File> imageFiles = getImageFiles(imageIdentifier);
@@ -174,7 +169,9 @@ public class TestToolSikuli {
 		}
 
 		if(imageFiles == null) {
-			testCase.addTestResult(false, "expected image " + getImageDescription(imageIdentifier) + " doesnt exist", TestToolSikuli.class);
+			testCase.addTestResult(false,
+					"expected image " + getImageDescription(imageIdentifier) + " doesnt exist",
+					TestToolSikuli.class);
 		} else {
 			boolean clickPerformed = false;
 			for(File imageFile : imageFiles) {
@@ -183,16 +180,16 @@ public class TestToolSikuli {
 					break;
 				}
 			}
-			if(!clickPerformed) {
-				testCase.addTestResult(false, "expected image " + getImageDescription(imageIdentifier) + " (similarity=" + similarity
-						+ ") not found in screen", TestToolSikuli.class);
+			if(! clickPerformed) {
+				testCase.addTestResult(false,
+						"expected image " + getImageDescription(imageIdentifier) + " (similarity=" + similarity + ") not found in screen",
+						TestToolSikuli.class);
 			}
 		}
 	}
 
 	/**
 	 * Try to click on the image given through parameter.
-	 * 
 	 * @param patternImage
 	 * @param similarity
 	 * @return True if the pattern is found and click. False elsewhere
@@ -200,10 +197,10 @@ public class TestToolSikuli {
 	public boolean tryClick(File patternImage, float similarity) {
 		boolean clickPerformed = false;
 
-		try {
+		try{
 			screen.click(new Pattern(patternImage.getAbsolutePath()).similar(similarity), 0);
 			clickPerformed = true;
-		} catch(FindFailed e) {
+		} catch(FindFailed e){
 			clickPerformed = false;
 		}
 
@@ -211,12 +208,10 @@ public class TestToolSikuli {
 	}
 
 	/**
-	 * Moves mouse to the point defined by (x,y) from the top left corner of the best matching region and clicks (main button).
-	 * 
-	 * @param x
-	 *            The x coordinate, beginning from the top left corner of the best matching region of the screen.
-	 * @param y
-	 *            The y coordinate, beginning from the top left corner of the best matching region of the screen.
+	 * Moves mouse to the point defined by (x,y) from the top left corner of the best matching region and
+	 * clicks (main button).
+	 * @param x The x coordinate, beginning from the top left corner of the best matching region of the screen.
+	 * @param y The y coordinate, beginning from the top left corner of the best matching region of the screen.
 	 */
 	public void clickRelativeTopLeftCorner(String imageIdentifier, int x, int y) {
 		List<File> imageFiles = getImageFiles(imageIdentifier);
@@ -233,37 +228,34 @@ public class TestToolSikuli {
 				click(match.x + x, match.y + y);
 				found = true;
 				break;
-			} catch(FindFailed e) {
-			}
+			} catch (FindFailed e) {}
 		}
 
-		if(!found) {
-			testCase.addTestResult(false, "expected image " + getImageDescription(imageIdentifier) + " not found in screen",
+		if(! found) {
+			testCase.addTestResult(false,
+					"expected image " + getImageDescription(imageIdentifier) + " not found in screen",
 					TestToolSikuli.class);
 		}
 	}
 
 	/**
 	 * Moves mouse to the point defined by (x,y) and clicks (main button).
-	 * 
-	 * @param x
-	 *            The x coordinate, beginning from the top left corner of the screen.
-	 * @param y
-	 *            The y coordinate, beginning from the top left corner of the screen.
+	 * @param x The x coordinate, beginning from the top left corner of the screen.
+	 * @param y The y coordinate, beginning from the top left corner of the screen.
 	 */
 	public void click(int x, int y) {
 		mouseMove(x, y);
 		robot.mousePress(InputEvent.BUTTON1_MASK);
 		robot.mouseRelease(InputEvent.BUTTON1_MASK);
 	}
-
+	
 	public void doubleClick(int x, int y) {
 		mouseMove(x, y);
 		robot.mousePress(InputEvent.BUTTON1_MASK);
 		robot.mouseRelease(InputEvent.BUTTON1_MASK);
 		try {
 			Thread.sleep(50);
-		} catch(InterruptedException e) {
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		robot.mousePress(InputEvent.BUTTON1_MASK);
@@ -272,21 +264,19 @@ public class TestToolSikuli {
 
 	/**
 	 * Moves the mouse to the point and clicks (main button).
-	 * 
-	 * @param p
-	 *            The point to click
+	 * @param p The point to click
 	 */
 	public void click(Point p) {
 		click(p.x, p.y);
 	}
-
+	
 	public void doubleClick(Point p) {
 		moveMouse(p);
 		robot.mousePress(InputEvent.BUTTON1_MASK);
 		robot.mouseRelease(InputEvent.BUTTON1_MASK);
 		try {
 			Thread.sleep(50);
-		} catch(InterruptedException e) {
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		robot.mousePress(InputEvent.BUTTON1_MASK);
@@ -295,9 +285,7 @@ public class TestToolSikuli {
 
 	/**
 	 * Moves the mouse and clicks on the center of the area.
-	 * 
-	 * @param a
-	 *            The Area to click
+	 * @param a The Area to click
 	 */
 	public void click(Area a) {
 		click(a.center());
@@ -305,9 +293,7 @@ public class TestToolSikuli {
 
 	/**
 	 * Moves the mouse to the point.
-	 * 
-	 * @param target
-	 *            The point where to move
+	 * @param target The point where to move
 	 */
 	public void moveMouse(Point target) {
 		robot.mouseMove(target.x, target.y);
@@ -315,25 +301,22 @@ public class TestToolSikuli {
 
 	/**
 	 * Moves the mouse to the center of the best matching area of the screen.
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern
+	 * @param imageIdentifier The identifier of the image used as pattern
 	 */
 	public void moveMouse(String imageIdentifier) {
 		moveMouse(findArea(imageIdentifier).center());
 	}
-
+	
 	public void scrollUp(int wheelAmount) {
-		getRobot().mouseWheel(-wheelAmount);
+		getRobot().mouseWheel(- wheelAmount);
 	}
-
+	
 	public void scrollDown(int wheelAmount) {
 		getRobot().mouseWheel(wheelAmount);
 	}
 
 	/**
 	 * Translates the mouse from its actual position to position + (x, y)
-	 * 
 	 * @param x
 	 * @param y
 	 */
@@ -383,15 +366,12 @@ public class TestToolSikuli {
 	}
 
 	/**
-	 * Click on the center of the pattern image found in the intersecting region. The intersecting region is the intersection between the
-	 * horizontal stripe made from imageIntersectH and the vertical stripe made from imageIntersectV.
-	 * 
-	 * @param imageToClickName
-	 *            The pattern image to click on.
-	 * @param imageIntersectH
-	 *            The pattern image used to determine horizontal stripe.
-	 * @param imageIntersectV
-	 *            The pattern image used to determine vertical stripe.
+	 * Click on the center of the pattern image found in the intersecting region. The intersecting region is
+	 * the intersection between the horizontal stripe made from imageIntersectH and the vertical stripe made
+	 * from imageIntersectV.
+	 * @param imageToClickName The pattern image to click on.
+	 * @param imageIntersectH The pattern image used to determine horizontal stripe.
+	 * @param imageIntersectV The pattern image used to determine vertical stripe.
 	 */
 	public void clickIntersection(String imageToClickName, String imageIntersectH, String imageIntersectV) {
 		attachInlineImage(imageToClickName);
@@ -402,30 +382,36 @@ public class TestToolSikuli {
 		boolean matchesHaveBeenFound = true;
 		try {
 			matchH = screen.find(getImageCompleteName(imageIntersectH));
-		} catch(FindFailed e) {
+		} catch (FindFailed e) {
 			e.printStackTrace();
-			testCase.addTestResult(false, "expected image for horizontal intersection '" + imageIntersectH + "' not found in screen",
+			testCase.addTestResult(false,
+					"expected image for horizontal intersection '" + imageIntersectH + "' not found in screen",
 					TestToolSikuli.class);
 			matchesHaveBeenFound = false;
 		}
 		try {
 			matchV = screen.find(getImageCompleteName(imageIntersectV));
-		} catch(FindFailed e) {
+		} catch (FindFailed e) {
 			e.printStackTrace();
-			testCase.addTestResult(false, "expected image for vertical intersection '" + imageIntersectV + "' not found in screen",
+			testCase.addTestResult(false,
+					"expected image for vertical intersection '" + imageIntersectV + "' not found in screen",
 					TestToolSikuli.class);
 			matchesHaveBeenFound = false;
 		}
 		if(matchesHaveBeenFound == false) {
-			testCase.addTestResult(false, "Intersection region can not be determined", TestToolSikuli.class);
+			testCase.addTestResult(false,
+					"Intersection region can not be determined",
+					TestToolSikuli.class);
 			return;
 		}
 		// Computing the intersection region
 		Region intersectionRegion = new Region(new Rectangle(matchV.x, matchH.y, matchV.w, matchH.h));
 		try {
 			intersectionRegion.click(getImageCompleteName(imageToClickName), 0);
-		} catch(FindFailed e) {
-			testCase.addTestResult(false, "expected image '" + imageIntersectV + "' not found in intersection Region", TestToolSikuli.class);
+		} catch (FindFailed e) {
+			testCase.addTestResult(false,
+					"expected image '" + imageIntersectV + "' not found in intersection Region",
+					TestToolSikuli.class);
 			File readRegion = getNewImageFile();
 			images.saveImage(screen.capture(intersectionRegion).getImage(), readRegion);
 			testCase.attachFile(readRegion, Attachment.Type.INLINE_IMAGE);
@@ -434,12 +420,11 @@ public class TestToolSikuli {
 
 	/**
 	 * Double clicks on the center of the best matching region of the screen.
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern.
+	 * @param imageIdentifier The identifier of the image used as pattern.
 	 */
 	public void doubleClick(String imageIdentifier) {
 		List<File> imageFiles = getImageFiles(imageIdentifier);
+
 
 		for(File imageFile : imageFiles) {
 			attachInlineImage(imageFile);
@@ -447,21 +432,22 @@ public class TestToolSikuli {
 
 		for(File imageFile : imageFiles) {
 			String imagePath = imageFile.getAbsolutePath();
-			try {
+			try{
 				screen.doubleClick(imagePath, 0);
-			} catch(FindFailed e) {
+			}
+			catch(FindFailed e){
 				e.printStackTrace();
-				testCase.addTestResult(false, "expected image " + getImageDescription(imageIdentifier) + " not found in screen",
+				testCase.addTestResult(false,
+						"expected image " + getImageDescription(imageIdentifier)+ " not found in screen",
 						TestToolSikuli.class);
 			}
 		}
 	}
 
 	/**
-	 * Waits for the pattern image to appear in screen. The default timeout is used. See setAutoWaitTimeoutInSeconds to set that timeout.
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern.
+	 * Waits for the pattern image to appear in screen. The default timeout is used. See
+	 * setAutoWaitTimeoutInSeconds to set that timeout.
+	 * @param imageIdentifier The identifier of the image used as pattern.
 	 */
 	public void wait(String imageIdentifier) {
 		wait(getImageFiles(imageIdentifier).get(0));
@@ -469,9 +455,7 @@ public class TestToolSikuli {
 
 	/**
 	 * Waits for the pattern image to appear in screen. The pattern image is identified by the file of the TestObject
-	 * 
-	 * @param object
-	 *            The object from object repository.
+	 * @param object The object from object repository.
 	 */
 	public void wait(TestObject object) {
 		wait(object.getFile(), DEFAULT_WAIT_TIMEOUT);
@@ -479,9 +463,7 @@ public class TestToolSikuli {
 
 	/**
 	 * Waits for the pattern image to appear in screen.
-	 * 
-	 * @param image
-	 *            The image's File
+	 * @param image The image's File
 	 */
 	public void wait(File image) {
 		wait(image, DEFAULT_WAIT_TIMEOUT);
@@ -489,56 +471,52 @@ public class TestToolSikuli {
 
 	/**
 	 * Acts like wait(TestObject object) but with specific timeout in seconds.
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern.
-	 * @param timeoutInSeconds
-	 *            The timeout in seconds (precision is millisecond).
+	 * @param imageIdentifier The identifier of the image used as pattern.
+	 * @param timeoutInSeconds The timeout in seconds (precision is millisecond).
 	 */
 	public void wait(String imageIdentifier, double timeoutInSeconds) {
-		File imageFile = getImageFiles(imageIdentifier).get(0);
+		File imageFile = getImageFiles(imageIdentifier).get(0);		
 		wait(imageFile, timeoutInSeconds);
 	}
 
 	/**
 	 * Acts like wait(File image) but with specific timeout in seconds.
-	 * 
-	 * @param image
-	 *            The image's File
-	 * @param timeoutInSeconds
-	 *            The timeout in seconds (precision is millisecond).
+	 * @param image The image's File
+	 * @param timeoutInSeconds The timeout in seconds (precision is millisecond).
 	 */
 	public void wait(File image, double timeoutInSeconds) {
 		attachInlineImage(image);
 		if(image == null) {
-			testCase.addTestResult(false, "cannot wait for null image", TestToolSikuli.class);
+			testCase.addTestResult(false,
+					"cannot wait for null image",
+					TestToolSikuli.class);
 		} else {
-			try {
+			try{
 				screen.wait(image.getAbsolutePath(), timeoutInSeconds);
-			} catch(FindFailed e) {
+			}
+			catch(FindFailed e){
 				e.printStackTrace();
-				testCase.addTestResult(false, "expected image '" + image.getAbsolutePath() + "' not found in screen", TestToolSikuli.class);
+				testCase.addTestResult(false,
+						"expected image '" + image.getAbsolutePath() + "' not found in screen",
+						TestToolSikuli.class);
 			}
 		}
 	}
 
 	/**
 	 * Sets the default timeout used for methods: wait
-	 * 
-	 * @param seconds
-	 *            The timeout in seconds (precision is millisecond).
+	 * @param seconds The timeout in seconds (precision is millisecond).
 	 */
 	public void setDefaultTimeoutInSeconds(double seconds) {
 		DEFAULT_WAIT_TIMEOUT = seconds;
 	}
 
 	/**
-	 * Clicks on the center of the best matching region of the screen, then type the text given through parameters.
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern. 'sikuliImagesDirectory' configured by the constructor
-	 * @param whatToType
-	 *            The text to be typed. Use '\n' for key 'ENTER' and '\t' for key 'TAB'
+	 * Clicks on the center of the best matching region of the screen, then type the text given
+	 * through parameters.
+	 * @param imageIdentifier The identifier of the image used as pattern.
+	 * 'sikuliImagesDirectory' configured by the constructor
+	 * @param whatToType The text to be typed. Use '\n' for key 'ENTER' and '\t' for key 'TAB'
 	 */
 	public void type(String imageIdentifier, String whatToType) {
 		List<File> imageFiles = getImageFiles(imageIdentifier);
@@ -550,62 +528,60 @@ public class TestToolSikuli {
 		for(File imageFile : imageFiles) {
 			String imagePath = getImagePath(imageIdentifier);
 			if(imageFile == null) {
-				testCase.addTestResult(false, "expected image " + getImageDescription(imageIdentifier) + " doesnt exist",
+				testCase.addTestResult(false,
+						"expected image " + getImageDescription(imageIdentifier) + " doesnt exist",
 						TestToolSikuli.class);
 			} else {
 				attachInlineImage(imageIdentifier);
-				try {
+				try{
 					screen.type(imagePath, whatToType, 0);
 					break;
-				} catch(FindFailed e) {
+				}
+				catch(FindFailed e){
 					e.printStackTrace();
-					testCase.addTestResult(false, "expected image '" + imageIdentifier + "' not found in screen", TestToolSikuli.class);
+					testCase.addTestResult(false,
+							"expected image '" + imageIdentifier + "' not found in screen",
+							TestToolSikuli.class);
 				}
 			}
 		}
 	}
-
+	
 	public void type(Area a, String whatToType) {
 		try {
 			a.getRegion().type(whatToType);
-		} catch(FindFailed e) {
+		} catch (FindFailed e) {
 			e.printStackTrace();
 		}
 	}
 
 	/**
 	 * Presses a specific key with modifier.
-	 * 
-	 * @param key
-	 *            The key to be pressed.
-	 * @param modifier
-	 *            The modifier.
+	 * @param key The key to be pressed.
+	 * @param modifier The modifier.
 	 */
 	public void press(String key, int modifier) {
 		try {
 			screen.type(null, "" + key, modifier);
-		} catch(FindFailed e) {
+		} catch (FindFailed e) {
 			e.printStackTrace();
 		}
 	}
 
 	/**
 	 * Types all chars of a String using the default keyboard.
-	 * 
-	 * @param whatToType
-	 *            The String made of all characters to be typed.
+	 * @param whatToType The String made of all characters to be typed.
 	 */
 	public void type(String whatToType) {
-		try {
+		try{
 			screen.type(null, whatToType, 0);
-		} catch(FindFailed e) {
+		}catch(FindFailed e){
 			e.printStackTrace();
 		}
 	}
 
 	/**
 	 * Types the text using the French keyboard (to succeed, the computer has to be configured as French).
-	 * 
 	 * @param text
 	 */
 	public void typeFRKeyboard(String text) {
@@ -616,9 +592,7 @@ public class TestToolSikuli {
 
 	/**
 	 * Types a char using a French keyboard.
-	 * 
-	 * @param c
-	 *            The char to type.
+	 * @param c The char to type.
 	 */
 	public void typeCharFRKeyboard(char c) {
 		System.out.println("typeCharFRKeyboard: " + KeyStroke.getKeyStroke(c).getKeyCode());
@@ -635,18 +609,18 @@ public class TestToolSikuli {
 	}
 
 	/**
-	 * Clicks on the center of the best matching region of the screen, then paste the text given through parameters.
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern.
-	 * @param whatToType
-	 *            The text to be pasted.
+	 * Clicks on the center of the best matching region of the screen, then paste the text given
+	 * through parameters.
+	 * @param imageIdentifier The identifier of the image used as pattern.
+	 * @param whatToType The text to be pasted.
 	 */
 	public void paste(String imageIdentifier, String whatToType) {
 		Area area = findArea(imageIdentifier);
 
 		if(area == null) {
-			testCase.addTestResult(false, "expected image " + getImageDescription(imageIdentifier) + " doesnt exist", TestToolSikuli.class);
+			testCase.addTestResult(false,
+					"expected image " + getImageDescription(imageIdentifier) + " doesnt exist",
+					TestToolSikuli.class);
 		} else {
 			area.paste(whatToType);
 		}
@@ -654,38 +628,35 @@ public class TestToolSikuli {
 
 	/**
 	 * Pastes the text given through parameters.
-	 * 
-	 * @param whatToType
-	 *            The text to be pasted.
+	 * @param whatToType The text to be pasted.
 	 */
 	public void paste(String whatToType) {
 		try {
 			screen.paste(whatToType);
-		} catch(FindFailed e) {
+		} catch (FindFailed e) {
 			e.printStackTrace();
 		}
 	}
 
 	/**
 	 * Checks that the pattern image is found in screen.
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern.
+	 * @param imageIdentifier The identifier of the image used as pattern.
 	 */
 	public void checkFind(String imageIdentifier) {
 		if(find(imageIdentifier)) {
-			testCase.addTestResult(true, "expected image " + getImageDescription(imageIdentifier) + " is found in screen",
+			testCase.addTestResult(true,
+					"expected image " + getImageDescription(imageIdentifier) + " is found in screen",
 					TestToolSikuli.class);
 		} else {
-			testCase.addTestResult(false, "expected image " + getImageDescription(imageIdentifier) + " doesnt exist", TestToolSikuli.class);
+			testCase.addTestResult(false,
+					"expected image " + getImageDescription(imageIdentifier) + " doesnt exist",
+					TestToolSikuli.class);
 		}
 	}
 
 	/**
 	 * Returns if the pattern image is found on the screen.
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern.
+	 * @param imageIdentifier The identifier of the image used as pattern.
 	 * @return True if the pattern image is found on the screen. False elsewhere.
 	 */
 	public boolean find(String imageIdentifier) {
@@ -694,11 +665,8 @@ public class TestToolSikuli {
 
 	/**
 	 * Acts like find(String imageIdentifier), but with a specific similarity (1.0 for exact matching, 0.1 for bad matching)
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern.
-	 * @param similarity
-	 *            The similarity factor to be used: from 0.0 (bad match) to 1.0 (exact match)
+	 * @param imageIdentifier The identifier of the image used as pattern.
+	 * @param similarity The similarity factor to be used: from 0.0 (bad match) to 1.0 (exact match)
 	 * @return True if the pattern image is found on the screen. False elsewhere.
 	 */
 	public boolean find(String imageIdentifier, float similarity) {
@@ -707,11 +675,8 @@ public class TestToolSikuli {
 
 	/**
 	 * Acts like find(String imageIdentifier), but the search is limited to a specific Area
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern.
-	 * @param restrictedArea
-	 *            The Area in which the pattern image is searched.
+	 * @param imageIdentifier The identifier of the image used as pattern.
+	 * @param restrictedArea The Area in which the pattern image is searched.
 	 * @return True if the pattern image is found on the screen. False elsewhere.
 	 */
 	public boolean find(String imageIdentifier, Area restrictedArea) {
@@ -719,15 +684,11 @@ public class TestToolSikuli {
 	}
 
 	/**
-	 * Acts like find(String imageIdentifier), but with a specific similarity (1.0 for exact matching, 0.1 for bad matching) and the search
-	 * is limited to a specific Area
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern.
-	 * @param restrictedArea
-	 *            The Area in which the pattern image is searched.
-	 * @param similarity
-	 *            The similarity factor to be used: from 0.0 (bad match) to 1.0 (exact match)
+	 * Acts like find(String imageIdentifier), but with a specific similarity (1.0 for exact matching, 0.1 for bad matching)
+	 * and the search is limited to a specific Area
+	 * @param imageIdentifier The identifier of the image used as pattern.
+	 * @param restrictedArea The Area in which the pattern image is searched.
+	 * @param similarity The similarity factor to be used: from 0.0 (bad match) to 1.0 (exact match)
 	 * @return True if the pattern image is found on the screen. False elsewhere.
 	 */
 	public boolean find(String imageIdentifier, Area restrictedArea, float similarity) {
@@ -736,9 +697,7 @@ public class TestToolSikuli {
 
 	/**
 	 * Returns the Area that is the best matching to the pattern image.
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern.
+	 * @param imageIdentifier The identifier of the image used as pattern.
 	 * @return The Area that is the best matching to the pattern image. Null if no match is found.
 	 */
 	public Area findArea(String imageIdentifier) {
@@ -747,11 +706,8 @@ public class TestToolSikuli {
 
 	/**
 	 * Acts like findArea(String imageIdentifier), but the search is limited to a specific Area.
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern.
-	 * @param restrictedArea
-	 *            The Area in which the pattern image is searched.
+	 * @param imageIdentifier The identifier of the image used as pattern.
+	 * @param restrictedArea The Area in which the pattern image is searched.
 	 * @return The Area that is the best matching to the pattern image. Null if no match is found.
 	 */
 	public Area findArea(String imageIdentifier, Area restrictedArea) {
@@ -760,11 +716,8 @@ public class TestToolSikuli {
 
 	/**
 	 * Acts like findArea(String imageIdentifier), but with a specific similarity (1.0 for exact matching, 0.1 for bad matching)
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern.
-	 * @param similarity
-	 *            The similarity factor to be used: from 0.0 (bad match) to 1.0 (exact match)
+	 * @param imageIdentifier The identifier of the image used as pattern.
+	 * @param similarity The similarity factor to be used: from 0.0 (bad match) to 1.0 (exact match)
 	 * @return The Area that is the best matching to the pattern image. Null if no match is found.
 	 */
 	public Area findArea(String imageIdentifier, float similarity) {
@@ -772,15 +725,11 @@ public class TestToolSikuli {
 	}
 
 	/**
-	 * Acts like findArea(String imageIdentifier), but with a specific similarity (1.0 for exact matching, 0.1 for bad matching) and the
-	 * search is limited into a specific Area.
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern.
-	 * @param restrictedArea
-	 *            The Area in which the pattern image is searched.
-	 * @param similarity
-	 *            The similarity factor to be used: from 0.0 (bad match) to 1.0 (exact match)
+	 * Acts like findArea(String imageIdentifier), but with a specific similarity (1.0 for exact matching, 0.1 for bad matching)
+	 * and the search is limited into a specific Area.
+	 * @param imageIdentifier The identifier of the image used as pattern.
+	 * @param restrictedArea The Area in which the pattern image is searched.
+	 * @param similarity The similarity factor to be used: from 0.0 (bad match) to 1.0 (exact match)
 	 * @return The Area that is the best matching to the pattern image. Null if no match is found.
 	 */
 	public Area findArea(String imageIdentifier, Area restrictedArea, float similarity) {
@@ -797,11 +746,11 @@ public class TestToolSikuli {
 		} else {
 			for(File imageFile : imageFiles) {
 				String imagePath = imageFile.getAbsolutePath();
-				try {
+				try{
 					match = restrictedArea.getRegion().find(new Pattern(imagePath).similar(similarity));
 					break;
-				} catch(FindFailed e) {
 				}
+				catch(FindFailed e){}
 			}
 		}
 
@@ -810,8 +759,7 @@ public class TestToolSikuli {
 			return null;
 		} else {
 			Area result = new Area(this, match);
-			this.testCase.addComment("Area found at: (x=" + result.topLeftCorner().x + ",y=" + result.topLeftCorner().y + ")",
-					TestToolSikuli.class);
+			this.testCase.addComment("Area found at: (x=" + result.topLeftCorner().x + ",y=" + result.topLeftCorner().y+")", TestToolSikuli.class);
 			return result;
 		}
 	}
@@ -822,7 +770,7 @@ public class TestToolSikuli {
 		Match match = null;
 		try {
 			match = screen.find(new Pattern(imagePath).similar(DEFAULT_SIMILARITY));
-		} catch(FindFailed e) {
+		} catch (FindFailed e) {
 			e.printStackTrace();
 		}
 		if(match == null) {
@@ -830,8 +778,7 @@ public class TestToolSikuli {
 			return null;
 		} else {
 			Area result = new Area(this, match);
-			this.testCase.addComment("Area found at: (x=" + result.topLeftCorner().x + ",y=" + result.topLeftCorner().y + ")",
-					TestToolSikuli.class);
+			this.testCase.addComment("Area found at: (x=" + result.topLeftCorner().x + ",y=" + result.topLeftCorner().y+")", TestToolSikuli.class);
 			return result;
 		}
 	}
@@ -861,13 +808,13 @@ public class TestToolSikuli {
 		} else {
 			for(File imageFile : imageFiles) {
 				String imagePath = imageFile.getAbsolutePath();
-				try {
+				try{
 					Iterator<Match> ite = restrictedArea.getRegion().findAll(new Pattern(imagePath).similar(similarity));
 					while(ite.hasNext()) {
 						matches.add(ite.next());
 					}
-				} catch(FindFailed e) {
 				}
+				catch(FindFailed e){}
 			}
 		}
 
@@ -893,8 +840,7 @@ public class TestToolSikuli {
 		return getBestAreaFromText(imageIdentifier, transformer, selector, getScreenArea(), DEFAULT_SIMILARITY);
 	}
 
-	public Area getBestAreaFromText(String imageIdentifier, AreaTransformer transformer, StringSelector selector, Area restrictedArea,
-			float similarity) {
+	public Area getBestAreaFromText(String imageIdentifier, AreaTransformer transformer, StringSelector selector, Area restrictedArea, float similarity) {
 		Area result = null;
 
 		List<String> texts = new LinkedList<String>();
@@ -916,19 +862,13 @@ public class TestToolSikuli {
 	}
 
 	/**
-	 * Returns the text appearing near the best match, from matchCenter(x,y) + offset(x,y) until matchCenter(x,y) + offset(x,y) + (width,
-	 * height)
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern.
-	 * @param offsetX
-	 *            the 'x' offset from center of match for starting mouse selection
-	 * @param offsetY
-	 *            the 'y' offset from center of match for starting mouse selection
-	 * @param width
-	 *            the width of the region to read
-	 * @param height
-	 *            the height of the region to read
+	 * Returns the text appearing near the best match, from 
+	 * matchCenter(x,y) + offset(x,y) until matchCenter(x,y) + offset(x,y) + (width, height)
+	 * @param imageIdentifier The identifier of the image used as pattern.
+	 * @param offsetX the 'x' offset from center of match for starting mouse selection
+	 * @param offsetY the 'y' offset from center of match for starting mouse selection
+	 * @param width the width of the region to read
+	 * @param height the height of the region to read
 	 * @return The text recognized by Tesseract (the OCR used by Sikuli)
 	 */
 	public String getText(String imageIdentifier, int offsetX, int offsetY, int width, int height) {
@@ -941,8 +881,8 @@ public class TestToolSikuli {
 		try {
 			Match match = screen.find(imageCompleteName);
 			// computing the reading area
-			int startX = match.x + (int) (match.w / 2.0) + offsetX;
-			int startY = match.y + (int) (match.h / 2.0) + offsetY;
+			int startX = match.x + (int)(match.w / 2.0) + offsetX;
+			int startY = match.y + (int)(match.h / 2.0) + offsetY;
 			System.out.println("Region: " + startX + ", " + startY + ", " + width + ", " + height);
 			Region region = new Region(new Rectangle(startX, startY, width, height));
 			File readRegion = getNewImageFile();
@@ -951,7 +891,7 @@ public class TestToolSikuli {
 			String result = region.text();
 			testCase.addComment(new Field("text", result), TestToolSikuli.class);
 			return result;
-		} catch(FindFailed e) {
+		} catch (FindFailed e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -959,9 +899,7 @@ public class TestToolSikuli {
 
 	/**
 	 * Returns the text appearing in the Area.
-	 * 
-	 * @param area
-	 *            The Area where to read the text.
+	 * @param area The Area where to read the text.
 	 * @return The text appearing in the Area.
 	 */
 	public String getText(Area area) {
@@ -969,14 +907,11 @@ public class TestToolSikuli {
 	}
 
 	/**
-	 * Moves the mouse with left-click pressed from the center of the first matching region to (xMove, yMove) more pixels.
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern.
-	 * @param xMove
-	 *            The x coordinate of the drop point.
-	 * @param yMove
-	 *            The y coordinate of the drop point.
+	 * Moves the mouse with left-click pressed from the center of the first matching region to (xMove, yMove)
+	 * more pixels.
+	 * @param imageIdentifier The identifier of the image used as pattern.
+	 * @param xMove The x coordinate of the drop point.
+	 * @param yMove The y coordinate of the drop point.
 	 */
 	public void dragDrop(String imageIdentifier, int xMove, int yMove) {
 		Area area = findArea(imageIdentifier);
@@ -988,12 +923,15 @@ public class TestToolSikuli {
 			int endY = startY + yMove;
 			try {
 				screen.dragDrop(new Location(startX, startY), new Location(endX, endY), 0);
-			} catch(FindFailed e) {
+			} catch (FindFailed e) {
 				e.printStackTrace();
-				testCase.addTestResult(false, "unexpected error when trying to drag and drop", TestToolSikuli.class);
+				testCase.addTestResult(false,
+						"unexpected error when trying to drag and drop",
+						TestToolSikuli.class);
 			}
 		} else {
-			testCase.addTestResult(false, "expected image '" + getImageDescription(imageIdentifier) + "' not found in screen",
+			testCase.addTestResult(false,
+					"expected image '" + getImageDescription(imageIdentifier) + "' not found in screen",
 					TestToolSikuli.class);
 		}
 	}
@@ -1009,9 +947,7 @@ public class TestToolSikuli {
 
 	/**
 	 * Saves a screenshot that fit the Region and attaches the file to the test result.
-	 * 
-	 * @param region
-	 *            The Region to capture.
+	 * @param region The Region to capture.
 	 */
 	public void captureRegion(Region region) {
 		File capturedImage = getNewImageFile();
@@ -1021,9 +957,7 @@ public class TestToolSikuli {
 
 	/**
 	 * Saves a screenshot that fit the Area and attaches the file to the test result.
-	 * 
-	 * @param area
-	 *            The Area to capture.
+	 * @param area The Area to capture.
 	 */
 	public void captureArea(Area area) {
 		captureArea(area, true);
@@ -1041,9 +975,7 @@ public class TestToolSikuli {
 
 	/**
 	 * Includes a copy of the image into the test case's result.
-	 * 
-	 * @param imageName
-	 *            The name of the file to include
+	 * @param imageName The name of the file to include
 	 */
 	private void attachInlineImage(String imageName) {
 		testCase.attachFile(getImageFiles(imageName).get(0), Attachment.Type.INLINE_IMAGE, TestToolSikuli.class);
@@ -1051,9 +983,7 @@ public class TestToolSikuli {
 
 	/**
 	 * Includes a copy of the image into the test case's result.
-	 * 
-	 * @param image
-	 *            the file to include
+	 * @param image the file to include
 	 */
 	private void attachInlineImage(File image) {
 		testCase.attachFile(image, Attachment.Type.INLINE_IMAGE, TestToolSikuli.class);
@@ -1068,9 +998,7 @@ public class TestToolSikuli {
 
 	/**
 	 * Returns the image's File from it's identifier
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern.
+	 * @param imageIdentifier The identifier of the image used as pattern.
 	 * @return The image's File from it's identifier
 	 */
 	public List<File> getImageFiles(String imageIdentifier) {
@@ -1100,8 +1028,7 @@ public class TestToolSikuli {
 				noMoreAlternativeFile = true;
 			} else {
 				if(alt.getFile() == null) {
-					ErrorsAndWarnings.addError("Error in object repository: object '" + TestObject.getPath(obj)
-							+ "' does not describe correct file");
+					ErrorsAndWarnings.addError("Error in object repository: object '" + TestObject.getPath(obj) + "' does not describe correct file");
 				} else {
 					result.add(alt.getFile());
 				}
@@ -1113,9 +1040,7 @@ public class TestToolSikuli {
 
 	/**
 	 * Returns the path of the image's file.
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern.
+	 * @param imageIdentifier The identifier of the image used as pattern.
 	 * @return The path of the image's file.
 	 */
 	public String getImagePath(String imageIdentifier) {
@@ -1129,9 +1054,7 @@ public class TestToolSikuli {
 
 	/**
 	 * Returns a string describing shortly the image.
-	 * 
-	 * @param imageIdentifier
-	 *            The identifier of the image used as pattern.
+	 * @param imageIdentifier The identifier of the image used as pattern.
 	 * @return A string describing shortly the image.
 	 */
 	public String getImageDescription(String imageIdentifier) {
@@ -1140,15 +1063,13 @@ public class TestToolSikuli {
 
 	/**
 	 * Acts like getImageDescription(String imageIdentifier), but using a TestObject instead of imageIdentifier
-	 * 
-	 * @param object
-	 *            The TestObject defining the image.
+	 * @param object The TestObject defining the image.
 	 * @return A string describing shortly the image.
 	 */
 	public String getImageDescription(TestObject object) {
 		return "'" + TestObject.getPath(object) + "' (" + object.attribute("file") + ")";
 	}
-
+	
 	public static void takeScreenShot(File outputFile) {
 		Screen staticScreen = new Screen();
 		TestToolImages.saveImage(staticScreen.capture().getImage(), outputFile);
@@ -1156,11 +1077,8 @@ public class TestToolSikuli {
 
 	/**
 	 * Moves the mouse to the coordinates.
-	 * 
-	 * @param x
-	 *            The x coordinate where the mouse is moved.
-	 * @param y
-	 *            The y coordinate where the mouse is moved.
+	 * @param x The x coordinate where the mouse is moved.
+	 * @param y The y coordinate where the mouse is moved.
 	 */
 	private void mouseMove(int x, int y) {
 		robot.mouseMove(x, y);
@@ -1170,7 +1088,6 @@ public class TestToolSikuli {
 
 	/**
 	 * Creates a new empty File with auto-generated name.
-	 * 
 	 * @return a new empty File with auto-generated name.
 	 */
 	private File getNewImageFile() {
@@ -1181,9 +1098,7 @@ public class TestToolSikuli {
 
 	/**
 	 * Returns the absolute path of an image File from it's local name (relative to images' directory).
-	 * 
-	 * @param imageName
-	 *            The relative path of the image from the origin folder used in constructor.
+	 * @param imageName The relative path of the image from the origin folder used in constructor.
 	 * @return
 	 */
 	private String getImageCompleteName(String imageName) {

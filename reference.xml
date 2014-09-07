@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="style/release_note.xsl"?>
+<release_note sut_name="Qualify" version="0.7" date="20/09/2011" successful_checks_percent="99" successful_test_cases_percent="88" successful_requirements_percent="70">
+  <warning>UT_TestToolSikuli.java line 34 : multiple test checks at same line</warning>
+  <requirement id="CommandLine" result="NOK" nbOKs="0" nbNOKs="0" path_index="" local_index="1" />
+  <requirement id="Requirement" result="OK" nbOKs="17" nbNOKs="0" path_index="" local_index="2">
+    <requirement id="SRD" result="OK" nbOKs="3" nbNOKs="0" path_index="2" local_index="1">
+      <test_case name="UT_SRD" test_source="UT_SRD/UT_SRD.xml">
+        <test_result result="OK" test_source="UT_SRD/UT_SRD.xml" test_case_name="UT_SRD" test_source_line="31" />
+        <test_result result="OK" test_source="UT_SRD/UT_SRD.xml" test_case_name="UT_SRD" test_source_line="32" />
+        <test_result result="OK" test_source="UT_SRD/UT_SRD.xml" test_case_name="UT_SRD" test_source_line="35" />
+      </test_case>
+    </requirement>
+    <requirement id="Requirement without test" result="OK" nbOKs="4" nbNOKs="0" path_index="2" local_index="2">
+      <test_case name="TC_Requirement" test_source="TC_Requirement/TC_Requirement.xml">
+        <test_result result="OK" test_source="TC_Requirement/TC_Requirement.xml" test_case_name="TC_Requirement" test_source_line="53" />
+        <test_result result="OK" test_source="TC_Requirement/TC_Requirement.xml" test_case_name="TC_Requirement" test_source_line="54" />
+        <test_result result="OK" test_source="TC_Requirement/TC_Requirement.xml" test_case_name="TC_Requirement" test_source_line="56" />
+        <test_result result="OK" test_source="TC_Requirement/TC_Requirement.xml" test_case_name="TC_Requirement" test_source_line="57" />
+      </test_case>
+    </requirement>
+    <requirement id="Inline requirement overriding" result="OK" nbOKs="4" nbNOKs="0" path_index="2" local_index="3">
+      <test_case name="TC_Requirement" test_source="TC_Requirement/TC_Requirement.xml">
+        <test_result result="OK" test_source="TC_Requirement/TC_Requirement.xml" test_case_name="TC_Requirement" test_source_line="60" />
+        <test_result result="OK" test_source="TC_Requirement/TC_Requirement.xml" test_case_name="TC_Requirement" test_source_line="61" />
+        <test_result result="OK" test_source="TC_Requirement/TC_Requirement.xml" test_case_name="TC_Requirement" test_source_line="62" />
+        <test_result result="OK" test_source="TC_Requirement/TC_Requirement.xml" test_case_name="TC_Requirement" test_source_line="63" />
+      </test_case>
+    </requirement>
+    <requirement id="Requirement : Regression detection" result="OK" nbOKs="5" nbNOKs="0" path_index="2" local_index="4">
+      <test_case name="TC_RegressionDetection" test_source="TC_RegressionDetection/TC_RegressionDetection.xml">
+        <test_result result="OK" test_source="TC_RegressionDetection/TC_RegressionDetection.xml" test_case_name="TC_RegressionDetection" test_source_line="52" />
+        <test_result result="OK" test_source="TC_RegressionDetection/TC_RegressionDetection.xml" test_case_name="TC_RegressionDetection" test_source_line="55" />
+        <test_result result="OK" test_source="TC_RegressionDetection/TC_RegressionDetection.xml" test_case_name="TC_RegressionDetection" test_source_line="57" />
+        <test_result result="OK" test_source="TC_RegressionDetection/TC_RegressionDetection.xml" test_case_name="TC_RegressionDetection" test_source_line="58" />
+        <test_result result="OK" test_source="TC_RegressionDetection/TC_RegressionDetection.xml" test_case_name="TC_RegressionDetection" test_source_line="59" />
+      </test_case>
+    </requirement>
+    <requirement id="Requirement by keyword" result="OK" nbOKs="1" nbNOKs="0" path_index="2" local_index="5">
+      <test_case name="TC_Requirement" test_source="TC_Requirement/TC_Requirement.xml">
+        <test_result result="OK" test_source="TC_Requirement/TC_Requirement.xml" test_case_name="TC_Requirement" test_source_line="66" />
+      </test_case>
+    </requirement>
+  </requirement>
+  <requirement id="Compilation" result="OK" nbOKs="46" nbNOKs="0" path_index="" local_index="3">
+    <test_case name="TC_SanityTesting" test_source="TC_SanityTesting/TC_SanityTesting.xml">
+      <test_result result="OK" test_source="TC_SanityTesting/TC_SanityTesting.xml" test_case_name="TC_SanityTesting" test_source_line="39" />
+      <test_result result="OK" test_source="TC_SanityTesting/TC_SanityTesting.xml" test_case_name="TC_SanityTesting" test_source_line="67" />
+    </test_case>
+    <requirement id="Compile" result="OK" nbOKs="2" nbNOKs="0" path_index="3" local_index="1">
+      <test_case name="TC_ReportingWithoutSource" test_source="TC_ReportingWithoutSource/TC_ReportingWithoutSource.xml">
+        <test_result result="OK" test_source="TC_ReportingWithoutSource/TC_ReportingWithoutSource.xml" test_case_name="TC_ReportingWithoutSource" test_source_line="24" />
+      </test_case>
+      <test_case name="TC_CompileAndRun" test_source="TC_CompileAndRun/TC_CompileAndRun.xml">
+        <test_result result="OK" test_source="TC_CompileAndRun/TC_CompileAndRun.xml" test_case_name="TC_CompileAndRun" test_source_line="39" />
+      </test_case>
+    </requirement>
+    <requirement id="Run" result="OK" nbOKs="4" nbNOKs="0" path_index="3" local_index="2">
+      <test_case name="TC_ReportingWithoutSource" test_source="TC_ReportingWithoutSource/TC_ReportingWithoutSource.xml">
+        <test_result result="OK" test_source="TC_ReportingWithoutSource/TC_ReportingWithoutSource.xml" test_case_name="TC_ReportingWithoutSource" test_source_line="28" />
+      </test_case>
+      <test_case name="TC_BeforeRunAfterError" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml">
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="29" />
+      </test_case>
+      <test_case name="TC_CompileAndRun" test_source="TC_CompileAndRun/TC_CompileAndRun.xml">
+        <test_result result="OK" test_source="TC_CompileAndRun/TC_CompileAndRun.xml" test_case_name="TC_CompileAndRun" test_source_line="43" />
+        <test_result result="OK" test_source="TC_CompileAndRun/TC_CompileAndRun.xml" test_case_name="TC_CompileAndRun" test_source_line="48" />
+      </test_case>
+    </requirement>
+    <requirement id="Scripted test cases" result="OK" nbOKs="38" nbNOKs="0" path_index="3" local_index="3">
+      <requirement id="Mix compiled / scripted" result="OK" nbOKs="3" nbNOKs="0" path_index="3-3" local_index="1">
+        <test_case name="TC_ScriptTestCases" test_source="TC_ScriptTestCases/TC_ScriptTestCases.xml">
+          <test_result result="OK" test_source="TC_ScriptTestCases/TC_ScriptTestCases.xml" test_case_name="TC_ScriptTestCases" test_source_line="24" />
+          <test_result result="OK" test_source="TC_ScriptTestCases/TC_ScriptTestCases.xml" test_case_name="TC_ScriptTestCases" test_source_line="28" />
+          <test_result result="OK" test_source="TC_ScriptTestCases/TC_ScriptTestCases.xml" test_case_name="TC_ScriptTestCases" test_source_line="29" />
+        </test_case>
+      </requirement>
+      <requirement id="Full scripted" result="OK" nbOKs="4" nbNOKs="0" path_index="3-3" local_index="2">
+        <test_case name="TC_ScriptTestCases" test_source="TC_ScriptTestCases/TC_ScriptTestCases.xml">
+          <test_result result="OK" test_source="TC_ScriptTestCases/TC_ScriptTestCases.xml" test_case_name="TC_ScriptTestCases" test_source_line="39" />
+          <test_result result="OK" test_source="TC_ScriptTestCases/TC_ScriptTestCases.xml" test_case_name="TC_ScriptTestCases" test_source_line="40" />
+          <test_result result="OK" test_source="TC_ScriptTestCases/TC_ScriptTestCases.xml" test_case_name="TC_ScriptTestCases" test_source_line="41" />
+          <test_result result="OK" test_source="TC_ScriptTestCases/TC_ScriptTestCases.xml" test_case_name="TC_ScriptTestCases" test_source_line="42" />
+        </test_case>
+      </requirement>
+      <requirement id="Dynamic compilation" result="OK" nbOKs="1" nbNOKs="0" path_index="3-3" local_index="3">
+        <test_case name="TC_ScriptTestCasesErrorOnCompile" test_source="TC_ScriptTestCasesErrorOnCompile/TC_ScriptTestCasesErrorOnCompile.xml">
+          <test_result result="OK" test_source="TC_ScriptTestCasesErrorOnCompile/TC_ScriptTestCasesErrorOnCompile.xml" test_case_name="TC_ScriptTestCasesErrorOnCompile" test_source_line="21" />
+        </test_case>
+      </requirement>
+      <requirement id="Scripted dependencies" result="OK" nbOKs="2" nbNOKs="0" path_index="3-3" local_index="4">
+        <test_case name="TC_ScriptTestCases" test_source="TC_ScriptTestCases/TC_ScriptTestCases.xml">
+          <test_result result="OK" test_source="TC_ScriptTestCases/TC_ScriptTestCases.xml" test_case_name="TC_ScriptTestCases" test_source_line="56" />
+        </test_case>
+        <test_case name="TC_CompileAndRunTestCaseHeritage" test_source="TC_CompileAndRunTestCaseHeritage/TC_CompileAndRunTestCaseHeritage.xml">
+          <test_result result="OK" test_source="TC_CompileAndRunTestCaseHeritage/TC_CompileAndRunTestCaseHeritage.xml" test_case_name="TC_CompileAndRunTestCaseHeritage" test_source_line="23" />
+        </test_case>
+      </requirement>
+      <requirement id="Keywords: requirement" result="OK" nbOKs="1" nbNOKs="0" path_index="3-3" local_index="5">
+        <test_case name="TC_ScriptTestCases" test_source="TC_ScriptTestCases/TC_ScriptTestCases.xml">
+          <test_result result="OK" test_source="TC_ScriptTestCases/TC_ScriptTestCases.xml" test_case_name="TC_ScriptTestCases" test_source_line="46" />
+        </test_case>
+      </requirement>
+      <requirement id="Preprocessors" result="OK" nbOKs="27" nbNOKs="0" path_index="3-3" local_index="6">
+        <test_case name="TC_Preprocessors" test_source="TC_Preprocessors/TC_Preprocessors.xml">
+          <test_result result="OK" test_source="TC_Preprocessors/TC_Preprocessors.xml" test_case_name="TC_Preprocessors" test_source_line="24" />
+          <test_result result="OK" test_source="TC_Preprocessors/TC_Preprocessors.xml" test_case_name="TC_Preprocessors" test_source_line="27" />
+          <test_result result="OK" test_source="TC_Preprocessors/TC_Preprocessors.xml" test_case_name="TC_Preprocessors" test_source_line="30" />
+          <test_result result="OK" test_source="TC_Preprocessors/TC_Preprocessors.xml" test_case_name="TC_Preprocessors" test_source_line="32" />
+          <test_result result="OK" test_source="TC_Preprocessors/TC_Preprocessors.xml" test_case_name="TC_Preprocessors" test_source_line="33" />
+          <test_result result="OK" test_source="TC_Preprocessors/TC_Preprocessors.xml" test_case_name="TC_Preprocessors" test_source_line="34" />
+          <test_result result="OK" test_source="TC_Preprocessors/TC_Preprocessors.xml" test_case_name="TC_Preprocessors" test_source_line="39" />
+          <test_result result="OK" test_source="TC_Preprocessors/TC_Preprocessors.xml" test_case_name="TC_Preprocessors" test_source_line="42" />
+          <test_result result="OK" test_source="TC_Preprocessors/TC_Preprocessors.xml" test_case_name="TC_Preprocessors" test_source_line="43" />
+          <test_result result="OK" test_source="TC_Preprocessors/TC_Preprocessors.xml" test_case_name="TC_Preprocessors" test_source_line="44" />
+          <test_result result="OK" test_source="TC_Preprocessors/TC_Preprocessors.xml" test_case_name="TC_Preprocessors" test_source_line="48" />
+          <test_result result="OK" test_source="TC_Preprocessors/TC_Preprocessors.xml" test_case_name="TC_Preprocessors" test_source_line="50" />
+        </test_case>
+        <requirement id="SourceLine preprocessing" result="OK" nbOKs="15" nbNOKs="0" path_index="3-3-6" local_index="1">
+          <test_case name="UT_SourceLinePreprocessing" test_source="UT_SourceLinePreprocessing/UT_SourceLinePreprocessing.xml">
+            <test_result result="OK" test_source="UT_SourceLinePreprocessing/UT_SourceLinePreprocessing.xml" test_case_name="UT_SourceLinePreprocessing" test_source_line="42" />
+            <test_result result="OK" test_source="UT_SourceLinePreprocessing/UT_SourceLinePreprocessing.xml" test_case_name="UT_SourceLinePreprocessing" test_source_line="45" />
+            <test_result result="OK" test_source="UT_SourceLinePreprocessing/UT_SourceLinePreprocessing.xml" test_case_name="UT_SourceLinePreprocessing" test_source_line="48" />
+            <test_result result="OK" test_source="UT_SourceLinePreprocessing/UT_SourceLinePreprocessing.xml" test_case_name="UT_SourceLinePreprocessing" test_source_line="50" />
+            <test_result result="OK" test_source="UT_SourceLinePreprocessing/UT_SourceLinePreprocessing.xml" test_case_name="UT_SourceLinePreprocessing" test_source_line="51" />
+            <test_result result="OK" test_source="UT_SourceLinePreprocessing/UT_SourceLinePreprocessing.xml" test_case_name="UT_SourceLinePreprocessing" test_source_line="53" />
+            <test_result result="OK" test_source="UT_SourceLinePreprocessing/UT_SourceLinePreprocessing.xml" test_case_name="UT_SourceLinePreprocessing" test_source_line="54" />
+            <test_result result="OK" test_source="UT_SourceLinePreprocessing/UT_SourceLinePreprocessing.xml" test_case_name="UT_SourceLinePreprocessing" test_source_line="56" />
+            <test_result result="OK" test_source="UT_SourceLinePreprocessing/UT_SourceLinePreprocessing.xml" test_case_name="UT_SourceLinePreprocessing" test_source_line="57" />
+            <test_result result="OK" test_source="UT_SourceLinePreprocessing/UT_SourceLinePreprocessing.xml" test_case_name="UT_SourceLinePreprocessing" test_source_line="60" />
+            <test_result result="OK" test_source="UT_SourceLinePreprocessing/UT_SourceLinePreprocessing.xml" test_case_name="UT_SourceLinePreprocessing" test_source_line="61" />
+            <test_result result="OK" test_source="UT_SourceLinePreprocessing/UT_SourceLinePreprocessing.xml" test_case_name="UT_SourceLinePreprocessing" test_source_line="62" />
+            <test_result result="OK" test_source="UT_SourceLinePreprocessing/UT_SourceLinePreprocessing.xml" test_case_name="UT_SourceLinePreprocessing" test_source_line="63" />
+            <test_result result="OK" test_source="UT_SourceLinePreprocessing/UT_SourceLinePreprocessing.xml" test_case_name="UT_SourceLinePreprocessing" test_source_line="64" />
+            <test_result result="OK" test_source="UT_SourceLinePreprocessing/UT_SourceLinePreprocessing.xml" test_case_name="UT_SourceLinePreprocessing" test_source_line="68" />
+          </test_case>
+        </requirement>
+      </requirement>
+    </requirement>
+  </requirement>
+  <requirement id="Test run" result="OK" nbOKs="68" nbNOKs="0" path_index="" local_index="4">
+    <requirement id="beforeRun, afterRun" result="OK" nbOKs="7" nbNOKs="0" path_index="4" local_index="1">
+      <test_case name="TC_BeforeRunAfter" test_source="TC_BeforeRunAfter/TC_BeforeRunAfter.xml">
+        <test_result result="OK" test_source="TC_BeforeRunAfter/TC_BeforeRunAfter.xml" test_case_name="TC_BeforeRunAfter" test_source_line="23" />
+        <test_result result="OK" test_source="TC_BeforeRunAfter/TC_BeforeRunAfter.xml" test_case_name="TC_BeforeRunAfter" test_source_line="25" />
+        <test_result result="OK" test_source="TC_BeforeRunAfter/TC_BeforeRunAfter.xml" test_case_name="TC_BeforeRunAfter" test_source_line="26" />
+        <test_result result="OK" test_source="TC_BeforeRunAfter/TC_BeforeRunAfter.xml" test_case_name="TC_BeforeRunAfter" test_source_line="27" />
+        <test_result result="OK" test_source="TC_BeforeRunAfter/TC_BeforeRunAfter.xml" test_case_name="TC_BeforeRunAfter" test_source_line="29" />
+        <test_result result="OK" test_source="TC_BeforeRunAfter/TC_BeforeRunAfter.xml" test_case_name="TC_BeforeRunAfter" test_source_line="30" />
+        <test_result result="OK" test_source="TC_BeforeRunAfter/TC_BeforeRunAfter.xml" test_case_name="TC_BeforeRunAfter" test_source_line="31" />
+      </test_case>
+    </requirement>
+    <requirement id="run by requirement" result="OK" nbOKs="9" nbNOKs="0" path_index="4" local_index="2">
+      <test_case name="TC_RunByRequirement" test_source="TC_RunByRequirement/TC_RunByRequirement.xml">
+        <test_result result="OK" test_source="TC_RunByRequirement/TC_RunByRequirement.xml" test_case_name="TC_RunByRequirement" test_source_line="26" />
+        <test_result result="OK" test_source="TC_RunByRequirement/TC_RunByRequirement.xml" test_case_name="TC_RunByRequirement" test_source_line="28" />
+        <test_result result="OK" test_source="TC_RunByRequirement/TC_RunByRequirement.xml" test_case_name="TC_RunByRequirement" test_source_line="29" />
+        <test_result result="OK" test_source="TC_RunByRequirement/TC_RunByRequirement.xml" test_case_name="TC_RunByRequirement" test_source_line="30" />
+        <test_result result="OK" test_source="TC_RunByRequirement/TC_RunByRequirement.xml" test_case_name="TC_RunByRequirement" test_source_line="37" />
+        <test_result result="OK" test_source="TC_RunByRequirement/TC_RunByRequirement.xml" test_case_name="TC_RunByRequirement" test_source_line="39" />
+        <test_result result="OK" test_source="TC_RunByRequirement/TC_RunByRequirement.xml" test_case_name="TC_RunByRequirement" test_source_line="40" />
+        <test_result result="OK" test_source="TC_RunByRequirement/TC_RunByRequirement.xml" test_case_name="TC_RunByRequirement" test_source_line="42" />
+        <test_result result="OK" test_source="TC_RunByRequirement/TC_RunByRequirement.xml" test_case_name="TC_RunByRequirement" test_source_line="43" />
+      </test_case>
+    </requirement>
+    <requirement id="run by keyword" result="OK" nbOKs="6" nbNOKs="0" path_index="4" local_index="3">
+      <test_case name="TC_RunByKeyword" test_source="TC_RunByKeyword/TC_RunByKeyword.xml">
+        <test_result result="OK" test_source="TC_RunByKeyword/TC_RunByKeyword.xml" test_case_name="TC_RunByKeyword" test_source_line="28" />
+        <test_result result="OK" test_source="TC_RunByKeyword/TC_RunByKeyword.xml" test_case_name="TC_RunByKeyword" test_source_line="31" />
+        <test_result result="OK" test_source="TC_RunByKeyword/TC_RunByKeyword.xml" test_case_name="TC_RunByKeyword" test_source_line="32" />
+        <test_result result="OK" test_source="TC_RunByKeyword/TC_RunByKeyword.xml" test_case_name="TC_RunByKeyword" test_source_line="33" />
+      </test_case>
+      <test_case name="TC_SanityTesting" test_source="TC_SanityTesting/TC_SanityTesting.xml">
+        <test_result result="OK" test_source="TC_SanityTesting/TC_SanityTesting.xml" test_case_name="TC_SanityTesting" test_source_line="91" />
+        <test_result result="OK" test_source="TC_SanityTesting/TC_SanityTesting.xml" test_case_name="TC_SanityTesting" test_source_line="94" />
+      </test_case>
+    </requirement>
+    <requirement id="run by name" result="OK" nbOKs="4" nbNOKs="0" path_index="4" local_index="4">
+      <test_case name="TC_RunByName" test_source="TC_RunByName/TC_RunByName.xml">
+        <test_result result="OK" test_source="TC_RunByName/TC_RunByName.xml" test_case_name="TC_RunByName" test_source_line="53" />
+        <test_result result="OK" test_source="TC_RunByName/TC_RunByName.xml" test_case_name="TC_RunByName" test_source_line="54" />
+        <test_result result="OK" test_source="TC_RunByName/TC_RunByName.xml" test_case_name="TC_RunByName" test_source_line="55" />
+        <test_result result="OK" test_source="TC_RunByName/TC_RunByName.xml" test_case_name="TC_RunByName" test_source_line="56" />
+      </test_case>
+    </requirement>
+    <requirement id="run last NOK" result="OK" nbOKs="19" nbNOKs="0" path_index="4" local_index="5">
+      <test_case name="UT_GetFailedTestCases" test_source="UT_GetFailedTestCases/UT_GetFailedTestCases.xml">
+        <test_result result="OK" test_source="UT_GetFailedTestCases/UT_GetFailedTestCases.xml" test_case_name="UT_GetFailedTestCases" test_source_line="21" />
+        <test_result result="OK" test_source="UT_GetFailedTestCases/UT_GetFailedTestCases.xml" test_case_name="UT_GetFailedTestCases" test_source_line="23" />
+      </test_case>
+      <test_case name="TC_RunLastNOKs" test_source="TC_RunLastNOKs/TC_RunLastNOKs.xml">
+        <test_result result="OK" test_source="TC_RunLastNOKs/TC_RunLastNOKs.xml" test_case_name="TC_RunLastNOKs" test_source_line="47" />
+        <test_result result="OK" test_source="TC_RunLastNOKs/TC_RunLastNOKs.xml" test_case_name="TC_RunLastNOKs" test_source_line="49" />
+        <test_result result="OK" test_source="TC_RunLastNOKs/TC_RunLastNOKs.xml" test_case_name="TC_RunLastNOKs" test_source_line="50" />
+        <test_result result="OK" test_source="TC_RunLastNOKs/TC_RunLastNOKs.xml" test_case_name="TC_RunLastNOKs" test_source_line="51" />
+        <test_result result="OK" test_source="TC_RunLastNOKs/TC_RunLastNOKs.xml" test_case_name="TC_RunLastNOKs" test_source_line="53" />
+        <test_result result="OK" test_source="TC_RunLastNOKs/TC_RunLastNOKs.xml" test_case_name="TC_RunLastNOKs" test_source_line="79" />
+        <test_result result="OK" test_source="TC_RunLastNOKs/TC_RunLastNOKs.xml" test_case_name="TC_RunLastNOKs" test_source_line="83" />
+        <test_result result="OK" test_source="TC_RunLastNOKs/TC_RunLastNOKs.xml" test_case_name="TC_RunLastNOKs" test_source_line="84" />
+        <test_result result="OK" test_source="TC_RunLastNOKs/TC_RunLastNOKs.xml" test_case_name="TC_RunLastNOKs" test_source_line="85" />
+        <test_result result="OK" test_source="TC_RunLastNOKs/TC_RunLastNOKs.xml" test_case_name="TC_RunLastNOKs" test_source_line="105" />
+        <test_result result="OK" test_source="TC_RunLastNOKs/TC_RunLastNOKs.xml" test_case_name="TC_RunLastNOKs" test_source_line="109" />
+        <test_result result="OK" test_source="TC_RunLastNOKs/TC_RunLastNOKs.xml" test_case_name="TC_RunLastNOKs" test_source_line="110" />
+        <test_result result="OK" test_source="TC_RunLastNOKs/TC_RunLastNOKs.xml" test_case_name="TC_RunLastNOKs" test_source_line="111" />
+        <test_result result="OK" test_source="TC_RunLastNOKs/TC_RunLastNOKs.xml" test_case_name="TC_RunLastNOKs" test_source_line="118" />
+        <test_result result="OK" test_source="TC_RunLastNOKs/TC_RunLastNOKs.xml" test_case_name="TC_RunLastNOKs" test_source_line="122" />
+        <test_result result="OK" test_source="TC_RunLastNOKs/TC_RunLastNOKs.xml" test_case_name="TC_RunLastNOKs" test_source_line="123" />
+        <test_result result="OK" test_source="TC_RunLastNOKs/TC_RunLastNOKs.xml" test_case_name="TC_RunLastNOKs" test_source_line="124" />
+      </test_case>
+    </requirement>
+    <requirement id="Sanity testing" result="OK" nbOKs="6" nbNOKs="0" path_index="4" local_index="6">
+      <test_case name="TC_SanityTesting" test_source="TC_SanityTesting/TC_SanityTesting.xml">
+        <test_result result="OK" test_source="TC_SanityTesting/TC_SanityTesting.xml" test_case_name="TC_SanityTesting" test_source_line="44" />
+        <test_result result="OK" test_source="TC_SanityTesting/TC_SanityTesting.xml" test_case_name="TC_SanityTesting" test_source_line="45" />
+        <test_result result="OK" test_source="TC_SanityTesting/TC_SanityTesting.xml" test_case_name="TC_SanityTesting" test_source_line="46" />
+        <test_result result="OK" test_source="TC_SanityTesting/TC_SanityTesting.xml" test_case_name="TC_SanityTesting" test_source_line="72" />
+        <test_result result="OK" test_source="TC_SanityTesting/TC_SanityTesting.xml" test_case_name="TC_SanityTesting" test_source_line="73" />
+        <test_result result="OK" test_source="TC_SanityTesting/TC_SanityTesting.xml" test_case_name="TC_SanityTesting" test_source_line="74" />
+      </test_case>
+    </requirement>
+    <requirement id="Exception handling" result="OK" nbOKs="17" nbNOKs="0" path_index="4" local_index="7">
+      <test_case name="TC_BeforeRunAfterError" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml">
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="45" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="46" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="50" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="54" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="55" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="59" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="60" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="64" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="65" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="69" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="70" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="71" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="72" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="76" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="77" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="78" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="79" />
+      </test_case>
+    </requirement>
+  </requirement>
+  <requirement id="Testing" result="OK" nbOKs="3" nbNOKs="0" path_index="" local_index="5">
+    <requirement id="OK check" result="OK" nbOKs="1" nbNOKs="0" path_index="5" local_index="1">
+      <test_case name="TC_Checking" test_source="TC_Checking/TC_Checking.xml">
+        <test_result result="OK" test_source="TC_Checking/TC_Checking.xml" test_case_name="TC_Checking" test_source_line="58" />
+      </test_case>
+    </requirement>
+    <requirement id="NOK check" result="OK" nbOKs="2" nbNOKs="0" path_index="5" local_index="2">
+      <test_case name="TC_Checking" test_source="TC_Checking/TC_Checking.xml">
+        <test_result result="OK" test_source="TC_Checking/TC_Checking.xml" test_case_name="TC_Checking" test_source_line="54" />
+        <test_result result="OK" test_source="TC_Checking/TC_Checking.xml" test_case_name="TC_Checking" test_source_line="55" />
+      </test_case>
+    </requirement>
+  </requirement>
+  <requirement id="Export" result="OK" nbOKs="69" nbNOKs="0" path_index="" local_index="6">
+    <test_case name="UT_DocTreeNode" test_source="UT_DocTreeNode/UT_DocTreeNode.xml">
+      <test_result result="OK" test_source="UT_DocTreeNode/UT_DocTreeNode.xml" test_case_name="UT_DocTreeNode" test_source_line="25" />
+      <test_result result="OK" test_source="UT_DocTreeNode/UT_DocTreeNode.xml" test_case_name="UT_DocTreeNode" test_source_line="26" />
+    </test_case>
+    <requirement id="Export : Release note" result="OK" nbOKs="11" nbNOKs="0" path_index="6" local_index="1">
+      <test_case name="TC_RunByName" test_source="TC_RunByName/TC_RunByName.xml">
+        <test_result result="OK" test_source="TC_RunByName/TC_RunByName.xml" test_case_name="TC_RunByName" test_source_line="48" />
+      </test_case>
+      <test_case name="TC_Requirement" test_source="TC_Requirement/TC_Requirement.xml">
+        <test_result result="OK" test_source="TC_Requirement/TC_Requirement.xml" test_case_name="TC_Requirement" test_source_line="48" />
+      </test_case>
+      <test_case name="TC_ReleaseNote" test_source="TC_ReleaseNote/TC_ReleaseNote.xml">
+        <test_result result="OK" test_source="TC_ReleaseNote/TC_ReleaseNote.xml" test_case_name="TC_ReleaseNote" test_source_line="44" />
+        <test_result result="OK" test_source="TC_ReleaseNote/TC_ReleaseNote.xml" test_case_name="TC_ReleaseNote" test_source_line="45" />
+      </test_case>
+      <test_case name="TC_Export" test_source="TC_Export/TC_Export.xml">
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="33" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="34" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="35" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="36" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="37" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="38" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="39" />
+      </test_case>
+    </requirement>
+    <requirement id="Export : Test cases table" result="OK" nbOKs="13" nbNOKs="0" path_index="6" local_index="2">
+      <test_case name="TC_TestCasesTable" test_source="TC_TestCasesTable/TC_TestCasesTable.xml">
+        <test_result result="OK" test_source="TC_TestCasesTable/TC_TestCasesTable.xml" test_case_name="TC_TestCasesTable" test_source_line="29" />
+        <test_result result="OK" test_source="TC_TestCasesTable/TC_TestCasesTable.xml" test_case_name="TC_TestCasesTable" test_source_line="30" />
+        <test_result result="OK" test_source="TC_TestCasesTable/TC_TestCasesTable.xml" test_case_name="TC_TestCasesTable" test_source_line="31" />
+        <test_result result="OK" test_source="TC_TestCasesTable/TC_TestCasesTable.xml" test_case_name="TC_TestCasesTable" test_source_line="32" />
+        <test_result result="OK" test_source="TC_TestCasesTable/TC_TestCasesTable.xml" test_case_name="TC_TestCasesTable" test_source_line="33" />
+        <test_result result="OK" test_source="TC_TestCasesTable/TC_TestCasesTable.xml" test_case_name="TC_TestCasesTable" test_source_line="34" />
+      </test_case>
+      <test_case name="TC_Export" test_source="TC_Export/TC_Export.xml">
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="42" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="43" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="44" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="45" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="46" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="47" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="48" />
+      </test_case>
+    </requirement>
+    <requirement id="Export : Test source" result="OK" nbOKs="37" nbNOKs="0" path_index="6" local_index="3">
+      <test_case name="TC_BeforeRunAfterError" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml">
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="33" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="34" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="35" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="36" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="37" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="38" />
+        <test_result result="OK" test_source="TC_BeforeRunAfterError/TC_BeforeRunAfterError.xml" test_case_name="TC_BeforeRunAfterError" test_source_line="39" />
+      </test_case>
+      <test_case name="TC_SanityTesting" test_source="TC_SanityTesting/TC_SanityTesting.xml">
+        <test_result result="OK" test_source="TC_SanityTesting/TC_SanityTesting.xml" test_case_name="TC_SanityTesting" test_source_line="49" />
+        <test_result result="OK" test_source="TC_SanityTesting/TC_SanityTesting.xml" test_case_name="TC_SanityTesting" test_source_line="50" />
+        <test_result result="OK" test_source="TC_SanityTesting/TC_SanityTesting.xml" test_case_name="TC_SanityTesting" test_source_line="51" />
+        <test_result result="OK" test_source="TC_SanityTesting/TC_SanityTesting.xml" test_case_name="TC_SanityTesting" test_source_line="77" />
+        <test_result result="OK" test_source="TC_SanityTesting/TC_SanityTesting.xml" test_case_name="TC_SanityTesting" test_source_line="78" />
+        <test_result result="OK" test_source="TC_SanityTesting/TC_SanityTesting.xml" test_case_name="TC_SanityTesting" test_source_line="79" />
+      </test_case>
+      <test_case name="TC_ScriptTestCases" test_source="TC_ScriptTestCases/TC_ScriptTestCases.xml">
+        <test_result result="OK" test_source="TC_ScriptTestCases/TC_ScriptTestCases.xml" test_case_name="TC_ScriptTestCases" test_source_line="32" />
+        <test_result result="OK" test_source="TC_ScriptTestCases/TC_ScriptTestCases.xml" test_case_name="TC_ScriptTestCases" test_source_line="33" />
+        <test_result result="OK" test_source="TC_ScriptTestCases/TC_ScriptTestCases.xml" test_case_name="TC_ScriptTestCases" test_source_line="34" />
+        <test_result result="OK" test_source="TC_ScriptTestCases/TC_ScriptTestCases.xml" test_case_name="TC_ScriptTestCases" test_source_line="35" />
+      </test_case>
+      <test_case name="TC_Export" test_source="TC_Export/TC_Export.xml">
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="51" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="52" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="53" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="54" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="55" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="57" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="58" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="59" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="60" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="61" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="62" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="65" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="68" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="69" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="70" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="71" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="72" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="75" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="76" />
+        <test_result result="OK" test_source="TC_Export/TC_Export.xml" test_case_name="TC_Export" test_source_line="77" />
+      </test_case>
+    </requirement>
+    <requirement id="Export : Report without source" result="OK" nbOKs="6" nbNOKs="0" path_index="6" local_index="4">
+      <test_case name="TC_ReportingWithoutSource" test_source="TC_ReportingWithoutSource/TC_ReportingWithoutSource.xml">
+        <test_result result="OK" test_source="TC_ReportingWithoutSource/TC_ReportingWithoutSource.xml" test_case_name="TC_ReportingWithoutSource" test_source_line="31" />
+        <test_result result="OK" test_source="TC_ReportingWithoutSource/TC_ReportingWithoutSource.xml" test_case_name="TC_ReportingWithoutSource" test_source_line="32" />
+        <test_result result="OK" test_source="TC_ReportingWithoutSource/TC_ReportingWithoutSource.xml" test_case_name="TC_ReportingWithoutSource" test_source_line="33" />
+        <test_result result="OK" test_source="TC_ReportingWithoutSource/TC_ReportingWithoutSource.xml" test_case_name="TC_ReportingWithoutSource" test_source_line="36" />
+        <test_result result="OK" test_source="TC_ReportingWithoutSource/TC_ReportingWithoutSource.xml" test_case_name="TC_ReportingWithoutSource" test_source_line="37" />
+        <test_result result="OK" test_source="TC_ReportingWithoutSource/TC_ReportingWithoutSource.xml" test_case_name="TC_ReportingWithoutSource" test_source_line="38" />
+      </test_case>
+    </requirement>
+  </requirement>
+  <requirement id="TestTool" result="NOK" nbOKs="75" nbNOKs="1" path_index="" local_index="7">
+    <requirement id="Area" result="OK" nbOKs="33" nbNOKs="0" path_index="7" local_index="1">
+      <test_case name="UT_AreaNeighborhood" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml">
+        <test_result result="OK" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml" test_case_name="UT_AreaNeighborhood" test_source_line="21" />
+        <test_result result="OK" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml" test_case_name="UT_AreaNeighborhood" test_source_line="22" />
+        <test_result result="OK" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml" test_case_name="UT_AreaNeighborhood" test_source_line="25" />
+        <test_result result="OK" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml" test_case_name="UT_AreaNeighborhood" test_source_line="26" />
+        <test_result result="OK" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml" test_case_name="UT_AreaNeighborhood" test_source_line="31" />
+        <test_result result="OK" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml" test_case_name="UT_AreaNeighborhood" test_source_line="32" />
+        <test_result result="OK" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml" test_case_name="UT_AreaNeighborhood" test_source_line="33" />
+        <test_result result="OK" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml" test_case_name="UT_AreaNeighborhood" test_source_line="34" />
+        <test_result result="OK" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml" test_case_name="UT_AreaNeighborhood" test_source_line="39" />
+        <test_result result="OK" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml" test_case_name="UT_AreaNeighborhood" test_source_line="40" />
+        <test_result result="OK" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml" test_case_name="UT_AreaNeighborhood" test_source_line="41" />
+        <test_result result="OK" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml" test_case_name="UT_AreaNeighborhood" test_source_line="42" />
+        <test_result result="OK" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml" test_case_name="UT_AreaNeighborhood" test_source_line="47" />
+        <test_result result="OK" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml" test_case_name="UT_AreaNeighborhood" test_source_line="48" />
+        <test_result result="OK" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml" test_case_name="UT_AreaNeighborhood" test_source_line="49" />
+        <test_result result="OK" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml" test_case_name="UT_AreaNeighborhood" test_source_line="50" />
+        <test_result result="OK" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml" test_case_name="UT_AreaNeighborhood" test_source_line="55" />
+        <test_result result="OK" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml" test_case_name="UT_AreaNeighborhood" test_source_line="56" />
+        <test_result result="OK" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml" test_case_name="UT_AreaNeighborhood" test_source_line="57" />
+        <test_result result="OK" test_source="UT_AreaNeighborhood/UT_AreaNeighborhood.xml" test_case_name="UT_AreaNeighborhood" test_source_line="58" />
+      </test_case>
+      <test_case name="UT_Area" test_source="UT_Area/UT_Area.xml">
+        <test_result result="OK" test_source="UT_Area/UT_Area.xml" test_case_name="UT_Area" test_source_line="25" />
+        <test_result result="OK" test_source="UT_Area/UT_Area.xml" test_case_name="UT_Area" test_source_line="26" />
+        <test_result result="OK" test_source="UT_Area/UT_Area.xml" test_case_name="UT_Area" test_source_line="29" />
+        <test_result result="OK" test_source="UT_Area/UT_Area.xml" test_case_name="UT_Area" test_source_line="30" />
+        <test_result result="OK" test_source="UT_Area/UT_Area.xml" test_case_name="UT_Area" test_source_line="33" />
+        <test_result result="OK" test_source="UT_Area/UT_Area.xml" test_case_name="UT_Area" test_source_line="34" />
+        <test_result result="OK" test_source="UT_Area/UT_Area.xml" test_case_name="UT_Area" test_source_line="35" />
+        <test_result result="OK" test_source="UT_Area/UT_Area.xml" test_case_name="UT_Area" test_source_line="39" />
+        <test_result result="OK" test_source="UT_Area/UT_Area.xml" test_case_name="UT_Area" test_source_line="40" />
+        <test_result result="OK" test_source="UT_Area/UT_Area.xml" test_case_name="UT_Area" test_source_line="41" />
+        <test_result result="OK" test_source="UT_Area/UT_Area.xml" test_case_name="UT_Area" test_source_line="42" />
+        <test_result result="OK" test_source="UT_Area/UT_Area.xml" test_case_name="UT_Area" test_source_line="45" />
+        <test_result result="OK" test_source="UT_Area/UT_Area.xml" test_case_name="UT_Area" test_source_line="46" />
+      </test_case>
+    </requirement>
+    <requirement id="TestToolNumbers" result="NOK" nbOKs="0" nbNOKs="0" path_index="7" local_index="2" />
+    <requirement id="TestToolStrings" result="OK" nbOKs="8" nbNOKs="0" path_index="7" local_index="3">
+      <test_case name="UT_TestToolStrings" test_source="UT_TestToolStrings/UT_TestToolStrings.xml">
+        <test_result result="OK" test_source="UT_TestToolStrings/UT_TestToolStrings.xml" test_case_name="UT_TestToolStrings" test_source_line="31" />
+        <test_result result="OK" test_source="UT_TestToolStrings/UT_TestToolStrings.xml" test_case_name="UT_TestToolStrings" test_source_line="32" />
+        <test_result result="OK" test_source="UT_TestToolStrings/UT_TestToolStrings.xml" test_case_name="UT_TestToolStrings" test_source_line="33" />
+        <test_result result="OK" test_source="UT_TestToolStrings/UT_TestToolStrings.xml" test_case_name="UT_TestToolStrings" test_source_line="35" />
+        <test_result result="OK" test_source="UT_TestToolStrings/UT_TestToolStrings.xml" test_case_name="UT_TestToolStrings" test_source_line="36" />
+        <test_result result="OK" test_source="UT_TestToolStrings/UT_TestToolStrings.xml" test_case_name="UT_TestToolStrings" test_source_line="37" />
+        <test_result result="OK" test_source="UT_TestToolStrings/UT_TestToolStrings.xml" test_case_name="UT_TestToolStrings" test_source_line="38" />
+        <test_result result="OK" test_source="UT_TestToolStrings/UT_TestToolStrings.xml" test_case_name="UT_TestToolStrings" test_source_line="39" />
+      </test_case>
+    </requirement>
+    <requirement id="TestToolXML" result="NOK" nbOKs="0" nbNOKs="0" path_index="7" local_index="4" />
+    <requirement id="TestToolGroovy" result="OK" nbOKs="4" nbNOKs="0" path_index="7" local_index="5">
+      <test_case name="UT_EvaluateTemplate" test_source="UT_EvaluateTemplate/UT_EvaluateTemplate.xml">
+        <test_result result="OK" test_source="UT_EvaluateTemplate/UT_EvaluateTemplate.xml" test_case_name="UT_EvaluateTemplate" test_source_line="26" />
+        <test_result result="OK" test_source="UT_EvaluateTemplate/UT_EvaluateTemplate.xml" test_case_name="UT_EvaluateTemplate" test_source_line="29" />
+        <test_result result="OK" test_source="UT_EvaluateTemplate/UT_EvaluateTemplate.xml" test_case_name="UT_EvaluateTemplate" test_source_line="33" />
+        <test_result result="OK" test_source="UT_EvaluateTemplate/UT_EvaluateTemplate.xml" test_case_name="UT_EvaluateTemplate" test_source_line="41" />
+      </test_case>
+    </requirement>
+    <requirement id="TestToolCSV" result="OK" nbOKs="16" nbNOKs="0" path_index="7" local_index="6">
+      <test_case name="UT_TestToolCSV" test_source="UT_TestToolCSV/UT_TestToolCSV.xml">
+        <test_result result="OK" test_source="UT_TestToolCSV/UT_TestToolCSV.xml" test_case_name="UT_TestToolCSV" test_source_line="33" />
+        <test_result result="OK" test_source="UT_TestToolCSV/UT_TestToolCSV.xml" test_case_name="UT_TestToolCSV" test_source_line="35" />
+        <test_result result="OK" test_source="UT_TestToolCSV/UT_TestToolCSV.xml" test_case_name="UT_TestToolCSV" test_source_line="36" />
+        <test_result result="OK" test_source="UT_TestToolCSV/UT_TestToolCSV.xml" test_case_name="UT_TestToolCSV" test_source_line="37" />
+        <test_result result="OK" test_source="UT_TestToolCSV/UT_TestToolCSV.xml" test_case_name="UT_TestToolCSV" test_source_line="38" />
+        <test_result result="OK" test_source="UT_TestToolCSV/UT_TestToolCSV.xml" test_case_name="UT_TestToolCSV" test_source_line="39" />
+        <test_result result="OK" test_source="UT_TestToolCSV/UT_TestToolCSV.xml" test_case_name="UT_TestToolCSV" test_source_line="41" />
+        <test_result result="OK" test_source="UT_TestToolCSV/UT_TestToolCSV.xml" test_case_name="UT_TestToolCSV" test_source_line="42" />
+        <test_result result="OK" test_source="UT_TestToolCSV/UT_TestToolCSV.xml" test_case_name="UT_TestToolCSV" test_source_line="43" />
+        <test_result result="OK" test_source="UT_TestToolCSV/UT_TestToolCSV.xml" test_case_name="UT_TestToolCSV" test_source_line="44" />
+        <test_result result="OK" test_source="UT_TestToolCSV/UT_TestToolCSV.xml" test_case_name="UT_TestToolCSV" test_source_line="45" />
+        <test_result result="OK" test_source="UT_TestToolCSV/UT_TestToolCSV.xml" test_case_name="UT_TestToolCSV" test_source_line="47" />
+        <test_result result="OK" test_source="UT_TestToolCSV/UT_TestToolCSV.xml" test_case_name="UT_TestToolCSV" test_source_line="48" />
+        <test_result result="OK" test_source="UT_TestToolCSV/UT_TestToolCSV.xml" test_case_name="UT_TestToolCSV" test_source_line="49" />
+        <test_result result="OK" test_source="UT_TestToolCSV/UT_TestToolCSV.xml" test_case_name="UT_TestToolCSV" test_source_line="50" />
+        <test_result result="OK" test_source="UT_TestToolCSV/UT_TestToolCSV.xml" test_case_name="UT_TestToolCSV" test_source_line="51" />
+      </test_case>
+    </requirement>
+    <requirement id="TestToolProcess" result="NOK" nbOKs="1" nbNOKs="1" path_index="7" local_index="7">
+      <test_case name="TC_Process" test_source="TC_Process/TC_Process.xml">
+        <test_result result="NOK" test_source="TC_Process/TC_Process.xml" test_case_name="TC_Process" test_source_line="56" />
+        <test_result result="OK" test_source="TC_Process/TC_Process.xml" test_case_name="TC_Process" test_source_line="57" />
+      </test_case>
+    </requirement>
+    <requirement id="TestToolSikuli" result="OK" nbOKs="8" nbNOKs="0" path_index="7" local_index="8">
+      <test_case name="UT_TestToolSikuli" test_source="UT_TestToolSikuli/UT_TestToolSikuli.xml">
+        <test_result result="OK" test_source="UT_TestToolSikuli/UT_TestToolSikuli.xml" test_case_name="UT_TestToolSikuli" test_source_line="22" />
+        <test_result result="OK" test_source="UT_TestToolSikuli/UT_TestToolSikuli.xml" test_case_name="UT_TestToolSikuli" test_source_line="28" />
+        <test_result result="OK" test_source="UT_TestToolSikuli/UT_TestToolSikuli.xml" test_case_name="UT_TestToolSikuli" test_source_line="29" />
+        <test_result result="OK" test_source="UT_TestToolSikuli/UT_TestToolSikuli.xml" test_case_name="UT_TestToolSikuli" test_source_line="31" />
+        <test_result result="OK" test_source="UT_TestToolSikuli/UT_TestToolSikuli.xml" test_case_name="UT_TestToolSikuli" test_source_line="32" />
+        <test_result result="OK" test_source="UT_TestToolSikuli/UT_TestToolSikuli.xml" test_case_name="UT_TestToolSikuli" test_source_line="34" />
+        <test_result result="OK" test_source="UT_TestToolSikuli/UT_TestToolSikuli.xml" test_case_name="UT_TestToolSikuli" test_source_line="34" />
+        <test_result result="OK" test_source="UT_TestToolSikuli/UT_TestToolSikuli.xml" test_case_name="UT_TestToolSikuli" test_source_line="34" />
+      </test_case>
+    </requirement>
+    <requirement id="TestToolSelenium" result="NOK" nbOKs="0" nbNOKs="0" path_index="7" local_index="9" />
+    <requirement id="Pattern" result="OK" nbOKs="5" nbNOKs="0" path_index="7" local_index="10">
+      <requirement id="LevenshteinSelector" result="OK" nbOKs="2" nbNOKs="0" path_index="7-10" local_index="1">
+        <test_case name="UT_LevenshteinSelector" test_source="UT_LevenshteinSelector/UT_LevenshteinSelector.xml">
+          <test_result result="OK" test_source="UT_LevenshteinSelector/UT_LevenshteinSelector.xml" test_case_name="UT_LevenshteinSelector" test_source_line="19" />
+          <test_result result="OK" test_source="UT_LevenshteinSelector/UT_LevenshteinSelector.xml" test_case_name="UT_LevenshteinSelector" test_source_line="20" />
+        </test_case>
+      </requirement>
+      <requirement id="RegularExpressionSelector" result="OK" nbOKs="3" nbNOKs="0" path_index="7-10" local_index="2">
+        <test_case name="UT_RegularExpressionSelector" test_source="UT_RegularExpressionSelector/UT_RegularExpressionSelector.xml">
+          <test_result result="OK" test_source="UT_RegularExpressionSelector/UT_RegularExpressionSelector.xml" test_case_name="UT_RegularExpressionSelector" test_source_line="19" />
+          <test_result result="OK" test_source="UT_RegularExpressionSelector/UT_RegularExpressionSelector.xml" test_case_name="UT_RegularExpressionSelector" test_source_line="20" />
+          <test_result result="OK" test_source="UT_RegularExpressionSelector/UT_RegularExpressionSelector.xml" test_case_name="UT_RegularExpressionSelector" test_source_line="22" />
+        </test_case>
+      </requirement>
+    </requirement>
+  </requirement>
+  <requirement id="Sanity" result="OK" nbOKs="2" nbNOKs="0" path_index="" local_index="8">
+    <test_case name="ST_PackageAndDependencies" test_source="ST_PackageAndDependencies/ST_PackageAndDependencies.xml">
+      <test_result result="OK" test_source="ST_PackageAndDependencies/ST_PackageAndDependencies.xml" test_case_name="ST_PackageAndDependencies" test_source_line="28" />
+      <test_result result="OK" test_source="ST_PackageAndDependencies/ST_PackageAndDependencies.xml" test_case_name="ST_PackageAndDependencies" test_source_line="29" />
+    </test_case>
+  </requirement>
+</release_note>
+

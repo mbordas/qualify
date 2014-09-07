@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<requirements qualify_version="0.2">
+<requirement id="CommandLine"/>
+<requirement id="Requirement">
+	<requirement id="SRD"/>
+	<requirement id="Requirement without test"/>
+	<requirement id="Inline requirement overriding"/>
+	<requirement id="Requirement : Regression detection"/>
+	<requirement id="Requirement by keyword"/>
+</requirement>
+<requirement id="Compilation">
+	<requirement id="Compile"/>
+	<requirement id="Run"/>
+	<requirement id="Scripted test cases">
+		<requirement id="Mix compiled / scripted"/>
+		<requirement id="Full scripted"/>
+		<requirement id="Dynamic compilation"/>
+		<requirement id="Scripted dependencies"/>
+		<requirement id="Keywords: requirement"/>
+		<requirement id="Preprocessors">
+			<requirement id="SourceLine preprocessing"/>
+		</requirement>
+	</requirement>
+</requirement>
+<requirement id="Test run">
+	<requirement id="beforeRun, afterRun"/>
+	<requirement id="run by requirement"/>
+	<requirement id="run by keyword"/>
+	<requirement id="run by name"/>
+	<requirement id="run last NOK"/>
+	<requirement id="Sanity testing"/>
+	<requirement id="Exception handling"/>
+</requirement>
+<requirement id="Testing">
+	<requirement id="OK check"/>
+	<requirement id="NOK check"/>
+</requirement>
+<requirement id="Export">
+	<requirement id="Export : Release note"/>
+	<requirement id="Export : Test cases table"/>
+	<requirement id="Export : Test source"/>
+	<requirement id="Export : Report without source"/>
+</requirement>
+<requirement id="TestTool">
+	<requirement id="Area"/>
+	<requirement id="TestToolNumbers"/>
+	<requirement id="TestToolStrings"/>
+	<requirement id="TestToolXML"/>
+	<requirement id="TestToolGroovy"/>
+	<requirement id="TestToolCSV"/>
+	<requirement id="TestToolProcess"/>
+	<requirement id="TestToolSikuli"/>
+	<requirement id="TestToolSelenium"/>
+	<requirement id="Pattern">
+		<requirement id="LevenshteinSelector"/>
+		<requirement id="RegularExpressionSelector"/>
+	</requirement>
+</requirement>
+</requirements>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<options qualify_version="0.2">
+<option name="sut_name">Sample App</option>
+<option name="sut_version">1.0</option>
+<option name="sut_date">2011-11-16</option>
+<option name="script_dirs">./script</option>
+<option name="result_dir">./result</option>
+<option name="release_note">./result/release_note.xml</option>
+</options>

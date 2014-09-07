@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<options qualify_version="0.2">
+<option name="sut_name">Scripted test cases</option>
+<option name="sut_date">02/09/2011</option>
+<option name="sut_version">1.0</option>
+<option name="result_dir">./rst</option>
+<option name="script_dirs">./tests</option>
+<option name="release_note">./rst/release_note.xml</option>
+<option name="reference_release_note">./rst/reference_release_note.xml</option>
+<option name="requirement">Requirement 1</option>
+</options>

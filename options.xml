@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<options>
+<option name="sut_name">Qualify</option>
+<option name="sut_date">20/09/2011</option>
+<option name="sut_version">0.7</option>
+<option name="source_dirs">./src</option>
+<option name="srd_file">SRD.xml</option>
+
+<option name="continuous_release_note"/>
+<option name="release_note">result/release_note.xml</option>
+<option name="reference_release_note">reference.xml</option>
+<option name="log_level">INFO</option>
+<option name="script_dirs">./test_scripts</option>
+
+<!--
+<option name="run_last_failed"/>
+<option name="requirement">Export</option>
+<option name="test">TC_ScriptTestCases</option>
+-->
+
+<option name="http_server_webapps_dir">./apps</option>
+
+</options>

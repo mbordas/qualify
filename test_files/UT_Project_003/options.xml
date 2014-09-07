@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<options>
+<option name="sut_name">Project Sample 00</option>
+<option name="sut_date">18/12/2010</option>
+<option name="sut_version">1.0</option>
+<option name="source_dirs">./src</option>
+<option name="release_note">result/result.xml</option>
+<option name="log_level">DEBUG</option>
+
+<option name="test">Test3</option>
+
+</options>

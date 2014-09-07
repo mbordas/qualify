@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app id="gmail">
+	
+	<page id="login">
+		<field id="login">
+			<identifier id="id" value="Email"/>
+		</field>
+		<field id="password">
+			<identifier id="id" value="Passwd"/>
+		</field>
+	</page>
+
+
+	<panel id="mail_list">
+		<image id="top_left" file="gmail/top_left.png"/>
+		<image id="bottom_right" file="gmail/scroll_down_arrow.png">
+			<image id="alt_1" file="gmail/scroll_down_arrow_alt_1.png"/>
+			<image id="alt_2" file="gmail/scroll_down_arrow_alt_2.png"/>
+		</image>
+	</panel>
+</app>

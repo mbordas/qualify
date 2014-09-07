@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="style/release_note.xsl"?>
+<release_note sut_name="Project Sample 00" version="1.0" date="18/12/2010" successful_checks_percent="50" successful_test_cases_percent="0" successful_requirements_percent="0">
+  <requirement id="REQ-1" result="NOK" nbOKs="1" nbNOKs="1" path_index="" local_index="1">
+    <test_case name="Test" test_source="Test/Test.xml">
+      <test_result result="OK" test_source="Test/Test.xml" test_case_name="Test" test_source_line="10" />
+      <test_result result="NOK" test_source="Test/Test.xml" test_case_name="Test" test_source_line="12" />
+    </test_case>
+  </requirement>
+</release_note>
+

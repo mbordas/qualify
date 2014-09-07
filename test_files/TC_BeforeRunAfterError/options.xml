@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<options qualify_version="0.2">
+
+<option name="script_dirs">./tests</option>
+<option name="script_dependencies_dirs">./dependencies</option>
+<option name="release_note">./result/result.xml</option>
+<option name="run_on_error"/>
+<option name="log_file">run.log</option>
+
+</options>

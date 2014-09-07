@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="style/release_note.xsl"?>
+<release_note sut_name="Project" version="1.0" date="18/12/2010" successful_checks_percent="50" successful_test_cases_percent="33" successful_requirements_percent="50">
+  <requirement id="REQ-1" result="OK" nbOKs="1" nbNOKs="0" path_index="" local_index="1">
+    <test_case name="Test.java" test_source="test_source/Test.xml">
+      <test_result result="OK" test_source="test_source/Test.xml" test_source_line="10" />
+    </test_case>
+  </requirement>
+  <requirement id="REQ-2" result="OK" nbOKs="1" nbNOKs="0" path_index="" local_index="2">
+    <test_case name="Test.java" test_source="test_source/Test.xml">
+      <test_result result="OK" test_source="test_source/Test.xml" test_source_line="13" />
+    </test_case>
+  </requirement>
+  <requirement id="REQ-3" result="OK" nbOKs="1" nbNOKs="0" path_index="" local_index="3">
+    <test_case name="Test.java" test_source="test_source/Test.xml">
+      <test_result result="OK" test_source="test_source/Test.xml" test_source_line="16" />
+    </test_case>
+  </requirement>
+  <requirement id="REQ-4" result="NOK" nbOKs="0" nbNOKs="1" path_index="" local_index="4">
+    <test_case name="Test2.java" test_source="test_source/Test2.xml">
+      <test_result result="NOK" test_source="test_source/Test2.xml" test_source_line="10" />
+    </test_case>
+  </requirement>
+  <requirement id="REQ-5" result="NOK" nbOKs="0" nbNOKs="1" path_index="" local_index="5">
+    <test_case name="Test2.java" test_source="test_source/Test2.xml">
+      <test_result result="NOK" test_source="test_source/Test2.xml" test_source_line="13" />
+    </test_case>
+  </requirement>
+  <requirement id="REQ-6" result="NOK" nbOKs="0" nbNOKs="1" path_index="" local_index="6">
+    <test_case name="Test2.java" test_source="test_source/Test2.xml">
+      <test_result result="NOK" test_source="test_source/Test2.xml" test_source_line="16" />
+    </test_case>
+  </requirement>
+</release_note>
+

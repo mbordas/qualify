@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<options qualify_version="0.6">
+<option name="result_dir">./result</option>
+<option name="script_dirs">./tests</option>
+<option name="script_preprocessors_dirs">./bad_dir</option>
+<option name="log_file">log.txt</option>
+<option name="log_level">DEBUG</option>
+</options>

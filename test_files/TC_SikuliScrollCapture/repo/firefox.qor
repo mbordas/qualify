@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app id="firefox">
+	<panel id="main_view">
+		<image id="top_left" file="firefox/navigation_arrows.png"/>
+		<image id="bottom_right" file="firefox/scroll_down_arrow.png">
+			<image id="alt_1" file="firefox/scroll_down_arrow_alt_1.png"/>
+			<image id="alt_2" file="firefox/scroll_down_arrow_alt_2.png"/>
+		</image>
+	</panel>
+</app>
