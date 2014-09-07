@@ -1,0 +1,28 @@
+<app id="appOne">
+   
+    <webServer id="testWebServer">
+		<parameter id="port" value="1351"/>
+    </webServer>
+    
+	<user id="partner" token="partnertoken"/>
+	<user id="sync" token="synctoken"/>
+    <user id="testAdmin" token="admintoken" password="password"/>
+	<user id="rte1" token="rte1token"/>
+    <user id="eff1" token="eff1token"/>
+   	<user id="eff2" token="eff2token"/>
+	<user id="eff3" token="eff3token"/>
+	<user id="eff4" token="eff4token"/>
+	<user id="eff5" token="eff5token"/>
+	<user id="eff6" token="eff6token"/>
+	<user id="user13" token="user13token"/>
+	<user id="Factory_A.machine" token="factoryamachinetoken"/>
+	<user id="Factory_B.machine" token="factorybmachinetoken"/>
+	<user id="Factory_C.machine" token="factorycmachinetoken"/>
+	
+	<page id="home">
+		<nav id="page1">
+			<identifier id="id" value="navToEffacement"/>
+		</nav>
+	</page>
+	
+</app>
