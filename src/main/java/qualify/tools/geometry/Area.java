@@ -29,12 +29,10 @@ import qualify.TestCase;
 import qualify.tools.TestToolSikuli;
 
 /**
- * An Area is a rectangular region of the screen. The Area class provides methods
- * to easily manipulate areas.
- *
+ * An Area is a rectangular region of the screen. The Area class provides methods to easily manipulate areas.
  */
 public class Area extends Shape {
-	
+
 	public static String AREA_DEFAULT_COLOR = "red";
 
 	private Region region = null;
@@ -78,31 +76,35 @@ public class Area extends Shape {
 			return new Area(areas[0].sikuli, new Region(new Rectangle(x1, y1, x2 - x1, y2 - y1)));
 		}
 	}
-	
+
 	public static Area getBoundingBox(List<Area> areas) {
-		return getBoundingBox(areas.toArray(new Area[]{}));
+		return getBoundingBox(areas.toArray(new Area[] {}));
 	}
 
 	/**
 	 * Finds contained from image pattern.
-	 * @param imageIdentifier The identifier of the image used as pattern.
+	 * 
+	 * @param imageIdentifier
+	 *            The identifier of the image used as pattern.
 	 * @return The Area that best matches the pattern image.
 	 */
 	public Area findArea(String imageIdentifier) {
 		return sikuli.findArea(imageIdentifier, this);
 	}
-	
+
 	public Area[] findAreas(String imageIdentifier) {
 		return findAreas(imageIdentifier, TestToolSikuli.DEFAULT_SIMILARITY);
 	}
-	
+
 	public Area[] findAreas(String imageIdentifier, float similarity) {
 		return sikuli.findAreas(imageIdentifier, this, similarity);
 	}
 
 	/**
 	 * Returns if the pattern image is contained.
-	 * @param imageIdentifier The identifier of the image used as pattern.
+	 * 
+	 * @param imageIdentifier
+	 *            The identifier of the image used as pattern.
 	 * @return True if an Area inside matches the pattern image
 	 */
 	public boolean find(String imageIdentifier) {
@@ -111,7 +113,9 @@ public class Area extends Shape {
 
 	/**
 	 * Returns the Area at the East side. It has the same height, and a specific width.
-	 * @param stripeWidth The width of the Area to return.
+	 * 
+	 * @param stripeWidth
+	 *            The width of the Area to return.
 	 * @return An Area in the East side, using the specific width.
 	 */
 	public Area eastStripe(int stripeWidth) {
@@ -120,7 +124,9 @@ public class Area extends Shape {
 
 	/**
 	 * Returns the Area at the West side. It has the same height, and a specific width.
-	 * @param stripeWidth The width of the Area to return.
+	 * 
+	 * @param stripeWidth
+	 *            The width of the Area to return.
 	 * @return An Area in the West side, using the specific width.
 	 */
 	public Area westStripe(int stripeWidth) {
@@ -137,7 +143,9 @@ public class Area extends Shape {
 
 	/**
 	 * Creates an Area that is stretched using a specific scaling factor
-	 * @param factor The scale factor to use. 1.0 for no stretching, 2.0 for double stretching, 0.5 for half, etc.
+	 * 
+	 * @param factor
+	 *            The scale factor to use. 1.0 for no stretching, 2.0 for double stretching, 0.5 for half, etc.
 	 * @return
 	 */
 	public Area stretch(double factor) {
@@ -151,19 +159,21 @@ public class Area extends Shape {
 
 	/**
 	 * Creates an Area from the right part, using a specific percentage.
-	 * @param factor The part of the actual Area to be used. 1.0 will return the same Area, 0.5 will return the right half of the Area
+	 * 
+	 * @param factor
+	 *            The part of the actual Area to be used. 1.0 will return the same Area, 0.5 will return the right half of the Area
 	 * @return An Area from the right part, using a specific percentage.
 	 */
 	public Area right(double factor) {
-		return new Area(sikuli, new Region(region.x + region.w - (int)(factor * region.w), region.y, (int)(factor * region.w), region.h)); 
+		return new Area(sikuli, new Region(region.x + region.w - (int) (factor * region.w), region.y, (int) (factor * region.w), region.h));
 	}
 
 	public Area left(double factor) {
-		return new Area(sikuli, new Region(region.x, region.y, (int)(factor * region.w), region.h));
+		return new Area(sikuli, new Region(region.x, region.y, (int) (factor * region.w), region.h));
 	}
 
 	public Area top(double factor) {
-		return new Area(sikuli, new Region(region.x, region.y, region.w, (int)(factor * region.h)));
+		return new Area(sikuli, new Region(region.x, region.y, region.w, (int) (factor * region.h)));
 	}
 
 	public Area bottom(double factor) {
@@ -182,6 +192,7 @@ public class Area extends Shape {
 
 	/**
 	 * Returns the text appearing in the Area.
+	 * 
 	 * @return The text appearing in the Area.
 	 */
 	public String getText() {
@@ -198,7 +209,9 @@ public class Area extends Shape {
 
 	/**
 	 * Returns if it contains the specific text
-	 * @param textToFind The text to look for
+	 * 
+	 * @param textToFind
+	 *            The text to look for
 	 * @return True if the specific text is contained. False elsewhere.
 	 */
 	public boolean contains(String textToFind) {
@@ -208,6 +221,7 @@ public class Area extends Shape {
 
 	/**
 	 * Returns the Point in the center of the Area.
+	 * 
 	 * @return The Point in the center of the Area.
 	 */
 	public Point center() {
@@ -267,30 +281,26 @@ public class Area extends Shape {
 	public void click() {
 		center().click();
 	}
-	
+
 	public void doubleClick() {
 		center().doubleClick();
 	}
-	
+
 	public void type(String whatToType) {
 		try {
 			getRegion().type(whatToType);
-		} catch (FindFailed e) {
+		} catch(FindFailed e) {
 			e.printStackTrace();
-			testCase.addTestResult(false,
-					"unexpected error when trying to paste in Area",
-					Area.class);
+			testCase.addTestResult(false, "unexpected error when trying to paste in Area");
 		}
 	}
 
 	public void paste(String textToPaste) {
 		try {
 			getRegion().paste(textToPaste);
-		} catch (FindFailed e) {
+		} catch(FindFailed e) {
 			e.printStackTrace();
-			testCase.addTestResult(false,
-					"unexpected error when trying to paste in Area",
-					Area.class);
+			testCase.addTestResult(false, "unexpected error when trying to paste in Area");
 		}
 	}
 

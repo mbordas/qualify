@@ -34,7 +34,7 @@ import org.codehaus.groovy.control.CompilationFailedException;
 import qualify.TestCase;
 
 public class TestToolGroovy {
-	
+
 	private static Logger logger = Logger.getLogger(TestToolGroovy.class);
 
 	private TestCase testCase = null;
@@ -44,12 +44,16 @@ public class TestToolGroovy {
 	}
 
 	/**
-	 * Evaluates the Groovy script into a new GroovyShell (new class loader) and forwards the standard output and error output
-	 * to the logFile.
-	 * @param groovyScript The script to evaluate.
-	 * @param logFile The file where std out and err out will be forwarded
+	 * Evaluates the Groovy script into a new GroovyShell (new class loader) and forwards the standard output and error output to the
+	 * logFile.
+	 * 
+	 * @param groovyScript
+	 *            The script to evaluate.
+	 * @param logFile
+	 *            The file where std out and err out will be forwarded
 	 * @return
-	 * @throws CompilationFailedException Error thrown by the GroovyShell
+	 * @throws CompilationFailedException
+	 *             Error thrown by the GroovyShell
 	 * @throws IOException
 	 */
 	public static Object evaluate(String groovyScript, File logFile) throws CompilationFailedException, IOException {
@@ -81,21 +85,22 @@ public class TestToolGroovy {
 		try {
 			template = templateEngine.createTemplate(templateScript);
 			result = template.make(map).toString();
-		} catch (CompilationFailedException e) {
-			testCase.addTestResult(false, "CompilationFailedException raised: " + e.getMessage(), TestToolGroovy.class);
+		} catch(CompilationFailedException e) {
+			testCase.addTestResult(false, "CompilationFailedException raised: " + e.getMessage());
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			testCase.addTestResult(false, "ClassNotFoundException raised: " + e.getMessage(), TestToolGroovy.class);
+		} catch(ClassNotFoundException e) {
+			testCase.addTestResult(false, "ClassNotFoundException raised: " + e.getMessage());
 			e.printStackTrace();
-		} catch (IOException e) {
-			testCase.addTestResult(false, "IOException raised: " + e.getMessage(), TestToolGroovy.class);
+		} catch(IOException e) {
+			testCase.addTestResult(false, "IOException raised: " + e.getMessage());
 			e.printStackTrace();
 		}
 
 		return result;
 	}
 
-	public static String evaluateTemplate(File templateScript, HashMap<String, Object> map) throws CompilationFailedException, ClassNotFoundException, IOException {
+	public static String evaluateTemplate(File templateScript, HashMap<String, Object> map) throws CompilationFailedException,
+			ClassNotFoundException, IOException {
 		SimpleTemplateEngine templateEngine = new SimpleTemplateEngine();
 		Template template;
 		String result = null;
@@ -103,7 +108,7 @@ public class TestToolGroovy {
 		result = template.make(map).toString();
 		return result;
 	}
-	
+
 	public static String evaluateTemplate(InputStream is, HashMap<String, Object> map) throws CompilationFailedException, IOException {
 		logger.debug("Evaluating template from InputStream");
 		SimpleTemplateEngine templateEngine = new SimpleTemplateEngine();

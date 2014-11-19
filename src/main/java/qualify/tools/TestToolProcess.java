@@ -25,9 +25,7 @@ import qualify.TestCase;
 import qualify.testRunner.TProcess;
 
 /**
- * Provides methods to easily launch executables, command line processes, and analyze
- * exit codes and outputs.
- *
+ * Provides methods to easily launch executables, command line processes, and analyze exit codes and outputs.
  */
 public class TestToolProcess {
 
@@ -41,11 +39,15 @@ public class TestToolProcess {
 
 	/**
 	 * Executes a command line from a CMD process. Works for Windows only.
-	 * @param commandLine The command line arguments.
-	 * @param workingDir The directory from where the command is launched.
-	 * @param logFile The file where standard and error output of CMD will be redirected.
-	 * @param timeoutInSeconds The maximum time allowed for executing the command. Beyond
-	 * that time, a timer will destroy the running process.
+	 * 
+	 * @param commandLine
+	 *            The command line arguments.
+	 * @param workingDir
+	 *            The directory from where the command is launched.
+	 * @param logFile
+	 *            The file where standard and error output of CMD will be redirected.
+	 * @param timeoutInSeconds
+	 *            The maximum time allowed for executing the command. Beyond that time, a timer will destroy the running process.
 	 * @return Wait until the command is terminated or the timeout has been reached.
 	 */
 	public int executeMSWindowsCommandLine(String[] commandLine, File workingDir, File logFile, double timeoutInSeconds) {
@@ -65,7 +67,7 @@ public class TestToolProcess {
 
 		try {
 			Thread.sleep(2000);
-		} catch (InterruptedException e) {
+		} catch(InterruptedException e) {
 			e.printStackTrace();
 		}
 
@@ -74,11 +76,15 @@ public class TestToolProcess {
 
 	/**
 	 * Launches a command line from a CMD process. Works for Windows only.
-	 * @param commandLine The command line arguments.
-	 * @param workingDir The directory from where the command is launched.
-	 * @param logFile The file where standard and error output of CMD will be redirected.
-	 * @param timeoutInSeconds The maximum time allowed for executing the command. Beyond
-	 * that time, a timer will destroy the running process.
+	 * 
+	 * @param commandLine
+	 *            The command line arguments.
+	 * @param workingDir
+	 *            The directory from where the command is launched.
+	 * @param logFile
+	 *            The file where standard and error output of CMD will be redirected.
+	 * @param timeoutInSeconds
+	 *            The maximum time allowed for executing the command. Beyond that time, a timer will destroy the running process.
 	 * @return The created TProcess.
 	 */
 	public TProcess executeMSWindowsCommandLineInBackground(String[] commandLine, File workingDir, File logFile, double timeoutInSeconds) {
@@ -99,11 +105,15 @@ public class TestToolProcess {
 
 	/**
 	 * Executes a command line from a BASH process. Works for Linux only (tested with Ubuntu).
-	 *@param commandLine The command line arguments.
-	 * @param workingDir The directory from where the command is launched.
-	 * @param logFile The file where standard and error output of CMD will be redirected.
-	 * @param timeoutInSeconds The maximum time allowed for executing the command. Beyond
-	 * that time, a timer will destroy the running process.
+	 * 
+	 * @param commandLine
+	 *            The command line arguments.
+	 * @param workingDir
+	 *            The directory from where the command is launched.
+	 * @param logFile
+	 *            The file where standard and error output of CMD will be redirected.
+	 * @param timeoutInSeconds
+	 *            The maximum time allowed for executing the command. Beyond that time, a timer will destroy the running process.
 	 * @return Wait until the command is terminated or the timeout has been reached.
 	 */
 	public int executeLinuxCommandLine(String[] commandLine, File workingDir, File logFile, double timeoutInSeconds) {
@@ -124,15 +134,20 @@ public class TestToolProcess {
 	}
 
 	/**
-	 * Performs one call to executeMSWindowsCommandLine then checks the exit code. Automatically attaches the log file
-	 * to the test result.
-	 * @param commandLine The command line arguments(usually separated with space " ").
-	 * @param workingDir The directory from where the command is launched.
-	 * @param logFile The file where standard and error output will be redirected.
+	 * Performs one call to executeMSWindowsCommandLine then checks the exit code. Automatically attaches the log file to the test result.
+	 * 
+	 * @param commandLine
+	 *            The command line arguments(usually separated with space " ").
+	 * @param workingDir
+	 *            The directory from where the command is launched.
+	 * @param logFile
+	 *            The file where standard and error output will be redirected.
 	 * @param timeoutInSeconds
-	 * @param expectedExitCode The expected value for exit code
+	 * @param expectedExitCode
+	 *            The expected value for exit code
 	 */
-	public void checkExecuteMSWindowsCommandLine(String[] commandLine, File workingDir, File logFile, double timeoutInSeconds, int expectedExitCode) {
+	public void checkExecuteMSWindowsCommandLine(String[] commandLine, File workingDir, File logFile, double timeoutInSeconds,
+			int expectedExitCode) {
 		int exitCode = -1;
 
 		exitCode = executeMSWindowsCommandLine(commandLine, workingDir, logFile, timeoutInSeconds);
@@ -146,15 +161,20 @@ public class TestToolProcess {
 	}
 
 	/**
-	 * Performs one call to executeLinuxCommandLine then checks the exit code. Automatically attaches the log file
-	 * to the test result.
-	 * @param commandLine The command line arguments (usually separated with space " ").
-	 * @param workingDir The directory from where the command is launched.
-	 * @param logFile The file where standard and error output will be redirected.
+	 * Performs one call to executeLinuxCommandLine then checks the exit code. Automatically attaches the log file to the test result.
+	 * 
+	 * @param commandLine
+	 *            The command line arguments (usually separated with space " ").
+	 * @param workingDir
+	 *            The directory from where the command is launched.
+	 * @param logFile
+	 *            The file where standard and error output will be redirected.
 	 * @param timeoutInSeconds
-	 * @param expectedExitCode The expected value for exit code
+	 * @param expectedExitCode
+	 *            The expected value for exit code
 	 */
-	public void checkExecuteLinuxCommandLine(String[] commandLine, File workingDir, File logFile, double timeoutInSeconds, int expectedExitCode) {
+	public void checkExecuteLinuxCommandLine(String[] commandLine, File workingDir, File logFile, double timeoutInSeconds,
+			int expectedExitCode) {
 		int exitCode = -1;
 
 		exitCode = executeLinuxCommandLine(commandLine, workingDir, logFile, timeoutInSeconds);
@@ -169,15 +189,19 @@ public class TestToolProcess {
 
 	/**
 	 * Executes a file in a new process.
-	 * @param commandLine The command line to execute. Must begins with the path to executable file.
-	 * @param workingDir The working directory for the new process to run.
-	 * @param logFile The file where standard output and standard error streams will be redirected.
+	 * 
+	 * @param commandLine
+	 *            The command line to execute. Must begins with the path to executable file.
+	 * @param workingDir
+	 *            The working directory for the new process to run.
+	 * @param logFile
+	 *            The file where standard output and standard error streams will be redirected.
 	 * @param timeoutInSeconds
 	 * @return Only when process is to the end.
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	public int execute(String[] commandLine, File workingDir, File logFile, double timeoutInSeconds) {		
+	public int execute(String[] commandLine, File workingDir, File logFile, double timeoutInSeconds) {
 		TProcess proc = executeInBackground(commandLine, workingDir, logFile, timeoutInSeconds);
 
 		return proc.waitFor();
@@ -185,9 +209,13 @@ public class TestToolProcess {
 
 	/**
 	 * Executes a file in a new process.
-	 * @param commandLine The command line to execute. Must begins with the path to executable file.
-	 * @param workingDir The working directory for the new process to run.
-	 * @param logFile The file where standard output and standard error streams will be redirected.
+	 * 
+	 * @param commandLine
+	 *            The command line to execute. Must begins with the path to executable file.
+	 * @param workingDir
+	 *            The working directory for the new process to run.
+	 * @param logFile
+	 *            The file where standard output and standard error streams will be redirected.
 	 * @param timeoutInSeconds
 	 * @return The Process object of the running process.
 	 * @throws IOException
@@ -210,9 +238,9 @@ public class TestToolProcess {
 				result.registerOutput(logFile, "");
 			}
 
-		} catch (IOException e) {
+		} catch(IOException e) {
 			e.printStackTrace();
-			testCase.addTestResult(false, "An error occured during process execution", TestToolProcess.class);
+			testCase.addTestResult(false, "An error occured during process execution");
 		}
 
 		return result;
@@ -220,6 +248,7 @@ public class TestToolProcess {
 
 	/**
 	 * Returns if the current running OS is Linux
+	 * 
 	 * @return 'true' if your test is running under a Linux OS.
 	 */
 	public boolean isOSLinux() {

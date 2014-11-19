@@ -47,20 +47,24 @@ public class TestToolCSV {
 
 	/**
 	 * Returns the complete line found from a column number and a key value.
-	 * @param inputFile The file to parse
-	 * @param keyColumnIndex The index of the column where the key searchedValue has to be found. Starts with 1.
-	 * @param searchedValue The key value used to find the line
+	 * 
+	 * @param inputFile
+	 *            The file to parse
+	 * @param keyColumnIndex
+	 *            The index of the column where the key searchedValue has to be found. Starts with 1.
+	 * @param searchedValue
+	 *            The key value used to find the line
 	 * @return the first line from inputFile where searchedValue is found in columnIndex (starting with '1').
 	 * @throws IOException
 	 */
 	public String getCSVLine(File inputFile, int keyColumnIndex, String searchedValue) throws IOException {
-		InputStream ips = new FileInputStream(inputFile); 
+		InputStream ips = new FileInputStream(inputFile);
 		InputStreamReader ipsr = new InputStreamReader(ips);
 		BufferedReader br = new BufferedReader(ipsr);
 		String line;
 		String result = null;
-		while ((line = br.readLine()) != null){
-			if(line.indexOf(separator) != -1 ) {
+		while((line = br.readLine()) != null) {
+			if(line.indexOf(separator) != -1) {
 				int columnCount = line.split(separator).length;
 				if(keyColumnIndex - 1 < columnCount) {
 					if(line.split(separator)[keyColumnIndex - 1].equals(searchedValue)) {
@@ -69,7 +73,7 @@ public class TestToolCSV {
 				}
 			}
 		}
-		br.close();	
+		br.close();
 		ipsr.close();
 		ips.close();
 		return result;
@@ -78,7 +82,7 @@ public class TestToolCSV {
 	public String getCSVLine(String content, int keyColumnIndex, String searchedValue) {
 		String result = null;
 		for(String line : TestToolStrings.toLines(content)) {
-			if(line.indexOf(separator) != -1 ) {
+			if(line.indexOf(separator) != -1) {
 				int columnCount = line.split(separator).length;
 				if(keyColumnIndex - 1 < columnCount) {
 					if(line.split(separator)[keyColumnIndex - 1].equals(searchedValue)) {
@@ -92,9 +96,13 @@ public class TestToolCSV {
 
 	/**
 	 * Returns the line's number found from a column number and a key value.
-	 * @param inputFile The file to parse
-	 * @param keyColumnIndex The index of the column where the key searchedValue has to be found. Starts with 1.
-	 * @param searchedValue The key value used to find the line
+	 * 
+	 * @param inputFile
+	 *            The file to parse
+	 * @param keyColumnIndex
+	 *            The index of the column where the key searchedValue has to be found. Starts with 1.
+	 * @param searchedValue
+	 *            The key value used to find the line
 	 * @return the first line's number from inputFile where searchedValue is found in columnIndex (starting with '1').
 	 * @throws IOException
 	 */
@@ -105,9 +113,9 @@ public class TestToolCSV {
 		BufferedReader br = new BufferedReader(ipsr);
 		String ligne;
 		int lineNumber = 0;
-		while ((ligne = br.readLine())!=null){
+		while((ligne = br.readLine()) != null) {
 			lineNumber++;
-			if(ligne.indexOf(separator) != -1 ) {
+			if(ligne.indexOf(separator) != -1) {
 				int columnCount = ligne.split(separator).length;
 				if(keyColumnIndex - 1 < columnCount) {
 					if(ligne.split(separator)[keyColumnIndex - 1].equals(searchedValue)) {
@@ -116,17 +124,21 @@ public class TestToolCSV {
 				}
 			}
 		}
-		br.close();	
+		br.close();
 		ipsr.close();
 		ips.close();
 		return result;
 	}
 
 	/**
-	 * @param inputFile The file to parse
-	 * @param keyColumnIndex The index of the column where the key searchedValue has to be found. Starts with 1.
-	 * @param searchedValue The key value used to find the line
-	 * @param columnIndex The index of the row from which the returned value is read (starting with '1')
+	 * @param inputFile
+	 *            The file to parse
+	 * @param keyColumnIndex
+	 *            The index of the column where the key searchedValue has to be found. Starts with 1.
+	 * @param searchedValue
+	 *            The key value used to find the line
+	 * @param columnIndex
+	 *            The index of the row from which the returned value is read (starting with '1')
 	 * @return the string value of the indexRow from the first line found in inputFile where searchedValue is found in columnIndex
 	 * @throws IOException
 	 */
@@ -140,7 +152,7 @@ public class TestToolCSV {
 			logger.debug("Cell not found: line not found");
 			return null;
 		} else {
-			if(line.indexOf(separator) != -1 ) {
+			if(line.indexOf(separator) != -1) {
 				int columnCount = line.split(";").length;
 				if((keyColumnIndex - 1 < columnCount) && (columnIndex - 1 < columnCount)) {
 					if(line.split(separator)[keyColumnIndex - 1].equals(searchedValue)) {
@@ -162,25 +174,28 @@ public class TestToolCSV {
 
 	/**
 	 * Checks the value of one CSV cell.
-	 * @param inputFile The file to parse
-	 * @param keyColumnIndex The index of the column where the key searchedValue has to be found. Starts with 1.
-	 * @param searchedValue The key value used to find the line
-	 * @param columnIndex The index of the row from which the returned value is read (starting with '1')
-	 * @param expectedValue The expected value
-	 * @throws IOException 
+	 * 
+	 * @param inputFile
+	 *            The file to parse
+	 * @param keyColumnIndex
+	 *            The index of the column where the key searchedValue has to be found. Starts with 1.
+	 * @param searchedValue
+	 *            The key value used to find the line
+	 * @param columnIndex
+	 *            The index of the row from which the returned value is read (starting with '1')
+	 * @param expectedValue
+	 *            The expected value
+	 * @throws IOException
 	 */
 	public void checkCSVCell(File inputFile, int keyColumnIndex, String searchedValue, int columnIndex, String expectedValue) {
 		try {
 			checkCSVCell(TestToolFile.getContentAsString(inputFile), keyColumnIndex, searchedValue, columnIndex, expectedValue);
-		} catch (IOException e) {
+		} catch(IOException e) {
 			e.printStackTrace();
-			String comment = "inputFile: " + inputFile.getAbsolutePath() +
-					", keyColumnIndex: " + keyColumnIndex +
-					", searchedValue: " + searchedValue +
-					", columnIndex: " + columnIndex +
-					", expected value: '" + expectedValue + "'" +
-					", Unexpected Exception: " + e.getMessage();
-			testCase.addTestResult(false, comment, TestToolCSV.class);
+			String comment = "inputFile: " + inputFile.getAbsolutePath() + ", keyColumnIndex: " + keyColumnIndex + ", searchedValue: "
+					+ searchedValue + ", columnIndex: " + columnIndex + ", expected value: '" + expectedValue + "'"
+					+ ", Unexpected Exception: " + e.getMessage();
+			testCase.addTestResult(false, comment);
 		}
 	}
 
@@ -190,28 +205,23 @@ public class TestToolCSV {
 		foundCell = getCSVCell(content, keyColumnIndex, searchedValue, columnIndex);
 
 		if(foundCell == null) {
-			String comment = "CSV cell not found: " +
-					"keyColumnIndex: " + keyColumnIndex +
-					", searchedValue: " + searchedValue +
-					", columnIndex: " + columnIndex +
-					", expected value: '" + expectedValue + "'";
-			testCase.addTestResult(false, comment, TestToolCSV.class);
+			String comment = "CSV cell not found: " + "keyColumnIndex: " + keyColumnIndex + ", searchedValue: " + searchedValue
+					+ ", columnIndex: " + columnIndex + ", expected value: '" + expectedValue + "'";
+			testCase.addTestResult(false, comment);
 
 		} else {
 			String testedValue = getCSVCell(content, keyColumnIndex, searchedValue, columnIndex);
-			String searchDetails =  "keyColumnIndex: " + keyColumnIndex +
-					", searchedValue: " + searchedValue +
-					", columnIndex: " + columnIndex;
+			String searchDetails = "keyColumnIndex: " + keyColumnIndex + ", searchedValue: " + searchedValue + ", columnIndex: "
+					+ columnIndex;
 			DocList comment = new DocList();
 			comment.addItem(new DocString(searchDetails));
 			comment.addItem(TestToolStrings.getDocListComparison(expectedValue, testedValue));
 			if(testedValue.equals(expectedValue)) {
-				testCase.addTestResult(true, comment, TestToolCSV.class);
+				testCase.addTestResult(true, comment);
 			} else {
-				testCase.addTestResult(false, comment, TestToolCSV.class);
+				testCase.addTestResult(false, comment);
 			}
 		}
-
 
 	}
 

@@ -31,8 +31,7 @@ public class TestToolDates {
 
 	private TestCase testCase = null;
 
-	public static final String DEFAULT_SIMPLE_FORMAT = "yyyyMMdd",
-	DEFAULT_TIMESTAMP_FORMAT = "yyyyMMddHHmmSSsss";
+	public static final String DEFAULT_SIMPLE_FORMAT = "yyyyMMdd", DEFAULT_TIMESTAMP_FORMAT = "yyyyMMddHHmmSSsss";
 
 	public TestToolDates(TestCase tc) {
 		testCase = tc;
@@ -40,9 +39,13 @@ public class TestToolDates {
 
 	/**
 	 * Checks the expected date. Equality is verified respecting the given date format precision.
-	 * @param expectedDateString The expected date as a formatted string (respecting simpleDateFormat)
-	 * @param simpleDateFormat The string that specifies the date format (see java.text.SimpleDateFormat for details)
-	 * @param testedDate The expected date
+	 * 
+	 * @param expectedDateString
+	 *            The expected date as a formatted string (respecting simpleDateFormat)
+	 * @param simpleDateFormat
+	 *            The string that specifies the date format (see java.text.SimpleDateFormat for details)
+	 * @param testedDate
+	 *            The expected date
 	 */
 	public void checkEquality(String expectedDateString, String simpleDateFormat, Date testedDate) {
 		if(simpleDateFormat == null) {
@@ -50,19 +53,22 @@ public class TestToolDates {
 		}
 		if(testedDate == null) {
 			if(expectedDateString == null) {
-				testCase.addTestResult(true, "expected date is null | tested date is null", TestToolDates.class);
+				testCase.addTestResult(true, "expected date is null | tested date is null");
 			} else {
-				testCase.addTestResult(false, "expected='" + expectedDateString + "' [" + simpleDateFormat + "] | tested date is null", TestToolDates.class);
+				testCase.addTestResult(false, "expected='" + expectedDateString + "' [" + simpleDateFormat + "] | tested date is null");
 			}
 		} else {
 			if(expectedDateString == null) {
-				testCase.addTestResult(false, "expected date is null | tested='" + toString(testedDate, simpleDateFormat) + "' [" + simpleDateFormat + "]", TestToolDates.class);
+				testCase.addTestResult(false, "expected date is null | tested='" + toString(testedDate, simpleDateFormat) + "' ["
+						+ simpleDateFormat + "]");
 			} else {
 				String testedDateString = toString(testedDate, simpleDateFormat);
 				if(testedDateString.equals(expectedDateString)) {
-					testCase.addTestResult(true, "expected='" + expectedDateString + "' [" + simpleDateFormat + "] | tested='" + testedDateString + "' [" + simpleDateFormat + "]", TestToolDates.class);
+					testCase.addTestResult(true, "expected='" + expectedDateString + "' [" + simpleDateFormat + "] | tested='"
+							+ testedDateString + "' [" + simpleDateFormat + "]");
 				} else {
-					testCase.addTestResult(false, "expected='" + expectedDateString + "' [" + simpleDateFormat + "] | tested='" + testedDateString + "' [" + simpleDateFormat + "]", TestToolDates.class);
+					testCase.addTestResult(false, "expected='" + expectedDateString + "' [" + simpleDateFormat + "] | tested='"
+							+ testedDateString + "' [" + simpleDateFormat + "]");
 				}
 			}
 		}
@@ -70,54 +76,65 @@ public class TestToolDates {
 
 	/**
 	 * Checks the expected date in regard of the default date format: DEFAULT_SIMPLE_FORMAT = "yyyyMMdd"
-	 * @param expectedDate The expected date object
-	 * @param testedDate The verified date object
+	 * 
+	 * @param expectedDate
+	 *            The expected date object
+	 * @param testedDate
+	 *            The verified date object
 	 */
 	public void checkEquality(Date expectedDate, Date testedDate) {
 		if(testedDate == null) {
 			if(expectedDate == null) {
-				testCase.addTestResult(true, "expected date is null | tested date is null", TestToolDates.class);
+				testCase.addTestResult(true, "expected date is null | tested date is null");
 			} else {
-				testCase.addTestResult(false, "expected='" + toString(expectedDate, DEFAULT_SIMPLE_FORMAT) + "' [" + DEFAULT_SIMPLE_FORMAT + "] | tested date is null", TestToolDates.class);
+				testCase.addTestResult(false, "expected='" + toString(expectedDate, DEFAULT_SIMPLE_FORMAT) + "' [" + DEFAULT_SIMPLE_FORMAT
+						+ "] | tested date is null");
 			}
 		} else {
 			if(expectedDate == null) {
-				testCase.addTestResult(false, "expected date is null | tested='" + toString(testedDate, DEFAULT_SIMPLE_FORMAT) + "' [" + DEFAULT_SIMPLE_FORMAT + "]", TestToolDates.class);
+				testCase.addTestResult(false, "expected date is null | tested='" + toString(testedDate, DEFAULT_SIMPLE_FORMAT) + "' ["
+						+ DEFAULT_SIMPLE_FORMAT + "]");
 			} else {
 				String testedDateString = toString(testedDate, DEFAULT_SIMPLE_FORMAT);
 				if(testedDateString.equals(toString(expectedDate, DEFAULT_SIMPLE_FORMAT))) {
-					testCase.addTestResult(true, "expected='" + toString(expectedDate, DEFAULT_SIMPLE_FORMAT) + "' [" + DEFAULT_SIMPLE_FORMAT + "] | tested='" + testedDateString + "' [" + DEFAULT_SIMPLE_FORMAT + "]", TestToolDates.class);
+					testCase.addTestResult(true, "expected='" + toString(expectedDate, DEFAULT_SIMPLE_FORMAT) + "' ["
+							+ DEFAULT_SIMPLE_FORMAT + "] | tested='" + testedDateString + "' [" + DEFAULT_SIMPLE_FORMAT + "]");
 				} else {
-					testCase.addTestResult(false, "expected='" + toString(expectedDate, DEFAULT_SIMPLE_FORMAT) + "' [" + DEFAULT_SIMPLE_FORMAT + "] | tested='" + testedDateString + "' [" + DEFAULT_SIMPLE_FORMAT + "]", TestToolDates.class);
+					testCase.addTestResult(false, "expected='" + toString(expectedDate, DEFAULT_SIMPLE_FORMAT) + "' ["
+							+ DEFAULT_SIMPLE_FORMAT + "] | tested='" + testedDateString + "' [" + DEFAULT_SIMPLE_FORMAT + "]");
 				}
 			}
 		}
 	}
-	
+
 	public void checkAfter(DateTime limitDate, DateTime testedDate) {
 		if(testedDate == null) {
 			if(limitDate == null) {
-				testCase.addTestResult(true, "limit date is null | tested date is null", TestToolDates.class);
+				testCase.addTestResult(true, "limit date is null | tested date is null");
 			} else {
-				testCase.addTestResult(false, "limit='" + toString(limitDate, DEFAULT_SIMPLE_FORMAT) + "' [" + DEFAULT_SIMPLE_FORMAT + "] | tested date is null", TestToolDates.class);
+				testCase.addTestResult(false, "limit='" + toString(limitDate, DEFAULT_SIMPLE_FORMAT) + "' [" + DEFAULT_SIMPLE_FORMAT
+						+ "] | tested date is null");
 			}
 		} else {
 			if(limitDate == null) {
-				testCase.addTestResult(false, "limit date is null | tested='" + toString(testedDate, DEFAULT_SIMPLE_FORMAT) + "' [" + DEFAULT_SIMPLE_FORMAT + "]", TestToolDates.class);
+				testCase.addTestResult(false, "limit date is null | tested='" + toString(testedDate, DEFAULT_SIMPLE_FORMAT) + "' ["
+						+ DEFAULT_SIMPLE_FORMAT + "]");
 			} else {
 				String testedDateString = toString(testedDate, DEFAULT_SIMPLE_FORMAT);
 				if(testedDate.isAfter(limitDate)) {
-					testCase.addTestResult(true, "limit='" + toString(limitDate, DEFAULT_SIMPLE_FORMAT) + "' [" + DEFAULT_SIMPLE_FORMAT + "] | tested='" + testedDateString + "' [" + DEFAULT_SIMPLE_FORMAT + "]", TestToolDates.class);
+					testCase.addTestResult(true, "limit='" + toString(limitDate, DEFAULT_SIMPLE_FORMAT) + "' [" + DEFAULT_SIMPLE_FORMAT
+							+ "] | tested='" + testedDateString + "' [" + DEFAULT_SIMPLE_FORMAT + "]");
 				} else {
-					testCase.addTestResult(false, "limit='" + toString(limitDate, DEFAULT_SIMPLE_FORMAT) + "' [" + DEFAULT_SIMPLE_FORMAT + "] | tested='" + testedDateString + "' [" + DEFAULT_SIMPLE_FORMAT + "]", TestToolDates.class);
+					testCase.addTestResult(false, "limit='" + toString(limitDate, DEFAULT_SIMPLE_FORMAT) + "' [" + DEFAULT_SIMPLE_FORMAT
+							+ "] | tested='" + testedDateString + "' [" + DEFAULT_SIMPLE_FORMAT + "]");
 				}
 			}
 		}
 	}
 
 	/**
-	 * 
-	 * @param dateString The date's string respecting DEFAULT_SIMPLE_FORMAT
+	 * @param dateString
+	 *            The date's string respecting DEFAULT_SIMPLE_FORMAT
 	 * @return
 	 */
 	public Date getDate(String dateString) {
@@ -125,9 +142,10 @@ public class TestToolDates {
 	}
 
 	/**
-	 * 
-	 * @param dateString The date's string
-	 * @param simpleDateFormat The format used to create the Date
+	 * @param dateString
+	 *            The date's string
+	 * @param simpleDateFormat
+	 *            The format used to create the Date
 	 * @return
 	 */
 	public Date getDate(String dateString, String simpleDateFormat) {
@@ -135,9 +153,10 @@ public class TestToolDates {
 	}
 
 	/**
-	 * 
-	 * @param date The date to convert into string
-	 * @param simpleDateFormat The simple format used for conversion (see java.text.SimpleDateFormat for details)
+	 * @param date
+	 *            The date to convert into string
+	 * @param simpleDateFormat
+	 *            The simple format used for conversion (see java.text.SimpleDateFormat for details)
 	 * @return
 	 */
 	public String toString(Date date, String simpleDateFormat) {
@@ -147,15 +166,14 @@ public class TestToolDates {
 	public static String toString(DateTime date, String simpleDateFormat) {
 		return date.toString(DateTimeFormat.forPattern(simpleDateFormat));
 	}
-	
+
 	public static String toString(DateTime date) {
 		return date.toString(DateTimeFormat.forPattern(DEFAULT_SIMPLE_FORMAT));
 	}
-	
+
 	/**
-	 * Returns a formatted string that represents the period.
-	 * The format is: hh:mm:ss.SSS
-	 * The precision is day to millisecond
+	 * Returns a formatted string that represents the period. The format is: hh:mm:ss.SSS The precision is day to millisecond
+	 * 
 	 * @param duration
 	 * @return
 	 */
@@ -171,16 +189,13 @@ public class TestToolDates {
 		format2digits.setMinimumIntegerDigits(2);
 		DecimalFormat format3digits = new DecimalFormat();
 		format3digits.setMinimumIntegerDigits(3);
-		return "" + format2digits.format(hours) +
-		":" + format2digits.format(minutes) +
-		":" + format2digits.format(seconds) +
-		"." + format3digits.format(millis);
+		return "" + format2digits.format(hours) + ":" + format2digits.format(minutes) + ":" + format2digits.format(seconds) + "."
+				+ format3digits.format(millis);
 	}
 
 	/**
-	 * Returns a formatted string that represents the duration.
-	 * The format is: hh:mm:ss.SSS
-	 * The precision is day to millisecond
+	 * Returns a formatted string that represents the duration. The format is: hh:mm:ss.SSS The precision is day to millisecond
+	 * 
 	 * @param duration
 	 * @return
 	 */
@@ -210,10 +225,8 @@ public class TestToolDates {
 		format2digits.setMinimumIntegerDigits(2);
 		DecimalFormat format3digits = new DecimalFormat();
 		format3digits.setMinimumIntegerDigits(3);
-		return "" + format2digits.format(hours) +
-		":" + format2digits.format(minutes) +
-		":" + format2digits.format(seconds) +
-		"." + format3digits.format(millis);
+		return "" + format2digits.format(hours) + ":" + format2digits.format(minutes) + ":" + format2digits.format(seconds) + "."
+				+ format3digits.format(millis);
 	}
 
 	public boolean after(Date limitDate, Date testedDate, boolean allowEquality) {

@@ -38,11 +38,8 @@ import org.xml.sax.SAXException;
 import qualify.TestCase;
 
 /**
- * Provides tools to easily browse XML files using xPath.
- * Before browsing a file, you must parse it with: parseFile(String filePath, String fileKey)
- * That way, the whole file is kept into memory, so that the calls of further browsing methods
- * go faster.
- *
+ * Provides tools to easily browse XML files using xPath. Before browsing a file, you must parse it with: parseFile(String filePath, String
+ * fileKey) That way, the whole file is kept into memory, so that the calls of further browsing methods go faster.
  */
 public class TestToolXML {
 
@@ -76,11 +73,11 @@ public class TestToolXML {
 			lastDocument = document;
 
 			result = true;
-		} catch (ParserConfigurationException e) {
+		} catch(ParserConfigurationException e) {
 			e.printStackTrace();
-		} catch (SAXException e) {
+		} catch(SAXException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
 
@@ -125,12 +122,9 @@ public class TestToolXML {
 				XPath xpath = factory.newXPath();
 				XPathExpression expr = xpath.compile(xPath);
 				result = (String) expr.evaluate(document, XPathConstants.STRING);
-			} catch (XPathExpressionException e) {
+			} catch(XPathExpressionException e) {
 				e.printStackTrace();
-				testCase.addTestResult(
-						false,
-						"An Exception occured during getAttributeValue('" + key + "', '" + xPath + "')",
-						TestToolXML.class);
+				testCase.addTestResult(false, "An Exception occured during getAttributeValue('" + key + "', '" + xPath + "')");
 			}
 		}
 		return result;
@@ -148,8 +142,8 @@ public class TestToolXML {
 			if(nodes.getLength() >= 1) {
 				result = nodes.item(0);
 			}
-			for (int i = 0; i < nodes.getLength(); i++) {
-				System.out.println(nodes.item(i).getNodeValue()); 
+			for(int i = 0; i < nodes.getLength(); i++) {
+				System.out.println(nodes.item(i).getNodeValue());
 			}
 		}
 
@@ -170,12 +164,9 @@ public class TestToolXML {
 				XPathExpression expr = xpath.compile(xPath);
 				result = (NodeList) expr.evaluate(document, XPathConstants.NODESET);
 
-			} catch (XPathExpressionException e) {
+			} catch(XPathExpressionException e) {
 				e.printStackTrace();
-				testCase.addTestResult(
-						false,
-						"An Exception occured during getNodeList('" + fileKey + "', '" + xPath + "')",
-						TestToolXML.class);
+				testCase.addTestResult(false, "An Exception occured during getNodeList('" + fileKey + "', '" + xPath + "')");
 			}
 		}
 
@@ -188,10 +179,7 @@ public class TestToolXML {
 			result = documents.get(fileKey);
 		}
 		if(result == null) {
-			testCase.addTestResult(
-					false,
-					"No document available for fileKey='" + fileKey + "'",
-					TestToolXML.class);
+			testCase.addTestResult(false, "No document available for fileKey='" + fileKey + "'");
 		}
 		return result;
 	}
@@ -202,7 +190,7 @@ public class TestToolXML {
 
 	public boolean checkNodeExists(String fileKey, String xPath) {
 		boolean result = getNode(fileKey, xPath) != null;
-		testCase.addTestResult(result, "xpath=" + xPath, TestToolXML.class);
+		testCase.addTestResult(result, "xpath=" + xPath);
 		return result;
 	}
 
@@ -212,7 +200,7 @@ public class TestToolXML {
 
 	public boolean checkNodeDoesntExists(String fileKey, String xPath) {
 		boolean result = getNode(fileKey, xPath) == null;
-		testCase.addTestResult(result, "xpath=" + xPath, TestToolXML.class);
+		testCase.addTestResult(result, "xpath=" + xPath);
 		return result;
 	}
 
@@ -228,9 +216,7 @@ public class TestToolXML {
 		}
 
 		boolean result = expectedCount == testedCount;
-		testCase.addTestResult(result,
-				"expected=" + expectedCount + " | tested=" + testedCount,
-				TestToolXML.class);
+		testCase.addTestResult(result, "expected=" + expectedCount + " | tested=" + testedCount);
 
 		return result;
 	}

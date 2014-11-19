@@ -15,7 +15,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package qualify.tools;
 
-import qualify.*;
+import qualify.TestCase;
 
 public class TestToolNumbers {
 
@@ -27,125 +27,100 @@ public class TestToolNumbers {
 
 	public boolean checkEquality(int expectedInteger, int testedInteger) {
 		boolean result = expectedInteger == testedInteger;
-		testCase.addTestResult(result,
-				"expected=" + expectedInteger + " | tested=" + testedInteger,
-				TestToolNumbers.class);
+		testCase.addTestResult(result, "expected=" + expectedInteger + " | tested=" + testedInteger);
 		return result;
 	}
 
 	public void checkEquality(long expectedLong, long testedLong) {
-		testCase.addTestResult(expectedLong == testedLong,
-				"expected=" + expectedLong + " | tested=" + testedLong,
-				TestToolNumbers.class);
+		testCase.addTestResult(expectedLong == testedLong, "expected=" + expectedLong + " | tested=" + testedLong);
 	}
 
-	public void checkEquality(Double expectedDouble, Double testedDouble, Double epsilon) {
+	public boolean checkEquality(Double expectedDouble, Double testedDouble, Double epsilon) {
+		boolean result = false;
 		if(testedDouble == null) {
 			if(expectedDouble == null) {
-				testCase.addTestResult(true, "expected is null (epsilon=" + epsilon + ") | tested is null", TestToolNumbers.class);
+				result = true;
+				testCase.addTestResult(result, "expected is null (epsilon=" + epsilon + ") | tested is null");
 			} else {
-				testCase.addTestResult(false, "expected=" + expectedDouble + " (epsilon=" + epsilon + ") | tested is null", TestToolNumbers.class);
+				result = false;
+				testCase.addTestResult(result, "expected=" + expectedDouble + " (epsilon=" + epsilon + ") | tested is null");
 			}
 		} else {
 			if(expectedDouble == null) {
-				testCase.addTestResult(false, "expected is null (epsilon=" + epsilon + ") | tested=" + testedDouble, TestToolNumbers.class);
+				result = false;
+				testCase.addTestResult(result, "expected is null (epsilon=" + epsilon + ") | tested=" + testedDouble);
 			} else {
-				boolean result = Math.abs(expectedDouble - testedDouble) <= epsilon;
-				testCase.addTestResult(result, "expected=" + expectedDouble + " (epsilon=" + epsilon + ") | tested=" + testedDouble, TestToolNumbers.class);
+				result = Math.abs(expectedDouble - testedDouble) <= epsilon;
+				testCase.addTestResult(result, "expected=" + expectedDouble + " (epsilon=" + epsilon + ") | tested=" + testedDouble);
 			}
 		}
+
+		return result;
 	}
 
 	public void checkGreater(int limitInteger, int testedInteger, boolean allowEquality) {
 		if(allowEquality) {
-			testCase.addTestResult(testedInteger >= limitInteger,
-					"limit=" + limitInteger + " >= tested=" + testedInteger,
-					TestToolNumbers.class);
+			testCase.addTestResult(testedInteger >= limitInteger, "limit=" + limitInteger + " >= tested=" + testedInteger);
 		} else {
-			testCase.addTestResult(testedInteger > limitInteger,
-					"limit=" + limitInteger + " > tested=" + testedInteger,
-					TestToolNumbers.class);
+			testCase.addTestResult(testedInteger > limitInteger, "limit=" + limitInteger + " > tested=" + testedInteger);
 		}
 	}
-	
+
 	public void checkGreater(long limitLong, long testedLong, boolean allowEquality) {
 		if(allowEquality) {
-			testCase.addTestResult(testedLong >= limitLong,
-					"limit=" + limitLong + " =< tested=" + testedLong,
-					TestToolNumbers.class);
+			testCase.addTestResult(testedLong >= limitLong, "limit=" + limitLong + " =< tested=" + testedLong);
 		} else {
-			testCase.addTestResult(testedLong > limitLong,
-					"limit=" + limitLong + " < tested=" + testedLong,
-					TestToolNumbers.class);
+			testCase.addTestResult(testedLong > limitLong, "limit=" + limitLong + " < tested=" + testedLong);
 		}
 	}
-	
+
 	public void checkGreater(double limitDouble, double testedDouble, boolean allowEquality) {
 		if(allowEquality) {
-			testCase.addTestResult(testedDouble >= limitDouble,
-					"limit=" + limitDouble + " >= tested=" + testedDouble,
-					TestToolNumbers.class);
+			testCase.addTestResult(testedDouble >= limitDouble, "limit=" + limitDouble + " >= tested=" + testedDouble);
 		} else {
-			testCase.addTestResult(testedDouble > limitDouble,
-					"limit=" + limitDouble + " > tested=" + testedDouble,
-					TestToolNumbers.class);
+			testCase.addTestResult(testedDouble > limitDouble, "limit=" + limitDouble + " > tested=" + testedDouble);
 		}
 	}
-	
+
 	public void checkLesser(int limitInteger, int testedInteger, boolean allowEquality) {
 		if(allowEquality) {
-			testCase.addTestResult(testedInteger <= limitInteger,
-					"limit=" + limitInteger + " <= tested=" + testedInteger,
-					TestToolNumbers.class);
+			testCase.addTestResult(testedInteger <= limitInteger, "limit=" + limitInteger + " <= tested=" + testedInteger);
 		} else {
-			testCase.addTestResult(testedInteger < limitInteger,
-					"limit=" + limitInteger + " < tested=" + testedInteger,
-					TestToolNumbers.class);
+			testCase.addTestResult(testedInteger < limitInteger, "limit=" + limitInteger + " < tested=" + testedInteger);
 		}
 	}
-	
+
 	public void checkLesser(long limitLong, long testedLong, boolean allowEquality) {
 		if(allowEquality) {
-			testCase.addTestResult(testedLong <= limitLong,
-					"limit=" + limitLong + " <= tested=" + testedLong,
-					TestToolNumbers.class);
+			testCase.addTestResult(testedLong <= limitLong, "limit=" + limitLong + " <= tested=" + testedLong);
 		} else {
-			testCase.addTestResult(testedLong < limitLong,
-					"limit=" + limitLong + " < tested=" + testedLong,
-					TestToolNumbers.class);
+			testCase.addTestResult(testedLong < limitLong, "limit=" + limitLong + " < tested=" + testedLong);
 		}
 	}
-	
+
 	public void checkLesser(double limitDouble, double testedDouble, boolean allowEquality) {
 		if(allowEquality) {
-			testCase.addTestResult(testedDouble <= limitDouble,
-					"limit=" + limitDouble + " <= tested=" + testedDouble,
-					TestToolNumbers.class);
+			testCase.addTestResult(testedDouble <= limitDouble, "limit=" + limitDouble + " <= tested=" + testedDouble);
 		} else {
-			testCase.addTestResult(testedDouble < limitDouble,
-					"limit=" + limitDouble + " < tested=" + testedDouble,
-					TestToolNumbers.class);
+			testCase.addTestResult(testedDouble < limitDouble, "limit=" + limitDouble + " < tested=" + testedDouble);
 		}
 	}
-	
+
 	public void checkNear(int expectedInteger, int testedInteger, int maxDistanceAllowed) {
-		testCase.addTestResult(Math.abs(testedInteger - expectedInteger) <= Math.abs(maxDistanceAllowed),
-				"expected=" + expectedInteger + " ~= (+/- " + maxDistanceAllowed + ") tested=" + testedInteger,
-				TestToolNumbers.class);
+		testCase.addTestResult(Math.abs(testedInteger - expectedInteger) <= Math.abs(maxDistanceAllowed), "expected=" + expectedInteger
+				+ " ~= (+/- " + maxDistanceAllowed + ") tested=" + testedInteger);
 	}
-	
+
 	public void checkNear(long expectedLong, long testedLong, long maxDistanceAllowed) {
-		testCase.addTestResult(Math.abs(testedLong - expectedLong) <= Math.abs(maxDistanceAllowed),
-				"expected=" + expectedLong + " ~= (+/- " + maxDistanceAllowed + ") tested=" + testedLong,
-				TestToolNumbers.class);
+		testCase.addTestResult(Math.abs(testedLong - expectedLong) <= Math.abs(maxDistanceAllowed), "expected=" + expectedLong
+				+ " ~= (+/- " + maxDistanceAllowed + ") tested=" + testedLong);
 	}
-	
+
 	public void checkNear(double expectedDouble, double testedDouble, double maxDistanceAllowed) {
-		testCase.addTestResult(Math.abs(testedDouble - expectedDouble) <= Math.abs(maxDistanceAllowed),
-				"expected=" + expectedDouble + " ~= (+/- " + maxDistanceAllowed + ") tested=" + testedDouble,
-				TestToolNumbers.class);
+		testCase.addTestResult(Math.abs(testedDouble - expectedDouble) <= Math.abs(maxDistanceAllowed), "expected=" + expectedDouble
+				+ " ~= (+/- " + maxDistanceAllowed + ") tested=" + testedDouble);
 	}
-	
+
 	public boolean sameValues(int[] expectedInts, int[] testedInts) {
 		boolean sameNumberOfValues = false;
 		boolean sameValues = true;
@@ -179,25 +154,16 @@ public class TestToolNumbers {
 
 		return (sameNumberOfValues && sameValues);
 	}
-	
+
 	public void checkSameValues(int[] expectedInts, int[] testedInts) {
 		if((testedInts == null) || (expectedInts == null)) {
 			// Both arrays are null
 			if((testedInts == null) && (expectedInts == null)) {
-				testCase.addTestResult(
-						true,
-						"expected array is null | tested int array is null",
-						TestToolNumbers.class);
+				testCase.addTestResult(true, "expected array is null | tested int array is null");
 			} else if(testedInts == null) {
-				testCase.addTestResult(
-						false,
-						"expected array is not null (" + expectedInts.length + " values) | tested int array is null",
-						TestToolNumbers.class);
+				testCase.addTestResult(false, "expected array is not null (" + expectedInts.length + " values) | tested int array is null");
 			} else {
-				testCase.addTestResult(
-						false,
-						"expected array is null | tested int array is not null (" + testedInts.length + " values)",
-						TestToolNumbers.class);
+				testCase.addTestResult(false, "expected array is null | tested int array is not null (" + testedInts.length + " values)");
 			}
 		} else {
 			boolean sameNumberOfValues = (expectedInts.length == testedInts.length);
@@ -211,7 +177,7 @@ public class TestToolNumbers {
 						expectedValueIsPresent = true;
 					}
 				}
-				if(! expectedValueIsPresent) {
+				if(!expectedValueIsPresent) {
 					expectedValuesNotFoundCount++;
 				}
 				sameValues = sameValues && expectedValueIsPresent;
@@ -219,23 +185,14 @@ public class TestToolNumbers {
 
 			if(sameNumberOfValues) {
 				if(sameValues) {
-					testCase.addTestResult(
-							true,
-							"expected int array (" + expectedInts.length + " values) | " +
-							"tested int array (" + expectedInts.length + " values)",
-							TestToolNumbers.class);
+					testCase.addTestResult(true, "expected int array (" + expectedInts.length + " values) | " + "tested int array ("
+							+ expectedInts.length + " values)");
 				} else {
-					testCase.addTestResult(
-							false,
-							"" + expectedValuesNotFoundCount + " expected values not found in tested int array",
-							TestToolNumbers.class);
+					testCase.addTestResult(false, "" + expectedValuesNotFoundCount + " expected values not found in tested int array");
 				}
 			} else {
-				testCase.addTestResult(
-						false,
-						"expected array has " + expectedInts.length +
-						" values | tested int array has " + testedInts.length + " values",
-						TestToolNumbers.class);
+				testCase.addTestResult(false, "expected array has " + expectedInts.length + " values | tested int array has "
+						+ testedInts.length + " values");
 			}
 		}
 	}

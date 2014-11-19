@@ -38,17 +38,13 @@ import qualify.doc.TestSource;
 import qualify.tools.StackTraceTool;
 
 /**
- * Extend TestCase to create a new testing scenario.
- * You must extend TestCase and override the main method run()
- *
+ * Extend TestCase to create a new testing scenario. You must extend TestCase and override the main method run()
  */
 public abstract class TestCase {
 
 	private static Logger logger = Logger.getLogger(TestCase.class);
 
-	public static final String
-	ELEMENT_NAME = "test_case",
-	ATTRIBUTE_NAME = "name";
+	public static final String ELEMENT_NAME = "test_case", ATTRIBUTE_NAME = "name";
 
 	private String name = "no name";
 	private TestReport report = null;
@@ -63,8 +59,7 @@ public abstract class TestCase {
 	private LinkedList<TestComment> comments = null;
 	private LinkedList<String> keywords = null;
 
-	private static final String TAG_NAME = "test_case",
-			NAME_ATTRIBUTE_NAME = "name";
+	private static final String TAG_NAME = "test_case", NAME_ATTRIBUTE_NAME = "name";
 
 	public String getName() {
 		return name;
@@ -73,18 +68,18 @@ public abstract class TestCase {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public boolean hasRun() {
 		return hasRun;
 	}
-	
+
 	public void hasRun(boolean hasRun) {
 		this.hasRun = hasRun;
 	}
 
 	public String getLocalName() {
 		String[] words = name.split("\\.");
-		return words[words.length-1];
+		return words[words.length - 1];
 	}
 
 	public void setSource(TestSource source) {
@@ -134,8 +129,8 @@ public abstract class TestCase {
 
 	public int getNbNOK() {
 		int result = 0;
-		for(TestResult tr: results) {
-			if(! tr.isSuccessful()) {
+		for(TestResult tr : results) {
+			if(!tr.isSuccessful()) {
 				result++;
 			}
 		}
@@ -188,7 +183,8 @@ public abstract class TestCase {
 			if(report != null) {
 				report.addTestComment(tc);
 			} else {
-				ErrorsAndWarnings.addWarning("Cannot add TestComment to source because TestSource '" + tc.getTestSource() + "' doesn't exist.");
+				ErrorsAndWarnings.addWarning("Cannot add TestComment to source because TestSource '" + tc.getTestSource()
+						+ "' doesn't exist.");
 			}
 		}
 		comments.add(tc);
@@ -238,16 +234,16 @@ public abstract class TestCase {
 			if(report != null) {
 				report.addTestResult(tr);
 			} else {
-				ErrorsAndWarnings.addWarning("Cannot add TestResult to source because TestSource '" + tr.getTestSource() + "' doesn't exist.");
+				ErrorsAndWarnings.addWarning("Cannot add TestResult to source because TestSource '" + tr.getTestSource()
+						+ "' doesn't exist.");
 			}
 		}
 		results.add(tr);
 	}
 
-
 	/**
-	 * Use that method for TestCase checks. It registers a TestResult with values: success/failure, current requirement
-	 * if set, test case source file and line.
+	 * Use that method for TestCase checks. It registers a TestResult with values: success/failure, current requirement if set, test case
+	 * source file and line.
 	 */
 	protected boolean check(boolean condition) {
 		if(requirementTarget == null) {
@@ -255,48 +251,48 @@ public abstract class TestCase {
 		}
 		return check(condition, requirementTarget, null);
 	}
-	
+
 	protected boolean checkNotNull(Object value) {
 		boolean result = false;
 		if(value == null) {
-			addTestResult(false, "expected is not null | tested is null", TestCase.class);
+			addTestResult(false, "expected is not null | tested is null");
 			result = false;
 		} else {
-			addTestResult(true, "expected is not null | tested=" + value, TestCase.class);
+			addTestResult(true, "expected is not null | tested=" + value);
 			result = true;
 		}
 		return result;
 	}
-	
+
 	protected boolean checkNull(Object value) {
 		boolean result = false;
 		if(value == null) {
-			addTestResult(true, "expected is null | tested is null", TestCase.class);
+			addTestResult(true, "expected is null | tested is null");
 			result = true;
 		} else {
-			addTestResult(false, "expected is null | tested=" + value, TestCase.class);
+			addTestResult(false, "expected is null | tested=" + value);
 			result = false;
 		}
 		return result;
 	}
-	
+
 	protected boolean checkEquality(Object expectedObject, Object testedObject) {
 		boolean result = false;
 		if(testedObject == null) {
 			if(expectedObject == null) {
-				addTestResult(true, "expected is null | tested is null", TestCase.class);
+				addTestResult(true, "expected is null | tested is null");
 				result = true;
 			} else {
-				addTestResult(false, "expected=" + expectedObject + " | tested is null", TestCase.class);
+				addTestResult(false, "expected=" + expectedObject + " | tested is null");
 				result = false;
 			}
 		} else {
 			if(expectedObject == null) {
-				addTestResult(false, "expected is null | tested=" + testedObject, TestCase.class);
+				addTestResult(false, "expected is null | tested=" + testedObject);
 				result = false;
 			} else {
 				result = expectedObject.equals(testedObject);
-				addTestResult(result, "expected=" + expectedObject + " | tested=" + testedObject, TestCase.class);
+				addTestResult(result, "expected=" + expectedObject + " | tested=" + testedObject);
 			}
 		}
 		return result;
@@ -304,6 +300,7 @@ public abstract class TestCase {
 
 	/**
 	 * Main check method.
+	 * 
 	 * @param condition
 	 * @param requirement
 	 * @return
@@ -324,10 +321,9 @@ public abstract class TestCase {
 	}
 
 	/**
-	 * The need() method interrupts the run() execution if 'condition' is false.
-	 * If condition is true, need() behaves like a check().
-	 * If condition is false, need() simulates a check(false) and throws an exception. Such exception is
-	 * catched by the TestHarness.
+	 * The need() method interrupts the run() execution if 'condition' is false. If condition is true, need() behaves like a check(). If
+	 * condition is false, need() simulates a check(false) and throws an exception. Such exception is catched by the TestHarness.
+	 * 
 	 * @param condition
 	 * @return
 	 */
@@ -356,13 +352,21 @@ public abstract class TestCase {
 		addTestComment(testComment);
 	}
 
-	protected void comment(int i) { comment("" + i); }
+	protected void comment(int i) {
+		comment("" + i);
+	}
 
-	protected void comment(float f) { comment("" + f); }
+	protected void comment(float f) {
+		comment("" + f);
+	}
 
-	protected void comment(double d) { comment("" + d); }
+	protected void comment(double d) {
+		comment("" + d);
+	}
 
-	protected void comment(boolean b) { comment("" + b); }
+	protected void comment(boolean b) {
+		comment("" + b);
+	}
 
 	protected void comment(DomElementAble element) {
 		// Searching java file and line number of test file
@@ -385,37 +389,38 @@ public abstract class TestCase {
 			list.addItem(new Field("Cause", e.getCause().toString()));
 		}
 		for(StackTraceElement element : e.getStackTrace()) {
-			String traceLine = element.getClassName() + ":" + element.getMethodName() + " (" + element.getFileName() + ":" + element.getLineNumber() + ")";
+			String traceLine = element.getClassName() + ":" + element.getMethodName() + " (" + element.getFileName() + ":"
+					+ element.getLineNumber() + ")";
 			list.addItem(new DocString(traceLine));
 		}
 		comment(list);
 	}
-	
+
 	protected void comment(Properties properties) {
-		Table table = new Table(new String[]{"Key", "Value"});
-		
+		Table table = new Table(new String[] { "Key", "Value" });
+
 		Set<String> keys = new TreeSet<String>();
-		
+
 		for(Object key : properties.keySet()) {
 			keys.add(key.toString());
 		}
-		
+
 		for(String key : keys) {
 			String value = properties.getProperty(key);
-			table.addEntry(new String[]{key, value});
+			table.addEntry(new String[] { key, value });
 		}
-		
+
 		comment(table);
 	}
 
 	/**
-	 * Creates a TestResult. The source file and line will correspond to the Class that calls the 'calledClass'. 
+	 * Creates a TestResult. The source file and line will correspond to the Class that calls the 'calledClass'.
+	 * 
 	 * @param condition
 	 * @param comment
-	 * @param calledClass the Class witch is called by the test case.
 	 * @return
 	 */
-	public void addTestResult(boolean condition, String comment, Class<?> calledClass) {
+	public void addTestResult(boolean condition, String comment) {
 		StackTraceElement se = StackTraceTool.getTestCaseCall();
 		if(requirementTarget == null) {
 			requirementTarget = Requirement.EMPTY_REQUIREMENT_ID;
@@ -423,7 +428,7 @@ public abstract class TestCase {
 		addTestResult(new TestResult(condition, requirementTarget, comment, se.getFileName(), se.getLineNumber(), this));
 	}
 
-	public void addTestResult(boolean condition, DomElementAble comment, Class<?> calledClass) {
+	public void addTestResult(boolean condition, DomElementAble comment) {
 		StackTraceElement se = StackTraceTool.getTestCaseCall();
 		if(requirementTarget == null) {
 			requirementTarget = Requirement.EMPTY_REQUIREMENT_ID;
@@ -431,7 +436,7 @@ public abstract class TestCase {
 		addTestResult(new TestResult(condition, requirementTarget, comment, se.getFileName(), se.getLineNumber(), this));
 	}
 
-	public void attachFile(File f, Attachment.Type type, Class<?> calledClass) {
+	public void attachFile(File f, Attachment.Type type) {
 		StackTraceElement se = StackTraceTool.getTestCaseCall();
 		if(report != null) {
 			report.attachFile(f, type, se.getFileName(), se.getLineNumber());
@@ -440,30 +445,14 @@ public abstract class TestCase {
 		}
 	}
 
-	public void attachFile(File f, Class<?> calledClass) {
-		if(report != null) {
-			this.report.attachFile(f, Attachment.Type.OTHER, calledClass);
-		} else {
-			ErrorsAndWarnings.addWarning("Cannot attach file '" + f.getAbsolutePath() + "': no source is available");
-		}
-	}
-
-	public void attachFile(File f, Attachment.Type type) {
-		if(report != null) {
-			this.report.attachFile(f, type, TestCase.class);
-		} else {
-			ErrorsAndWarnings.addWarning("Cannot attach file '" + f.getAbsolutePath() + "': no source is available");
-		}
-	}
-
 	public void attachFile(File f) {
 		if(report != null) {
-			this.report.attachFile(f, Attachment.Type.OTHER, TestCase.class);
+			attachFile(f, Attachment.Type.OTHER);
 		} else {
 			ErrorsAndWarnings.addWarning("Cannot attach file '" + f.getAbsolutePath() + "': no source is available");
 		}
 	}
-	
+
 	public void attachFile(File f, String fileName) {
 		if(report != null) {
 			this.report.attachFile(f, Attachment.Type.OTHER, fileName, TestCase.class);
@@ -481,19 +470,19 @@ public abstract class TestCase {
 		}
 	}
 
-
 	/**
-	 * Sets the current requirement. Call that method before performing checks about this requirement. 
-	 * @param requirementId The same id as in the SRD
+	 * Sets the current requirement. Call that method before performing checks about this requirement.
+	 * 
+	 * @param requirementId
+	 *            The same id as in the SRD
 	 */
 	protected void setRequirementTarget(String requirementId) {
 		if(requirementId != null) {
 			this.requirementTarget = requirementId;
 		} else {
 			StackTraceElement callingTestCase = StackTraceTool.getTestCaseCall();
-			ErrorsAndWarnings.addWarning("Requirement target '" + requirementId + 
-					"' does not exist (" + callingTestCase.getFileName() + " : " +
-					callingTestCase.getLineNumber() + ")");
+			ErrorsAndWarnings.addWarning("Requirement target '" + requirementId + "' does not exist (" + callingTestCase.getFileName()
+					+ " : " + callingTestCase.getLineNumber() + ")");
 			this.requirementTarget = Requirement.EMPTY_REQUIREMENT_ID;
 		}
 	}
@@ -503,8 +492,8 @@ public abstract class TestCase {
 	}
 
 	/**
-	 * Returns the current target Requirement.
-	 * That method is used to process Exceptions thrown during run()
+	 * Returns the current target Requirement. That method is used to process Exceptions thrown during run()
+	 * 
 	 * @return
 	 */
 	public String getRequirementTarget() {
@@ -513,7 +502,9 @@ public abstract class TestCase {
 
 	/**
 	 * Sets the current requirement when requirement is written in test case.
-	 * @param requirementId A new id, that cannot be found in SRD
+	 * 
+	 * @param requirementId
+	 *            A new id, that cannot be found in SRD
 	 */
 	protected void setInlineRequirement(String requirementId) {
 		setRequirementTarget(requirementId);
@@ -521,27 +512,31 @@ public abstract class TestCase {
 
 	/**
 	 * Stops the execution of the test case during expected time.
-	 * @param timeInSeconds The time to pause in seconds. Precision is millisecond.
+	 * 
+	 * @param timeInSeconds
+	 *            The time to pause in seconds. Precision is millisecond.
 	 */
 	protected void pause(double timeInSeconds) {
 		DateTime start = new DateTime();
 		try {
-			Thread.sleep((long)(timeInSeconds * 1000));
+			Thread.sleep((long) (timeInSeconds * 1000));
 			DateTime end = new DateTime();
 			long duration_ms = new Duration(start, end).getMillis();
 			comment("Duration = " + duration_ms + " ms");
-		} catch (InterruptedException e) {
+		} catch(InterruptedException e) {
 			e.printStackTrace();
 			ErrorsAndWarnings.addError("An Exception occured during Thread.sleep");
 		}
 	}
-	
+
 	/**
 	 * Stops the execution of the test case during expected time.
-	 * @param timeInSeconds The time to pause in seconds.
+	 * 
+	 * @param timeInSeconds
+	 *            The time to pause in seconds.
 	 */
 	protected void pause(int timeInSeconds) {
-		pause((double)timeInSeconds);
+		pause((double) timeInSeconds);
 	}
 
 	protected void suppressWarnings() {
@@ -553,27 +548,33 @@ public abstract class TestCase {
 	}
 
 	/**
-	 * That method is automatically called by TestHarness one time per test case.
-	 * You have to describe the scenario of your test case here.
-	 * @throws Throwable 
+	 * That method is automatically called by TestHarness one time per test case. You have to describe the scenario of your test case here.
+	 * 
+	 * @throws Throwable
 	 */
 	public abstract void run() throws Throwable;
 
 	/**
-	 * That method is automatically called by TestHarness just before calling run().
-	 * run() will be called only if beforeRun() returns TRUE
-	 * @throws Throwable 
+	 * That method is automatically called by TestHarness just before calling run(). run() will be called only if beforeRun() returns TRUE
+	 * 
+	 * @throws Throwable
 	 */
-	public void beforeRun() throws Throwable {}
+	public void beforeRun() throws Throwable {
+	}
 
 	/**
 	 * That method is automatically called by TestHarness just after calling run().
-	 * @throws Throwable 
+	 * 
+	 * @throws Throwable
 	 */
-	public void afterRun() throws Throwable {}
+	public void afterRun() throws Throwable {
+	}
 
 	public static TestCase createTestCaseFromDomElement(Element testCaseTag) {
-		TestCase result = new TestCase() { public void run() {} };
+		TestCase result = new TestCase() {
+			public void run() {
+			}
+		};
 		result.setName(testCaseTag.getAttributeValue(ATTRIBUTE_NAME));
 
 		String testSourceName = testCaseTag.getAttributeValue("test_source");
@@ -583,7 +584,7 @@ public abstract class TestCase {
 		}
 
 		for(Object testResultObject : testCaseTag.getChildren("test_result")) {
-			Element testResultTag = (Element)testResultObject;
+			Element testResultTag = (Element) testResultObject;
 			TestResult tr = TestResult.createTestResultFromDomElement(testResultTag);
 			result.addTestResult(tr);
 		}
@@ -592,9 +593,12 @@ public abstract class TestCase {
 
 	/**
 	 * Finds a TestCase from a list.
-	 * @param testCases		The list of TestCase objects to parse.
-	 * @param testCaseName	The name of the search TestCase object.
-	 * @return				The first TestCase object with searched name or <code>null</code> if no matching TestCase is found.
+	 * 
+	 * @param testCases
+	 *            The list of TestCase objects to parse.
+	 * @param testCaseName
+	 *            The name of the search TestCase object.
+	 * @return The first TestCase object with searched name or <code>null</code> if no matching TestCase is found.
 	 */
 	public static TestCase get(List<TestCase> testCases, String testCaseName) {
 		TestCase result = null;
@@ -625,9 +629,14 @@ public abstract class TestCase {
 
 	public static TestCase createNotRunningTestCase() {
 		return new TestCase() {
-			public void beforeRun() {}
-			public void run() {}
-			public void afterRun() {}
+			public void beforeRun() {
+			}
+
+			public void run() {
+			}
+
+			public void afterRun() {
+			}
 		};
 	}
 

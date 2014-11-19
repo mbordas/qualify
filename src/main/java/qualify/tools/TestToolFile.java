@@ -45,11 +45,11 @@ import qualify.testRunner.StreamListener;
 
 /**
  * Provides methods to easily manage files and directory from the File System.
+ * 
  * @author Mathieu Bordas
- *
  */
 public class TestToolFile {
-	
+
 	private TestCase testCase = null;
 
 	public final static String TEMPORARY_FILES_DIRECTORY = "tmp_files";
@@ -59,7 +59,7 @@ public class TestToolFile {
 	public TestToolFile(TestCase tc) {
 		testCase = tc;
 	}
-	
+
 	public static void exportResourceFile(String resourcePath, File destFile) throws IOException {
 		InputStream is = ClassLoader.getSystemClassLoader().getResourceAsStream(resourcePath);
 		destFile.getParentFile().mkdirs();
@@ -69,7 +69,9 @@ public class TestToolFile {
 
 	/**
 	 * Checks that the file does not exist.
-	 * @param expectedFileName The name of the file. That name is relative to TestHarness' working dir.
+	 * 
+	 * @param expectedFileName
+	 *            The name of the file. That name is relative to TestHarness' working dir.
 	 */
 	public boolean checkDoesntExist(String expectedFileName) {
 		File f = new File(expectedFileName);
@@ -85,7 +87,9 @@ public class TestToolFile {
 
 	/**
 	 * Checks that the file exists.
-	 * @param expectedFileName The name of the file. That name is relative to TestHarness' working dir.
+	 * 
+	 * @param expectedFileName
+	 *            The name of the file. That name is relative to TestHarness' working dir.
 	 */
 	public void checkExists(String expectedFileName) {
 		File f = new File(expectedFileName);
@@ -94,7 +98,9 @@ public class TestToolFile {
 
 	/**
 	 * Checks that the file exists and attaches it to the test case report.
-	 * @param expectedFileName The name of the file. That name is relative to TestHarness' working dir.
+	 * 
+	 * @param expectedFileName
+	 *            The name of the file. That name is relative to TestHarness' working dir.
 	 */
 	public void checkExistsAndAttach(String expectedFileName) {
 		File f = new File(expectedFileName);
@@ -105,18 +111,16 @@ public class TestToolFile {
 
 	/**
 	 * Checks that the file exists.
-	 * @param expectedFile The file to check.
+	 * 
+	 * @param expectedFile
+	 *            The file to check.
 	 */
 	public boolean checkExists(File expectedFile) {
 		if(expectedFile.exists()) {
-			testCase.addTestResult(true,
-					"file '" + expectedFile.getAbsolutePath() + "' exists",
-					TestToolFile.class);
+			testCase.addTestResult(true, "file '" + expectedFile.getAbsolutePath() + "' exists");
 			return true;
 		} else {
-			testCase.addTestResult(false,
-					"file '" + expectedFile.getAbsolutePath() + "' does not exist",
-					TestToolFile.class);
+			testCase.addTestResult(false, "file '" + expectedFile.getAbsolutePath() + "' does not exist");
 			return false;
 		}
 	}
@@ -132,9 +136,9 @@ public class TestToolFile {
 	public static String getExtension(File f) {
 		String fileName = f.getName();
 		String result = null;
-		if (fileName.lastIndexOf('.') != -1) {
+		if(fileName.lastIndexOf('.') != -1) {
 			result = fileName.substring(fileName.lastIndexOf('.'));
-			if (result.startsWith(".")) {
+			if(result.startsWith(".")) {
 				result = result.substring(1);
 			}
 		}
@@ -143,18 +147,16 @@ public class TestToolFile {
 
 	/**
 	 * Checks that the file does not exist.
-	 * @param expectedFile The file to check.
+	 * 
+	 * @param expectedFile
+	 *            The file to check.
 	 */
 	public boolean checkDoesntExist(File expectedFile) {
 		if(expectedFile.exists()) {
-			testCase.addTestResult(false,
-					"file '" + expectedFile.getAbsolutePath() + "' exists",
-					TestToolFile.class);
+			testCase.addTestResult(false, "file '" + expectedFile.getAbsolutePath() + "' exists");
 			return false;
 		} else {
-			testCase.addTestResult(true,
-					"file '" + expectedFile.getAbsolutePath() + "' does not exist",
-					TestToolFile.class);
+			testCase.addTestResult(true, "file '" + expectedFile.getAbsolutePath() + "' does not exist");
 			return true;
 		}
 	}
@@ -168,31 +170,33 @@ public class TestToolFile {
 
 	/**
 	 * Checks the CRC32 of the file.
-	 * @param expectedFile The file to check.
-	 * @param expectedChecksum The CRC32 checksum
+	 * 
+	 * @param expectedFile
+	 *            The file to check.
+	 * @param expectedChecksum
+	 *            The CRC32 checksum
 	 * @throws IOException
 	 */
 	public void checkCRC32Checksum(File expectedFile, long expectedChecksum) throws IOException {
 		if(expectedFile.exists()) {
 			if(expectedFile.isFile()) {
 				long testedChecksum = FileUtils.checksum(expectedFile, new CRC32()).getValue();
-				testCase.addTestResult(testedChecksum == expectedChecksum,
-						"expected file's CRC32 = '" + expectedChecksum + "' | tested CRC32 = '" + testedChecksum + "'",
-						TestToolFile.class);
+				testCase.addTestResult(testedChecksum == expectedChecksum, "expected file's CRC32 = '" + expectedChecksum
+						+ "' | tested CRC32 = '" + testedChecksum + "'");
 			} else {
-				testCase.addTestResult(false,
-						"expected file '" + expectedFile.getName() + "' id not a file", TestToolFile.class);
+				testCase.addTestResult(false, "expected file '" + expectedFile.getName() + "' id not a file");
 			}
 		} else {
-			testCase.addTestResult(false,
-					"expected file '" + expectedFile.getName() + "' does not exist", TestToolFile.class);
+			testCase.addTestResult(false, "expected file '" + expectedFile.getName() + "' does not exist");
 		}
 	}
 
 	/**
 	 * Recursively deletes the directory.
-	 * @param dirPath The name of the directory. That name is relative to TestHarness' working dir.
-	 * @throws IOException 
+	 * 
+	 * @param dirPath
+	 *            The name of the directory. That name is relative to TestHarness' working dir.
+	 * @throws IOException
 	 */
 	public static void deleteDir(String dirPath) throws IOException {
 		deleteDir(new File(dirPath));
@@ -204,8 +208,10 @@ public class TestToolFile {
 
 	/**
 	 * Recursively deletes all files and sub-directories of the directory.
-	 * @param dirPath The name of the directory. That name is relative to TestHarness' working dir.
-	 * @throws IOException 
+	 * 
+	 * @param dirPath
+	 *            The name of the directory. That name is relative to TestHarness' working dir.
+	 * @throws IOException
 	 */
 	public static void emptyDir(String dirPath) throws IOException {
 		emptyDir(new File(dirPath));
@@ -213,10 +219,12 @@ public class TestToolFile {
 
 	/**
 	 * Recursively deletes all files and sub-directories of the directory.
-	 * @param dirFile The directory's java.io.File.
-	 * @throws IOException 
+	 * 
+	 * @param dirFile
+	 *            The directory's java.io.File.
+	 * @throws IOException
 	 */
-	public static void emptyDir(File dirFile) throws IOException  {
+	public static void emptyDir(File dirFile) throws IOException {
 		try {
 			FileUtils.deleteDirectory(dirFile);
 			FileUtils.forceMkdir(dirFile);
@@ -230,13 +238,11 @@ public class TestToolFile {
 		String[] s = dirToList.list();
 		if(s != null) {
 			List<File> result = new ArrayList<File>();
-			for (int i=0; i < s.length; i++)
-			{
+			for(int i = 0; i < s.length; i++) {
 				File f = new File(dirToList.getAbsolutePath() + "/" + s[i]);
 				if(f.isFile()) {
 					Matcher m = p.matcher(s[i]);
-					if(m.matches())
-					{
+					if(m.matches()) {
 						result.add(f);
 					}
 				} else {
@@ -256,13 +262,11 @@ public class TestToolFile {
 		Pattern p = Pattern.compile(nameFilter);
 		String[] s = dirToList.list();
 		List<File> result = new ArrayList<File>();
-		for (int i=0; i<s.length;i++)
-		{
+		for(int i = 0; i < s.length; i++) {
 			File f = new File(dirToList.getAbsolutePath() + "/" + s[i]);
 			if(f.isDirectory()) {
 				Matcher m = p.matcher(s[i]);
-				if(m.matches())
-				{
+				if(m.matches()) {
 					result.add(f);
 				}
 			}
@@ -271,8 +275,10 @@ public class TestToolFile {
 	}
 
 	/**
-	 * @param inputFile The file to parse
-	 * @param expectedString The string to find
+	 * @param inputFile
+	 *            The file to parse
+	 * @param expectedString
+	 *            The string to find
 	 * @return true if expectedString is found in inputFile
 	 * @throws IOException
 	 */
@@ -282,8 +288,11 @@ public class TestToolFile {
 
 	/**
 	 * Checks that the expected String is found at least one time in the input File
-	 * @param inputFile The File to parse
-	 * @param expectedString The String to find
+	 * 
+	 * @param inputFile
+	 *            The File to parse
+	 * @param expectedString
+	 *            The String to find
 	 * @return
 	 */
 	public boolean checkFind(File inputFile, String expectedString) {
@@ -291,27 +300,25 @@ public class TestToolFile {
 		try {
 			result = find(inputFile, expectedString);
 			if(result == true) {
-				testCase.addTestResult(true,
-						"expected string '" + expectedString + "' found in file '" + inputFile.getAbsolutePath() + "'",
-						TestToolFile.class);
+				testCase.addTestResult(true, "expected string '" + expectedString + "' found in file '" + inputFile.getAbsolutePath() + "'");
 			} else {
-				testCase.addTestResult(false,
-						"expected string '" + expectedString + "' not found in file '" + inputFile.getAbsolutePath() + "'",
-						TestToolFile.class);
+				testCase.addTestResult(false, "expected string '" + expectedString + "' not found in file '" + inputFile.getAbsolutePath()
+						+ "'");
 			}
-		} catch (IOException e) {
+		} catch(IOException e) {
 			result = false;
-			testCase.addTestResult(false,
-					"file '" + inputFile.getAbsolutePath() + "' does not exist",
-					TestToolFile.class);
+			testCase.addTestResult(false, "file '" + inputFile.getAbsolutePath() + "' does not exist");
 		}
 		return result;
 	}
 
 	/**
 	 * Checks that the expected String is not found in the input File
-	 * @param inputFile The File to parse
-	 * @param expectedString The String to look for
+	 * 
+	 * @param inputFile
+	 *            The File to parse
+	 * @param expectedString
+	 *            The String to look for
 	 * @return true if unexpectedString is not found in inputFile
 	 */
 	public boolean checkNotFound(File inputFile, String expectedString) {
@@ -319,19 +326,15 @@ public class TestToolFile {
 		try {
 			result = find(inputFile, expectedString);
 			if(result == false) {
-				testCase.addTestResult(true,
-						"unexpected string '" + expectedString + "' not found in file '" + inputFile.getAbsolutePath() + "'",
-						TestToolFile.class);
+				testCase.addTestResult(true, "unexpected string '" + expectedString + "' not found in file '" + inputFile.getAbsolutePath()
+						+ "'");
 			} else {
-				testCase.addTestResult(false,
-						"unexpected string '" + expectedString + "' found in file '" + inputFile.getAbsolutePath() + "'",
-						TestToolFile.class);
+				testCase.addTestResult(false, "unexpected string '" + expectedString + "' found in file '" + inputFile.getAbsolutePath()
+						+ "'");
 			}
-		} catch (IOException e) {
+		} catch(IOException e) {
 			result = false;
-			testCase.addTestResult(false,
-					"file '" + inputFile.getAbsolutePath() + "' does not exist",
-					TestToolFile.class);
+			testCase.addTestResult(false, "file '" + inputFile.getAbsolutePath() + "' does not exist");
 			e.printStackTrace();
 		}
 		return result;
@@ -344,13 +347,13 @@ public class TestToolFile {
 		BufferedReader br = new BufferedReader(ipsr);
 		String ligne;
 		int lineNumber = 0;
-		while ((ligne = br.readLine()) != null){
+		while((ligne = br.readLine()) != null) {
 			lineNumber++;
-			if(ligne.indexOf(searchedValue) != -1 ) {
+			if(ligne.indexOf(searchedValue) != -1) {
 				result = lineNumber;
 			}
 		}
-		br.close();	
+		br.close();
 		ipsr.close();
 		ips.close();
 		return result;
@@ -365,7 +368,7 @@ public class TestToolFile {
 		String fileContent = getContentAsString(inputFile, Charset.defaultCharset().displayName());
 
 		for(String line : fileContent.split("\\r?\\n")) {
-			if(line.indexOf(searchedValue) != -1 ) {
+			if(line.indexOf(searchedValue) != -1) {
 				result.add(line);
 			}
 		}
@@ -379,20 +382,17 @@ public class TestToolFile {
 			freader = new InputStreamReader(is, Charset.forName(encoding));
 			char array[] = new char[2000];
 			int read = 0;
-			while ( (read = freader.read(array)) > -1) {
-				if (read > 0) {
+			while((read = freader.read(array)) > -1) {
+				if(read > 0) {
 					buf.append(array, 0, read);
-				}
-				else {
+				} else {
 					Thread.sleep(50);
 				}
 			}
-		}
-		catch (Exception ex) {
+		} catch(Exception ex) {
 			ex.printStackTrace();
-		}
-		finally{
-			if (freader != null){
+		} finally {
+			if(freader != null) {
 				freader.close();
 			}
 		}
@@ -438,7 +438,7 @@ public class TestToolFile {
 		InputStream input = null;
 		FileOutputStream fos = null;
 
-		try	{
+		try {
 			URLConnection connection = url.openConnection();
 			int fileLength = connection.getContentLength();
 
@@ -453,25 +453,25 @@ public class TestToolFile {
 			byte[] buffer = new byte[1024];
 			int read;
 
-			while ((read = input.read(buffer)) > 0) {
+			while((read = input.read(buffer)) > 0) {
 				fos.write(buffer, 0, read);
 			}
 			fos.flush();
-		} catch (IOException e)	{
+		} catch(IOException e) {
 			ErrorsAndWarnings.addError("Error while trying to download from url: " + url);
 			e.printStackTrace();
 		} finally {
-			try	{
+			try {
 				fos.close();
 				input.close();
-			} catch (IOException e) {
+			} catch(IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
 	public static void createFile(File file) throws IOException {
-		if(! file.exists()) {
+		if(!file.exists()) {
 			if(file.getParentFile() != null) {
 				createDir(file.getParentFile());
 			}
@@ -513,20 +513,20 @@ public class TestToolFile {
 			bw = new BufferedWriter(fw);
 			bw.write(text);
 			bw.flush();
-		} catch (IOException e) {
+		} catch(IOException e) {
 			ErrorsAndWarnings.addException(e);
 		} finally {
-			if (bw != null) {
+			if(bw != null) {
 				try {
 					bw.close();
-				} catch (IOException e) {
+				} catch(IOException e) {
 					ErrorsAndWarnings.addException(e);
 				}
 			}
-			if (fw != null) {
+			if(fw != null) {
 				try {
 					fw.close();
-				} catch (IOException e) {
+				} catch(IOException e) {
 					ErrorsAndWarnings.addException(e);
 				}
 			}
@@ -573,7 +573,7 @@ public class TestToolFile {
 		try {
 			emptyDir(TEMPORARY_FILES_DIRECTORY);
 			deleteDir(TEMPORARY_FILES_DIRECTORY);
-		} catch (IOException e) {
+		} catch(IOException e) {
 			ErrorsAndWarnings.addException(e);
 		}
 	}
@@ -585,8 +585,8 @@ public class TestToolFile {
 			}
 			destDir.mkdirs();
 			FileUtils.copyDirectory(srcDir, destDir);
-		} catch (IOException e) {
-			this.testCase.addTestResult(false, e.getMessage(), TestToolFile.class);
+		} catch(IOException e) {
+			this.testCase.addTestResult(false, e.getMessage());
 			ErrorsAndWarnings.addException(e);
 		}
 

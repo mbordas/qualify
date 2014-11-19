@@ -40,23 +40,16 @@ import qualify.TestHarness;
 import qualify.TestResult;
 import qualify.tools.TestToolStrings;
 
-
 public class ReleaseNote {
 
 	static Logger logger = Logger.getLogger(ReleaseNote.class);
 
-	public static final String
-	ELEMENT_ROOT_NAME = "release_note",
-	ATTRIBUTE_SUT_NAME = "sut_name",
-	ATTRIBUTE_SUT_DATE = "date",
-	ATTRIBUTE_SUT_VERSION = "version";
+	public static final String ELEMENT_ROOT_NAME = "release_note", ATTRIBUTE_SUT_NAME = "sut_name", ATTRIBUTE_SUT_DATE = "date",
+			ATTRIBUTE_SUT_VERSION = "version";
 
-	private String
-	sutName = null,
-	sutDate = null,
-	sutVersion = null;
+	private String sutName = null, sutDate = null, sutVersion = null;
 
-	private List<Requirement> requirements = null;
+	private List<Requirement> requirements = new ArrayList<Requirement>();;
 
 	public ReleaseNote(File xmlFile) {
 		// Warnings are suppressed during Release note parsing. If not, multiple checks at same line are raised
@@ -73,16 +66,14 @@ public class ReleaseNote {
 					sutDate = releaseNoteDocument.getRootElement().getAttribute(ATTRIBUTE_SUT_DATE).getValue();
 					sutVersion = releaseNoteDocument.getRootElement().getAttribute(ATTRIBUTE_SUT_VERSION).getValue();
 
-					requirements = new ArrayList<Requirement>();
-
 					for(Object requirementTagObject : releaseNoteDocument.getRootElement().getChildren("requirement")) {
-						Element requirementTag = (Element)requirementTagObject;
+						Element requirementTag = (Element) requirementTagObject;
 						requirements.add(Requirement.createRequirementFromDomElement(requirementTag));
 					}
-				} catch (JDOMException e) {
+				} catch(JDOMException e) {
 					e.printStackTrace();
 					ErrorsAndWarnings.addError("Release note reading Exception : " + e.getMessage());
-				} catch (IOException e) {
+				} catch(IOException e) {
 					e.printStackTrace();
 					ErrorsAndWarnings.addError("Release note reading Exception : " + e.getMessage());
 				}
@@ -128,7 +119,7 @@ public class ReleaseNote {
 		double successfulChecksPercent = 100 * numberOfSuccessfulChecks / Math.max(numberOfChecks, 0.001);
 		double successfulTestCasesPercent = 100 * numberOfSuccessfulTestCases / Math.max(numberOfTestCases, 0.001);
 		double successfulRequirementsPercent = 100 * numberOfSuccessfulRequirements / Math.max(numberOfRequirements, 0.001);
-		logger.debug("Number of requirements: " + numberOfRequirements +", Successful requirements: " + numberOfSuccessfulRequirements);
+		logger.debug("Number of requirements: " + numberOfRequirements + ", Successful requirements: " + numberOfSuccessfulRequirements);
 
 		Element root = new Element(ELEMENT_ROOT_NAME);
 		root.setAttribute("sut_name", Qualify.getOptionParameter("sut_name"));
@@ -142,14 +133,14 @@ public class ReleaseNote {
 
 		// Attaching the XSL
 		HashMap<String, String> piMap = new HashMap<String, String>(2);
-		piMap.put( "type", "text/xsl" );
-		piMap.put( "href", "style/release_note.xsl" );
+		piMap.put("type", "text/xsl");
+		piMap.put("href", "style/release_note.xsl");
 		ProcessingInstruction pi = new ProcessingInstruction("xml-stylesheet", piMap);
 		doc.getContent().add(0, pi);
 
 		// Copying XSL, CSS, JS and PNG from jar's resources next to the new XML
 		DocumentUtils.generateStyleFolder(outputFile.getParentFile());
-		
+
 		for(String errMessage : ErrorsAndWarnings.getErrors()) {
 			Element errorElement = new Element("error");
 			errorElement.setText(errMessage);
@@ -191,8 +182,7 @@ public class ReleaseNote {
 			FileOutputStream fos = new FileOutputStream(outputFile);
 			serializer.output(doc, fos);
 			fos.close();
-		}
-		catch (IOException e) {
+		} catch(IOException e) {
 			System.err.println(e);
 		}
 
@@ -210,16 +200,16 @@ public class ReleaseNote {
 					releaseNoteDocument = parser.build(releaseNote);
 
 					for(Object requirementTagObject : releaseNoteDocument.getRootElement().getChildren(Requirement.ELEMENT_NAME)) {
-						Element requirementTag = (Element)requirementTagObject;
+						Element requirementTag = (Element) requirementTagObject;
 						if(requirementTag != null) {
 							logger.debug("Parsing requirement '" + requirementTag.getAttributeValue("id"));
 							result.addAll(getFailedTestCasesFromRequirementTag(requirementTag));
 						}
 					}
-				} catch (JDOMException e) {
+				} catch(JDOMException e) {
 					e.printStackTrace();
 					ErrorsAndWarnings.addError("Release Note reading Exception : " + e.getMessage());
-				} catch (IOException e) {
+				} catch(IOException e) {
 					e.printStackTrace();
 					ErrorsAndWarnings.addError("Release Note reading Exception : " + e.getMessage());
 				}
@@ -243,7 +233,7 @@ public class ReleaseNote {
 					releaseNoteDocument = parser.build(referenceReleaseNote);
 
 					for(Object requirementTagObject : releaseNoteDocument.getRootElement().getChildren(Requirement.ELEMENT_NAME)) {
-						Element requirementTag = (Element)requirementTagObject;
+						Element requirementTag = (Element) requirementTagObject;
 						if(requirementTag != null) {
 							if(requirement.equals(requirementTag.getAttributeValue("id"))) {
 								logger.debug("Parsing requirement '" + requirementTag.getAttributeValue("id"));
@@ -251,10 +241,10 @@ public class ReleaseNote {
 							}
 						}
 					}
-				} catch (JDOMException e) {
+				} catch(JDOMException e) {
 					e.printStackTrace();
 					ErrorsAndWarnings.addError("reference Release Note reading Exception : " + e.getMessage());
-				} catch (IOException e) {
+				} catch(IOException e) {
 					e.printStackTrace();
 					ErrorsAndWarnings.addError("reference Release Note reading Exception : " + e.getMessage());
 				}
@@ -271,12 +261,12 @@ public class ReleaseNote {
 		List<String> result = new ArrayList<String>();
 		// Adding direct children
 		for(Object testCaseElement : requirementTag.getChildren(TestCase.ELEMENT_NAME)) {
-			Element testCaseTag = (Element)testCaseElement;
+			Element testCaseTag = (Element) testCaseElement;
 			result.add(testCaseTag.getAttributeValue("name").replaceAll("\\.java", "").replaceAll("\\.groovy", ""));
 		}
 		// Adding sub-requirements' children recursively
 		for(Object requirementElement : requirementTag.getChildren(Requirement.ELEMENT_NAME)) {
-			Element subRequirementTag = (Element)requirementElement;
+			Element subRequirementTag = (Element) requirementElement;
 			result.addAll(getTestCasesFromRequirementTag(subRequirementTag));
 		}
 		return result;
@@ -284,17 +274,18 @@ public class ReleaseNote {
 
 	/**
 	 * Lists the names of the failed test cases
+	 * 
 	 * @param requirementTag
 	 * @return
 	 */
 	private static List<String> getFailedTestCasesFromRequirementTag(Element requirementTag) {
 		List<String> result = new LinkedList<String>();
 		for(Object testCaseElement : requirementTag.getChildren(TestCase.ELEMENT_NAME)) {
-			Element testCaseTag = (Element)testCaseElement;
+			Element testCaseTag = (Element) testCaseElement;
 			boolean hasFailures = false;
 			boolean hasResult = false;
 			for(Object testResultObject : testCaseTag.getChildren(TestResult.TAG_NAME)) {
-				Element testResultElement = (Element)testResultObject;
+				Element testResultElement = (Element) testResultObject;
 				String value = testResultElement.getAttributeValue(TestResult.RESULT_ATTRIBUTE_NAME).toString();
 				if(TestResult.RESULT_NOK_VALUE.equals(value)) {
 					hasFailures = true;
@@ -304,21 +295,22 @@ public class ReleaseNote {
 			}
 			if(hasFailures || !hasResult) {
 				String testCaseName = testCaseTag.getAttributeValue(TestCase.ATTRIBUTE_NAME).toString();
-				if(! result.contains(testCaseName)) {
+				if(!result.contains(testCaseName)) {
 					result.add(testCaseName);
 				}
 			}
 		}
 		for(Object subRequirementObject : requirementTag.getChildren(Requirement.ELEMENT_NAME)) {
-			Element subRequirementTag = (Element)subRequirementObject;
+			Element subRequirementTag = (Element) subRequirementObject;
 			result.addAll(getFailedTestCasesFromRequirementTag(subRequirementTag));
 		}
 		return result;
 	}
 
 	/**
-	 * Compares results of current tests campaign to the results from the referenced release note.
-	 * If Regressions are detected, Errors are generated.
+	 * Compares results of current tests campaign to the results from the referenced release note. If Regressions are detected, Errors are
+	 * generated.
+	 * 
 	 * @param referenceReleaseNote
 	 * @return true if regressions are detected from reference's release note
 	 */
@@ -334,11 +326,11 @@ public class ReleaseNote {
 				ErrorsAndWarnings.addError("Regression found : Requirement '" + reqFromReference.getId() + "' not found.");
 				regressionsDetected = true;
 			} else
-				// checking that the requirement's result is not going from OK to NOK
-				if(reqFromReference.isSuccessful() && !reqFromCurrentCampaign.isSuccessful()) {
-					ErrorsAndWarnings.addError("Regression found : Requirement '" + reqFromReference.getId() + "' is no more successful");
-					regressionsDetected = true;
-				}
+			// checking that the requirement's result is not going from OK to NOK
+			if(reqFromReference.isSuccessful() && !reqFromCurrentCampaign.isSuccessful()) {
+				ErrorsAndWarnings.addError("Regression found : Requirement '" + reqFromReference.getId() + "' is no more successful");
+				regressionsDetected = true;
+			}
 			logger.debug("REQ: " + reqFromReference.getId() + " : " + reqFromReference.isSuccessful());
 		}
 

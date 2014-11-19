@@ -96,9 +96,9 @@ public abstract class TestToolSelenium {
 		boolean result = false;
 		result = (findElementById(elementId) != null);
 		if(result == true) {
-			testCase.addTestResult(true, "Expected dom element found from id '" + elementId + "'", TestToolSeleniumFirefox.class);
+			testCase.addTestResult(true, "Expected dom element found from id '" + elementId + "'");
 		} else {
-			testCase.addTestResult(false, "Expected dom element not found from id '" + elementId + "'", TestToolSeleniumFirefox.class);
+			testCase.addTestResult(false, "Expected dom element not found from id '" + elementId + "'");
 		}
 		return result;
 	}
@@ -114,8 +114,7 @@ public abstract class TestToolSelenium {
 		if(w != null) {
 			w.click();
 		} else {
-			testCase.addTestResult(false, "Cannot click on null element (identifier='" + elementIdentifier + "').",
-					TestToolSeleniumFirefox.class);
+			testCase.addTestResult(false, "Cannot click on null element (identifier='" + elementIdentifier + "').");
 		}
 	}
 
@@ -130,8 +129,7 @@ public abstract class TestToolSelenium {
 		if(w != null) {
 			((JavascriptExecutor) driver).executeScript("arguments[0].click();", w);
 		} else {
-			testCase.addTestResult(false, "Cannot click on null element (identifier='" + elementIdentifier + "').",
-					TestToolSeleniumFirefox.class);
+			testCase.addTestResult(false, "Cannot click on null element (identifier='" + elementIdentifier + "').");
 		}
 	}
 
@@ -143,7 +141,7 @@ public abstract class TestToolSelenium {
 		} else {
 			result = false;
 		}
-		testCase.addTestResult(result, "regex=" + textRegex + " | tested=" + alertText, TestToolSeleniumFirefox.class);
+		testCase.addTestResult(result, "regex=" + textRegex + " | tested=" + alertText);
 		return result;
 	}
 
@@ -160,18 +158,21 @@ public abstract class TestToolSelenium {
 		if(w != null) {
 			w.sendKeys(textToType);
 		} else {
-			testCase.addTestResult(false, "Cannot type on null element (identifier='" + elementIdentifier + "').",
-					TestToolSeleniumFirefox.class);
+			testCase.addTestResult(false, "Cannot type on null element (identifier='" + elementIdentifier + "').");
 		}
 	}
 
+	/**
+	 * Clear text of element.
+	 * 
+	 * @param elementIdentifier
+	 */
 	public void clear(String elementIdentifier) {
 		WebElement w = findElement(getElementIdentifier(elementIdentifier));
 		if(w != null) {
 			w.clear();
 		} else {
-			testCase.addTestResult(false, "Cannot type on null element (identifier='" + elementIdentifier + "').",
-					TestToolSeleniumFirefox.class);
+			testCase.addTestResult(false, "Cannot type on null element (identifier='" + elementIdentifier + "').");
 		}
 	}
 
@@ -213,7 +214,7 @@ public abstract class TestToolSelenium {
 		try {
 			page = TestToolFile.createNewTemporaryFile("html");
 		} catch(IOException e1) {
-			testCase.addTestResult(false, "IOException raised: " + e1.getLocalizedMessage(), TestToolSelenium.class);
+			testCase.addTestResult(false, "IOException raised: " + e1.getLocalizedMessage());
 			ErrorsAndWarnings.addException(e1);
 		}
 		try {
@@ -241,7 +242,7 @@ public abstract class TestToolSelenium {
 				result = getElementIdentifier(obj);
 			} else {
 				testCase.addTestResult(false, "Web element from identifier '" + webElementIdentifier
-						+ "' does not exist in object repositories.", TestToolSelenium.class);
+						+ "' does not exist in object repositories.");
 			}
 		} else {
 			result = new By.ById(webElementIdentifier);
@@ -294,11 +295,20 @@ public abstract class TestToolSelenium {
 		boolean result = false;
 		WebElement element = findElementById(elementId);
 		if(element != null) {
-			result = TestToolStrings.checkEquality(testCase, expectedValue, element.getText(), caseSensitive);
+			String text = getText(elementId);
+			result = TestToolStrings.checkEquality(testCase, expectedValue, text, caseSensitive);
 		} else {
 			result = false;
-			testCase.addTestResult(false, "Web element not found with identifier '" + elementId, TestToolSelenium.class);
+			testCase.addTestResult(false, "Web element not found with identifier '" + elementId);
 		}
+		return result;
+	}
+
+	public boolean checkText(String elementId, Double expectedValue, double epsilon) {
+		boolean result = false;
+		Double testedValue = Double.valueOf(getText(elementId));
+		TestToolNumbers numbers = new TestToolNumbers(testCase);
+		numbers.checkEquality(expectedValue, testedValue, epsilon);
 		return result;
 	}
 
@@ -313,7 +323,7 @@ public abstract class TestToolSelenium {
 			result = TestToolStrings.checkEquality(testCase, expectedValue, element.getAttribute("value"), caseSensitive);
 		} else {
 			result = false;
-			testCase.addTestResult(false, "Web element not found with identifier '" + elementId, TestToolSelenium.class);
+			testCase.addTestResult(false, "Web element not found with identifier '" + elementId);
 		}
 		return result;
 	}
@@ -331,20 +341,36 @@ public abstract class TestToolSelenium {
 			result = TestToolStrings.checkEquality(testCase, expectedValue, selectedOption.getText(), caseSensitive);
 		} else {
 			result = false;
-			testCase.addTestResult(false, "Web element not found with identifier '" + elementId, TestToolSelenium.class);
+			testCase.addTestResult(false, "Web element not found with identifier '" + elementId);
 		}
 		return result;
 	}
 
+	/**
+	 * Returns the text or the 'value' attribute of element.
+	 * 
+	 * @param elementId
+	 * @return
+	 */
 	public String getText(String elementId) {
 		WebElement element = findElementById(elementId);
 		if(element != null) {
-			return element.getText();
+			if(element.getTagName().equals("input")) {
+				return element.getAttribute("value");
+			} else {
+				return element.getText();
+			}
 		} else {
 			throw new TestException("Web element not found with identifier '" + elementId + "'");
 		}
 	}
 
+	/**
+	 * Returns the 'value' attribute of element.
+	 * 
+	 * @param elementId
+	 * @return
+	 */
 	public String getValue(String elementId) {
 		WebElement element = findElementById(elementId);
 		if(element != null) {
@@ -352,6 +378,17 @@ public abstract class TestToolSelenium {
 		} else {
 			throw new TestException("Web element not found with identifier '" + elementId + "'");
 		}
+	}
+
+	/**
+	 * Clears input text then type <code>value</code>.
+	 * 
+	 * @param elementId
+	 * @param value
+	 */
+	public void setInput(String elementId, String value) {
+		clear(elementId);
+		type(elementId, value);
 	}
 
 }

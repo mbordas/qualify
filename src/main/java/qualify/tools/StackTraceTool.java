@@ -34,7 +34,7 @@ public class StackTraceTool {
 						logger.debug("alternative stack[" + j + "]: " + stack[j].getFileName() + ":" + stack[j].getLineNumber());
 						if(stack[j].getFileName() != null) {
 							if(stack[j].getFileName().equals("TestHarness.java")) {
-								return stack[j-1];
+								return stack[j - 1];
 							}
 						}
 					}
@@ -48,7 +48,7 @@ public class StackTraceTool {
 			for(int j = 0; j < stack.length; j++) {
 				if(stack[i] != null) {
 					try {
-						Class superClazz = Class.forName(stack[i].getClassName()).getSuperclass();
+						Class<?> superClazz = Class.forName(stack[i].getClassName()).getSuperclass();
 						while(superClazz != null) {
 							if(TestCase.class == superClazz) {
 								result = stack[i];
@@ -56,7 +56,7 @@ public class StackTraceTool {
 							}
 							superClazz = superClazz.getSuperclass();
 						}
-					} catch (ClassNotFoundException e) {
+					} catch(ClassNotFoundException e) {
 						logger.debug("alternative stack length: " + stack.length);
 					}
 				}
@@ -65,7 +65,7 @@ public class StackTraceTool {
 		return result;
 	}
 
-	public static StackTraceElement getCall(StackTraceElement[] stackTrace,	String throwingClass) {
+	public static StackTraceElement getCall(StackTraceElement[] stackTrace, String throwingClass) {
 		logger.error("getCall class=" + throwingClass);
 		if(throwingClass == null) {
 			return stackTrace[1];
