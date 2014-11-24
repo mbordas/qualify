@@ -82,29 +82,44 @@ public class TestToolDates {
 	 * @param testedDate
 	 *            The verified date object
 	 */
-	public void checkEquality(Date expectedDate, Date testedDate) {
+	public boolean checkDayEquality(Date expectedDate, Date testedDate) {
+		return checkTimeEquality(expectedDate, testedDate, DEFAULT_SIMPLE_FORMAT);
+	}
+
+	public boolean checkTimeEquality(Date expectedDate, Date testedDate) {
+		return checkTimeEquality(expectedDate, testedDate, DEFAULT_TIMESTAMP_FORMAT);
+	}
+
+	public boolean checkTimeEquality(Date expectedDate, Date testedDate, String dateFormat) {
+		boolean result = false;
+
 		if(testedDate == null) {
 			if(expectedDate == null) {
-				testCase.addTestResult(true, "expected date is null | tested date is null");
+				result = true;
+				testCase.addTestResult(result, "expected date is null | tested date is null");
 			} else {
-				testCase.addTestResult(false, "expected='" + toString(expectedDate, DEFAULT_SIMPLE_FORMAT) + "' [" + DEFAULT_SIMPLE_FORMAT
+				result = false;
+				testCase.addTestResult(result, "expected='" + toString(expectedDate, dateFormat) + "' [" + dateFormat
 						+ "] | tested date is null");
 			}
 		} else {
 			if(expectedDate == null) {
-				testCase.addTestResult(false, "expected date is null | tested='" + toString(testedDate, DEFAULT_SIMPLE_FORMAT) + "' ["
-						+ DEFAULT_SIMPLE_FORMAT + "]");
+				result = false;
+				testCase.addTestResult(result, "expected date is null | tested='" + toString(testedDate, dateFormat) + "' [" + dateFormat
+						+ "]");
 			} else {
-				String testedDateString = toString(testedDate, DEFAULT_SIMPLE_FORMAT);
-				if(testedDateString.equals(toString(expectedDate, DEFAULT_SIMPLE_FORMAT))) {
-					testCase.addTestResult(true, "expected='" + toString(expectedDate, DEFAULT_SIMPLE_FORMAT) + "' ["
-							+ DEFAULT_SIMPLE_FORMAT + "] | tested='" + testedDateString + "' [" + DEFAULT_SIMPLE_FORMAT + "]");
+				String testedDateString = toString(testedDate, dateFormat);
+				if(testedDateString.equals(toString(expectedDate, dateFormat))) {
+					result = true;
 				} else {
-					testCase.addTestResult(false, "expected='" + toString(expectedDate, DEFAULT_SIMPLE_FORMAT) + "' ["
-							+ DEFAULT_SIMPLE_FORMAT + "] | tested='" + testedDateString + "' [" + DEFAULT_SIMPLE_FORMAT + "]");
+					result = false;
 				}
+				testCase.addTestResult(result, "expected='" + toString(expectedDate, dateFormat) + "' [" + dateFormat + "] | tested='"
+						+ testedDateString + "' [" + dateFormat + "]");
 			}
 		}
+
+		return result;
 	}
 
 	public void checkAfter(DateTime limitDate, DateTime testedDate) {
