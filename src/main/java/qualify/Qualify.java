@@ -35,33 +35,17 @@ public class Qualify {
 	static Logger logger = Logger.getLogger(Qualify.class);
 
 	// Options
-	public static final String OPTION_OPTIONS_FILE = "option_file",
-	OPTION_TEST_CASE_LIST_NAME= "list",
-	OPTION_SUT_NAME = "sut_name",
-	OPTION_SUT_VERSION = "sut_version",
-	OPTION_SUT_DATE = "sut_date",
-	OPTION_SOURCE_DIRS = "source_dirs",
-	OPTION_SCRIPT_DIRS = "script_dirs",
-	OPTION_SCRIPT_DEPENDENCIES_DIRS = "script_dependencies_dirs",
-	OPTION_SCRIPT_PREPROCESSORS_DIRS = "script_preprocessors_dirs",
-	OPTION_RUN_ON_ERROR = "run_on_error",
-	OPTION_OBJECT_REPOSITORIES_DIRS = "object_repositories_dirs",
-	OPTION_SRD_FILE = "srd_file",
-	OPTION_RELEASE_NOTE_FILE_NAME = "release_note",
-	OPTION_CONTINUOUS_RELEASE_NOTE = "continuous_release_note",
-	OPTION_REFERENCE_RELEASE_NOTE = "reference_release_note",
-	OPTION_TEST_CASE_TABLE_FILE_NAME = "test_case_table",
-	OPTION_RESULT_DIR = "result_dir",
-	OPTION_SINGLE_TEST_TO_RUN = "test",
-	OPTION_KEYWORD_TO_TEST = "keyword",
-	OPTION_REQUIREMENT_TO_TEST = "requirement",
-	OPTION_NO_SANITY = "no_sanity",
-	OPTION_RUN_LAST_FAILED = "run_last_failed",
-	OPTION_LOG_LEVEL = "log_level",
-	OPTION_LOG_OUTPUT_FILE_NAME = "log_file",
-	OPTION_HTTP_SERVER = "http_server",
-	OPTION_HTTP_SERVER_WEBAPPS_DIR = "http_server_webapps_dir",
-	OPTION_HTTP_SERVER_ROOT_DIR = "http_server_root_dir";
+	public static final String OPTION_OPTIONS_FILE = "option_file", OPTION_TEST_CASE_LIST_NAME = "list", OPTION_SUT_NAME = "sut_name",
+			OPTION_SUT_VERSION = "sut_version", OPTION_SUT_DATE = "sut_date", OPTION_SOURCE_DIRS = "source_dirs",
+			OPTION_SCRIPT_DIRS = "script_dirs", OPTION_SCRIPT_DEPENDENCIES_DIRS = "script_dependencies_dirs",
+			OPTION_SCRIPT_PREPROCESSORS_DIRS = "script_preprocessors_dirs", OPTION_RUN_ON_ERROR = "run_on_error",
+			OPTION_OBJECT_REPOSITORIES_DIRS = "object_repositories_dirs", OPTION_SRD_FILE = "srd_file",
+			OPTION_RELEASE_NOTE_FILE_NAME = "release_note", OPTION_CONTINUOUS_RELEASE_NOTE = "continuous_release_note",
+			OPTION_REFERENCE_RELEASE_NOTE = "reference_release_note", OPTION_TEST_CASE_TABLE_FILE_NAME = "test_case_table",
+			OPTION_RESULT_DIR = "result_dir", OPTION_SINGLE_TEST_TO_RUN = "test", OPTION_KEYWORD_TO_TEST = "keyword",
+			OPTION_REQUIREMENT_TO_TEST = "requirement", OPTION_NO_SANITY = "no_sanity", OPTION_RUN_LAST_FAILED = "run_last_failed",
+			OPTION_LOG_LEVEL = "log_level", OPTION_LOG_OUTPUT_FILE_NAME = "log_file", OPTION_HTTP_SERVER = "http_server",
+			OPTION_HTTP_SERVER_WEBAPPS_DIR = "http_server_webapps_dir", OPTION_HTTP_SERVER_ROOT_DIR = "http_server_root_dir";
 
 	private static HashMap<String, String> options = null;
 
@@ -69,7 +53,7 @@ public class Qualify {
 		Qualify.initLogs();
 
 		if(args.length == 0) {
-			args = new String[]{"-" + OPTION_OPTIONS_FILE, "options.xml"};
+			args = new String[] { "-" + OPTION_OPTIONS_FILE, "options.xml" };
 		}
 
 		CommandLineTool cmd = new CommandLineTool(args);
@@ -80,7 +64,7 @@ public class Qualify {
 			logger.info("Setting log file: " + logFileName);
 			try {
 				Qualify.setLogFile(logFileName);
-			} catch (IOException e) {
+			} catch(IOException e) {
 				e.printStackTrace();
 				ErrorsAndWarnings.addError("Cannot set log file '" + new File(logFileName).getAbsolutePath() + "'");
 			}
@@ -98,7 +82,7 @@ public class Qualify {
 			logger.info("Starting HTTP Server using port: " + serverPort);
 			try {
 				new HTTPServer(serverPort);
-			} catch (Exception e) {
+			} catch(Exception e) {
 				e.printStackTrace();
 				ErrorsAndWarnings.addError("Launching HTTP Server failed.");
 			}
@@ -138,15 +122,15 @@ public class Qualify {
 	}
 
 	// Logger initialization
-	public static final String LOGGER_PATTERN = "%d %-3p - %m%n";
+	public static final String LOGGER_PATTERN = "%d{ISO8601} [%.20t] %-5p %c %x - %m%n";
 	public static String LOGGER_OUTPUT_FILE_NAME = "traces.txt";
 	private static boolean initialized = false;
-	
+
 	public static synchronized void initLogs() {
 		if(initialized == false) {
 			boolean consoleAppenderExists = false;
 			@SuppressWarnings("unchecked")
-			Enumeration<Appender> appenders = (Enumeration<Appender>)Logger.getRootLogger().getAllAppenders();
+			Enumeration<Appender> appenders = (Enumeration<Appender>) Logger.getRootLogger().getAllAppenders();
 			while(appenders.hasMoreElements()) {
 				Appender appender = appenders.nextElement();
 				if(appender.getClass() == ConsoleAppender.class) {
@@ -154,8 +138,14 @@ public class Qualify {
 				}
 			}
 			Logger.getRootLogger().setLevel(Level.INFO);
-			if(! consoleAppenderExists) {
+			if(!consoleAppenderExists) {
 				Logger.getRootLogger().addAppender(new ConsoleAppender(new PatternLayout(LOGGER_PATTERN)));
+			}
+			try {
+				Logger.getRootLogger().addAppender(new FileAppender(new PatternLayout(LOGGER_PATTERN), "qualify.log"));
+			} catch(IOException e) {
+				System.out.println("Error when initializing file log appender: " + e.getMessage() + "\n");
+				e.printStackTrace(System.out);
 			}
 			initialized = true;
 		}
@@ -189,7 +179,7 @@ public class Qualify {
 
 	public static CommandLineTool loadOptions(String[] args) {
 		if(args.length == 0) {
-			args = new String[]{"-option_file", "options.xml"};
+			args = new String[] { "-option_file", "options.xml" };
 		}
 
 		CommandLineTool cmd = new CommandLineTool(args);
