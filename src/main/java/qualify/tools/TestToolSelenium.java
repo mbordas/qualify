@@ -119,6 +119,9 @@ public abstract class TestToolSelenium {
 	}
 
 	public TestObject click(TestObject testObject) {
+		if(testObject == null) {
+			throw new TestException("Cannot click on null TestObject");
+		}
 		click(testObject.getPath());
 		return testObject;
 	}
