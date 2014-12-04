@@ -41,15 +41,14 @@ import qualify.tools.StackTraceTool;
 import qualify.tools.TestToolDates;
 
 /**
- * TestSource is used for registering check results of one test case (written in Java).
- * It can be exported as XML.
- *
+ * TestSource is used for registering check results of one test case (written in Java). It can be exported as XML.
  */
 public class TestReport {
 
 	static Logger logger = Logger.getLogger(TestReport.class);
 
 	String absolutePath = null;
+
 	public String getAbsolutePath() {
 		return absolutePath;
 	}
@@ -152,7 +151,8 @@ public class TestReport {
 	}
 
 	public void addStep(int lineNumber, String title) {
-		steps.put(source.getMappedLineNumber(lineNumber), title);
+		int mappedLineNumber = source.getMappedLineNumber(lineNumber);
+		steps.put(mappedLineNumber, title);
 	}
 
 	private LinkedList<TestComment> getComments(int lineNumber) {
@@ -173,7 +173,7 @@ public class TestReport {
 			results.put(tr.getTestSourceLine(), tr);
 		} else {
 			ErrorsAndWarnings.addWarning("multiple test checks at same line");
-			if(! tr.isSuccessful()) {
+			if(!tr.isSuccessful()) {
 				results.put(tr.getTestSourceLine(), tr);
 			}
 		}
@@ -195,7 +195,7 @@ public class TestReport {
 		String fileName = StackTraceTool.getTestCaseCall().getFileName();
 		attachFile(f, type, fileName, lineNumber);
 	}
-	
+
 	public void attachFile(File f, Type type, String fileName, Class<?> calledClass) {
 		int lineNumber = StackTraceTool.getTestCaseCall().getLineNumber();
 		attachFile(f, type, fileName, lineNumber);
@@ -229,8 +229,8 @@ public class TestReport {
 
 		// Attaching the XSL
 		HashMap<String, String> piMap = new HashMap<String, String>(2);
-		piMap.put( "type", "text/xsl" );
-		piMap.put( "href", "../style/source.xsl" );
+		piMap.put("type", "text/xsl");
+		piMap.put("href", "../style/source.xsl");
 		ProcessingInstruction pi = new ProcessingInstruction("xml-stylesheet", piMap);
 		doc.getContent().add(0, pi);
 
@@ -244,18 +244,18 @@ public class TestReport {
 
 		if(source != null) {
 			// ** The source code is available
-			InputStream ips = new FileInputStream(source.getOriginalFile()); 
+			InputStream ips = new FileInputStream(source.getOriginalFile());
 			InputStreamReader ipsr = new InputStreamReader(ips);
 			BufferedReader br = new BufferedReader(ipsr);
 			String line;
 			int lineNumber = 1;
 			Element stepElement = new Element("step");
-			if(steps.size() > 0){
+			if(steps.size() > 0) {
 				stepElement.setAttribute("title", "start");
 			} else {
 				stepElement.setAttribute("title", "main");
 			}
-			while ((line = br.readLine()) != null){
+			while((line = br.readLine()) != null) {
 				if(steps.containsKey(lineNumber)) {
 					root.addContent(stepElement);
 					stepElement = new Element("step");
@@ -281,12 +281,18 @@ public class TestReport {
 
 			// Computing the number of lines
 			int reportLinesCount = 0;
-			for(TestComment comment : comments) { reportLinesCount = Math.max(reportLinesCount, comment.getLineNumber()); }
-			for(Attachment attachment : attachments) { reportLinesCount = Math.max(reportLinesCount, attachment.getLineNumber()); }
-			for(int lineNumber : results.keySet()) { reportLinesCount = Math.max(reportLinesCount, lineNumber); }
+			for(TestComment comment : comments) {
+				reportLinesCount = Math.max(reportLinesCount, comment.getLineNumber());
+			}
+			for(Attachment attachment : attachments) {
+				reportLinesCount = Math.max(reportLinesCount, attachment.getLineNumber());
+			}
+			for(int lineNumber : results.keySet()) {
+				reportLinesCount = Math.max(reportLinesCount, lineNumber);
+			}
 
 			Element stepElement = new Element("step");
-			if(steps.size() > 0){
+			if(steps.size() > 0) {
 				stepElement.setAttribute("title", "start");
 			} else {
 				stepElement.setAttribute("title", "main");
@@ -311,13 +317,13 @@ public class TestReport {
 			}
 			root.addContent(stepElement);
 		}
-		
+
 		// Copying the attachments next to the XML
 		File parentDir = outputFile.getParentFile();
 		Attachment.copyAttachedFiles(root, parentDir);
 
 		// Writing the source XML output file
-		XMLOutputter serializer = new XMLOutputter(); //Format.getPrettyFormat()
+		XMLOutputter serializer = new XMLOutputter(); // Format.getPrettyFormat()
 		outputFile.getParentFile().mkdirs();
 		FileOutputStream os = new FileOutputStream(outputFile);
 		serializer.output(doc, os);
@@ -326,8 +332,11 @@ public class TestReport {
 
 	/**
 	 * Updates the Dom Element representing the line with available results, comments and attachments
-	 * @param lineElement the Element to update.
-	 * @param lineNumber The line number. Used to find related results, comments and attachments.
+	 * 
+	 * @param lineElement
+	 *            the Element to update.
+	 * @param lineNumber
+	 *            The line number. Used to find related results, comments and attachments.
 	 * @return True if at least one result, comment or attachment is found. False elsewhere
 	 */
 	private boolean reportResultCommentAndAttachment(Element lineElement, int lineNumber) {
@@ -379,7 +388,7 @@ public class TestReport {
 	public int getNumberOfNOKs() {
 		int result = 0;
 		for(TestResult tr : this.results.values()) {
-			if(! tr.isSuccessful()) {
+			if(!tr.isSuccessful()) {
 				result++;
 			}
 		}

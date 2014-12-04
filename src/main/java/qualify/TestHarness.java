@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -62,11 +61,10 @@ public abstract class TestHarness {
 
 	private List<TestCase> testCases = new LinkedList<TestCase>(), sanityTests = new LinkedList<TestCase>();
 
-	private List<String> testCasesSourceDirs = new LinkedList<String>(), testCasesScriptDirs = new LinkedList<String>();
+	private List<File> testCasesSourceDirs = new LinkedList<File>();
+	private List<String> testCasesScriptDirs = new LinkedList<String>();
 
 	private List<TestSpy> spies = new LinkedList<TestSpy>();
-
-	private HashMap<String, String> testCasesSourceFiles = new HashMap<String, String>();
 
 	private SRD srd = null;
 
@@ -145,7 +143,9 @@ public abstract class TestHarness {
 		if(cmd.isOptionInCommandLine(Qualify.OPTION_SOURCE_DIRS)) {
 			logger.info("Reading source dirs...");
 			for(String sourceDir : cmd.getOptionValues(Qualify.OPTION_SOURCE_DIRS)) {
-				th.testCasesSourceDirs.add(sourceDir);
+				File dir = new File(sourceDir);
+				logger.info("Adding source dir: " + dir.getAbsolutePath());
+				th.testCasesSourceDirs.add(dir);
 			}
 		}
 	}
@@ -235,14 +235,18 @@ public abstract class TestHarness {
 			logger.info("Loading objects repositories...");
 			for(String repositoryDirPath : cmd.getOptionValues(Qualify.OPTION_OBJECT_REPOSITORIES_DIRS)) {
 				File repositoryDir = new File(repositoryDirPath);
-				if(repositoryDir.exists() && repositoryDir.isDirectory()) {
-					List<File> repositoryFiles = TestToolFile.listFiles(repositoryDir, ".*\\.qor", true);
-					for(File repositoryFile : repositoryFiles) {
-						TestObject.loadObjectRepository(repositoryFile);
+				if(repositoryDir.exists()) {
+					if(repositoryDir.isDirectory()) {
+						List<File> repositoryFiles = TestToolFile.listFiles(repositoryDir, ".*\\.qor", true);
+						for(File repositoryFile : repositoryFiles) {
+							TestObject.loadObjectRepository(repositoryFile);
+						}
+					} else {
+						ErrorsAndWarnings.addError("Object repository file '" + repositoryDir.getAbsolutePath()
+								+ "' does not exist or is not a file.");
 					}
 				} else {
-					ErrorsAndWarnings.addError("Object repository file '" + repositoryDir.getAbsolutePath()
-							+ "' does not exist or is not a file.");
+					repositoryDir.mkdirs();
 				}
 			}
 		}
@@ -418,17 +422,18 @@ public abstract class TestHarness {
 		if(TestCase.get(testCases, testCaseShortClassName) == null) {
 			testCases.add(tc);
 
-			// If no TestSource is set for the TestCase, then it is automatically searched
-			// For all test cases made from Groovy scripts, TestSource is already attached
+			// If no TestSource is set for the TestCase, then it is automatically search
+			// for all test cases made from Groovy scripts, TestSource is already attached
 			if(tc.getReport() == null) {
 				boolean sourceFileFound = false;
-				for(String sourceDir : testCasesSourceDirs) {
+				for(File sourceDir : testCasesSourceDirs) {
 					String sourceRelativeFileName = getRelativeFileName(testCaseShortClassName + ".java", sourceDir);
 					if(sourceRelativeFileName != null) {
-						testCasesSourceFiles.put(tc.getName(), sourceRelativeFileName);
 						tc.setReport(TestReport.createTestReport(sourceRelativeFileName));
 						sourceFileFound = true;
 						break;
+					} else {
+						logger.error("Test source file '" + sourceRelativeFileName + "' not found in: " + sourceDir.getAbsolutePath());
 					}
 				}
 				if(!sourceFileFound) {
@@ -448,11 +453,9 @@ public abstract class TestHarness {
 		if(TestCase.get(sanityTests, testCaseShortClassName) == null) {
 			sanityTests.add(tc);
 
-			for(String sourceDir : testCasesSourceDirs) {
-
+			for(File sourceDir : testCasesSourceDirs) {
 				String sourceRelativeFileName = getRelativeFileName(testCaseShortClassName + ".java", sourceDir);
 				if(sourceRelativeFileName != null) {
-					testCasesSourceFiles.put(tc.getName(), sourceRelativeFileName);
 					tc.setSource(TestSource.createTestSource(new File(sourceRelativeFileName)));
 					break;
 				}
@@ -469,23 +472,22 @@ public abstract class TestHarness {
 	 *            The top directory where the file is searched recursively
 	 * @return The file path, relative to JVM working directory.
 	 */
-	public static String getRelativeFileName(String shortFileName, String directory) {
-		File dir = new File(directory);
-		if(dir.exists()) {
-			for(String fileOrDir : dir.list()) {
-				File f = new File(directory + "/" + fileOrDir);
+	public static String getRelativeFileName(String shortFileName, File directory) {
+		if(directory.exists()) {
+			for(String fileOrDir : directory.list()) {
+				File f = new File(directory, fileOrDir);
 				if(f.isFile() && f.getName().equals(shortFileName)) {
 					return directory + "/" + f.getName();
 				}
 				if(f.isDirectory()) {
-					String fileNameFound = getRelativeFileName(shortFileName, directory + "/" + f.getName());
+					String fileNameFound = getRelativeFileName(shortFileName, new File(directory, f.getName()));
 					if(fileNameFound != null) {
 						return fileNameFound;
 					}
 				}
 			}
 		} else {
-			ErrorsAndWarnings.addError("Source dir '" + dir.getAbsolutePath() + "' does not exist");
+			ErrorsAndWarnings.addError("Source dir '" + directory.getAbsolutePath() + "' does not exist");
 		}
 		return null;
 	}
