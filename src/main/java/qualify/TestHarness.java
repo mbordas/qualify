@@ -735,7 +735,9 @@ public abstract class TestHarness {
 
 		if(Qualify.isOption(Qualify.OPTION_RELEASE_NOTE_FILE_NAME)) {
 			try {
-				ReleaseNote.generateReleaseNote(th, new File(Qualify.getOptionValue(Qualify.OPTION_RELEASE_NOTE_FILE_NAME)));
+				File releaseNoteFile = new File(Qualify.getOptionValue(Qualify.OPTION_RELEASE_NOTE_FILE_NAME));
+				ReleaseNote.generateReleaseNote(th, releaseNoteFile);
+				logAttachment(releaseNoteFile);
 				if(overrideReferenceReleaseNote) {
 					TestToolFile.copyFile(new File(Qualify.getOptionValue(Qualify.OPTION_RELEASE_NOTE_FILE_NAME)), new File(
 							Qualify.getOptionValue(Qualify.OPTION_REFERENCE_RELEASE_NOTE)));
@@ -746,6 +748,7 @@ public abstract class TestHarness {
 		} else if(Qualify.isOption(Qualify.OPTION_TEST_CASE_TABLE_FILE_NAME)) {
 			File testCaseTableOutputFile = new File(Qualify.getOptionValue(Qualify.OPTION_TEST_CASE_TABLE_FILE_NAME));
 			TestCasesTable.generateTestCasesTable(testCaseTableOutputFile, th.getTestCases());
+			logAttachment(testCaseTableOutputFile);
 			String resultFolderPath = testCaseTableOutputFile.getParent();
 			for(TestCase tc : th.getTestCases()) {
 				File testResultFile = new File(resultFolderPath + "/" + tc.getName() + "/" + tc.getName() + ".xml");
@@ -837,5 +840,9 @@ public abstract class TestHarness {
 
 	public Duration getElapsedTime() {
 		return elapsedTime;
+	}
+
+	static void logAttachment(File file) {
+		System.out.println("[[ATTACHMENT|" + file.getAbsolutePath() + "]]");
 	}
 }
