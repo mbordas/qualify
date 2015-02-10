@@ -42,7 +42,7 @@ public class Qualify {
 			OPTION_OBJECT_REPOSITORIES_DIRS = "object_repositories_dirs", OPTION_SRD_FILE = "srd_file",
 			OPTION_RELEASE_NOTE_FILE_NAME = "release_note", OPTION_CONTINUOUS_RELEASE_NOTE = "continuous_release_note",
 			OPTION_REFERENCE_RELEASE_NOTE = "reference_release_note", OPTION_TEST_CASE_TABLE_FILE_NAME = "test_case_table",
-			OPTION_RESULT_DIR = "result_dir", OPTION_SINGLE_TEST_TO_RUN = "test", OPTION_KEYWORD_TO_TEST = "keyword",
+			OPTION_RESULT_DIR = "result_dir", OPTION_TEST_TO_RUN = "test", OPTION_KEYWORD_TO_TEST = "keyword",
 			OPTION_REQUIREMENT_TO_TEST = "requirement", OPTION_NO_SANITY = "no_sanity", OPTION_RUN_LAST_FAILED = "run_last_failed",
 			OPTION_LOG_LEVEL = "log_level", OPTION_LOG_OUTPUT_FILE_NAME = "log_file", OPTION_HTTP_SERVER = "http_server",
 			OPTION_HTTP_SERVER_WEBAPPS_DIR = "http_server_webapps_dir", OPTION_HTTP_SERVER_ROOT_DIR = "http_server_root_dir";

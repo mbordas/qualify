@@ -32,8 +32,8 @@ public class CommandLineTool {
 
 	static Logger logger = Logger.getLogger(CommandLineTool.class);
 
-	public static final String OPTION_FILE = "option_file",
-	OPTION_VALUE_SEPARATOR = ",";
+	public static final String OPTION_FILE = "option_file", OPTION_VALUE_SEPARATOR = ",";
+	public static final String OPTION_SYSTEM_PROPERTIES_PREFIX = "Q";
 
 	private HashMap<String, String> options = null;
 
@@ -54,7 +54,7 @@ public class CommandLineTool {
 		}
 
 		for(String option : options.keySet()) {
-			logger.info("OPTION [" + option + "] : " + options.get(option));			
+			logger.info("OPTION [" + option + "] : " + options.get(option));
 		}
 	}
 
@@ -65,18 +65,18 @@ public class CommandLineTool {
 			optionDocument = parser.build(xmlFile);
 
 			for(Object optionTagObject : optionDocument.getRootElement().getChildren("option")) {
-				Element optionTag = (Element)optionTagObject;
+				Element optionTag = (Element) optionTagObject;
 				setOption(optionTag.getAttribute("name").getValue(), optionTag.getText(), override);
 			}
-		} catch (JDOMException e) {
+		} catch(JDOMException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void setOption(String optionName, String optionValue, boolean override) {
-		if(! options.containsKey(optionName) || (override == true)) {
+		if(!options.containsKey(optionName) || (override == true)) {
 			options.put(optionName, optionValue);
 		} else {
 			String warnMessage = "Option '" + optionName + "' already set to: " + getOptionValue(optionName);
@@ -86,7 +86,12 @@ public class CommandLineTool {
 	}
 
 	public boolean isOptionInCommandLine(String optionName) {
-		return options.containsKey(optionName);
+		boolean result = false;
+		result = options.containsKey(optionName);
+		if(!result) {
+			result = System.getProperties().containsKey(OPTION_SYSTEM_PROPERTIES_PREFIX + optionName);
+		}
+		return result;
 	}
 
 	public static boolean isOptionInCommandLine(String[] commandLine, String optionName) {
@@ -129,15 +134,19 @@ public class CommandLineTool {
 	}
 
 	public String getOptionValue(String optionName) {
-		return options.get(optionName);
+		String result = System.getProperty(OPTION_SYSTEM_PROPERTIES_PREFIX + optionName);
+		if(result == null) {
+			result = options.get(optionName);
+		}
+		return result;
 	}
 
 	public String[] getOptionValues(String optionName) {
 		String value = getOptionValue(optionName);
 		if(value.contains(OPTION_VALUE_SEPARATOR)) {
-			return options.get(optionName).split(OPTION_VALUE_SEPARATOR);
+			return value.split(OPTION_VALUE_SEPARATOR);
 		} else {
-			return new String[]{value};
+			return new String[] { value };
 		}
 	}
 
