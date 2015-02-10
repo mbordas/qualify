@@ -352,8 +352,8 @@ public abstract class TestHarness {
 			}
 
 			if(sanityPassed) {
-				if(cmd.isOptionInCommandLine(Qualify.OPTION_SINGLE_TEST_TO_RUN)) {
-					String[] testCasesNames = cmd.getOptionValues(Qualify.OPTION_SINGLE_TEST_TO_RUN);
+				if(cmd.isOptionInCommandLine(Qualify.OPTION_TEST_TO_RUN)) {
+					String[] testCasesNames = cmd.getOptionValues(Qualify.OPTION_TEST_TO_RUN);
 					for(String testCaseName : testCasesNames) {
 						testCasesToRun.add(testCaseName);
 					}
@@ -827,8 +827,23 @@ public abstract class TestHarness {
 	}
 
 	protected final void printTestCasesSynthesis(List<String> testCasesToRun) {
+		StringBuilder runFailedOption = null;
 		for(String testCaseName : testCasesToRun) {
-			printTestCaseSynthesis(TestCase.get(testCases, testCaseName));
+			TestCase tc = TestCase.get(testCases, testCaseName);
+			printTestCaseSynthesis(tc);
+
+			if(!tc.isSuccessful()) {
+				if(runFailedOption == null) {
+					runFailedOption = new StringBuilder("-D" + CommandLineTool.OPTION_SYSTEM_PROPERTIES_PREFIX + Qualify.OPTION_TEST_TO_RUN
+							+ "=" + testCaseName);
+				} else {
+					runFailedOption.append("," + testCaseName);
+				}
+			}
+		}
+
+		if(runFailedOption != null) {
+			logger.info("Run last failed test using following option: " + runFailedOption.toString());
 		}
 	}
 
