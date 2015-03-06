@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -56,6 +57,7 @@ import qualify.tools.TestToolFile;
 public abstract class TestHarness {
 
 	static Logger logger = Logger.getLogger(TestHarness.class);
+	static final int MAX_RETRY = 5;
 
 	private Duration elapsedTime = null;
 
@@ -69,6 +71,8 @@ public abstract class TestHarness {
 	private SRD srd = null;
 
 	private TestHarnessHandler handler = null;
+
+	private HashSet<Class<? extends TestCase>> reloadableTestCases = new HashSet<Class<? extends TestCase>>();
 
 	public List<TestCase> getTestCases() {
 		List<TestCase> result = new LinkedList<TestCase>();
@@ -336,6 +340,8 @@ public abstract class TestHarness {
 
 		th.registerTestCases();
 
+		th.prepareReloadableTestCases();
+
 		HTTPServer server = startHTTPServer(cmd);
 
 		List<String> testCasesToRun = new LinkedList<String>();
@@ -411,6 +417,17 @@ public abstract class TestHarness {
 		return ErrorsAndWarnings.getErrorsCount();
 	}
 
+	private void prepareReloadableTestCases() {
+		try {
+			for(Class<? extends TestCase> clazz : reloadableTestCases) {
+				TestCase tc = clazz.newInstance();
+				register(tc);
+			}
+		} catch(Throwable t) {
+			throw new RuntimeException("Unable to prepare reloadable test cases", t);
+		}
+	}
+
 	/**
 	 * Registers the test case in the harness' test cases list.
 	 * 
@@ -441,6 +458,11 @@ public abstract class TestHarness {
 				}
 			}
 		}
+	}
+
+	protected final void register(Class<? extends TestCase> clazz) {
+		logger.info(String.format("TEST CASE %s registered as reloadable", clazz.getName()));
+		reloadableTestCases.add(clazz);
 	}
 
 	public final void register(TestSpy spy) {
@@ -497,6 +519,19 @@ public abstract class TestHarness {
 	 */
 	protected abstract void registerTestCases();
 
+	private TestCase renewTestCase(String testCaseName, TestCase tc) throws Throwable {
+		testCases.remove(tc);
+
+		try {
+			tc = tc.getClass().newInstance();
+			register(tc);
+			return tc;
+		} catch(Throwable t) {
+			ErrorsAndWarnings.addError("Test case '" + testCaseName + "' is not reloadable: " + t.getMessage());
+			throw t;
+		}
+	}
+
 	/**
 	 * Runs one single test case
 	 * 
@@ -504,83 +539,121 @@ public abstract class TestHarness {
 	 */
 	protected final void runSingleTestCase(String testCaseName) {
 		TestCase tc = TestCase.get(testCases, testCaseName);
+
 		if(tc == null) {
 			tc = TestCase.get(sanityTests, testCaseName);
 		}
+
 		if(tc != null) {
 			if(!tc.hasRun()) {
-
-				for(TestSpy testSpy : spies) {
-					testSpy.beforeTest(tc);
+				boolean isAReloadableTestCase = reloadableTestCases.contains(tc.getClass());
+				if(isAReloadableTestCase) {
+					logger.info(String.format("TEST CASE %s is a reloadable (max retry: %s)", tc.getName(), MAX_RETRY));
 				}
-
-				long startTime = System.currentTimeMillis();
-
-				OutputStream logOutput = null;
-				Appender logAppender = null;
-				try {
-					logOutput = getLogOutputStream(tc);
-					logAppender = prepareLogAppender(tc, logOutput);
-					tc.resetRequirementTarget();
-					ErrorsAndWarnings.activateWarnings();
-					tc.beforeRun();
-					if(tc.getNbNOK() == 0) {
+				retry: for(int retry = 0; retry < MAX_RETRY; retry++) {
+					if(isAReloadableTestCase) {
+						logger.info(String.format("TEST CASE %s attempt: %s/%s", tc.getName(), retry + 1, MAX_RETRY));
+					}
+					if(retry > 0) {
 						try {
-							tc.hasRun(true);
-							tc.run();
-						} catch(Throwable e) {
-							try {
-								attachExceptionToTestCase("Exception raised during run() at "
-										+ StackTraceTool.getCall(e.getStackTrace(), tc.getName()), e, tc);
-							} catch(Exception e2) {
-								e.printStackTrace();
-							}
-						}
-						try {
-							logger.info("CLOSING TEST CASE " + tc.getName());
-							tc.afterRun();
-
-							for(TestSpy testSpy : spies) {
-								testSpy.afterTest(tc);
-							}
-
-						} catch(Exception e) {
-							try {
-								attachExceptionToTestCase("Exception raised during afterRun() at "
-										+ StackTraceTool.getComingStackTraceElementLocation(e, TestHarness.class), e, tc);
-							} catch(Exception e2) {
-								e.printStackTrace();
-							}
+							tc = renewTestCase(testCaseName, tc);
+						} catch(Throwable t) {
+							ErrorsAndWarnings.addError("Test case '" + testCaseName + "' is not reloadable: " + t.getMessage());
+							break;
 						}
 					}
-				} catch(Throwable e) {
-					attachExceptionToTestCase("Exception raised during beforeRun() at "
-							+ StackTraceTool.getComingStackTraceElementLocation(e, TestHarness.class), e, tc);
-				} finally {
+
+					for(TestSpy testSpy : spies) {
+						testSpy.beforeTest(tc);
+					}
+
+					long startTime = System.currentTimeMillis();
+
+					OutputStream logOutput = null;
+					Appender logAppender = null;
 					try {
-						releaseLogAppender(logAppender, logOutput);
-					} catch(IOException e) {
-						e.printStackTrace();
+						logOutput = getLogOutputStream(tc);
+						logAppender = prepareLogAppender(tc, logOutput);
+						tc.resetRequirementTarget();
+						ErrorsAndWarnings.activateWarnings();
+						tc.beforeRun();
+						if(tc.getNbNOK() == 0) {
+							try {
+								tc.hasRun(true);
+								tc.run();
+							} catch(Throwable e) {
+								try {
+									attachExceptionToTestCase("Exception raised during run() at "
+											+ StackTraceTool.getCall(e.getStackTrace(), tc.getName()), e, tc, isLastTry(retry,
+											isAReloadableTestCase));
+								} catch(Exception e2) {
+									e.printStackTrace();
+								}
+							}
+							try {
+								logger.info("CLOSING TEST CASE " + tc.getName());
+								tc.afterRun();
+
+								for(TestSpy testSpy : spies) {
+									testSpy.afterTest(tc);
+								}
+
+							} catch(Exception e) {
+								try {
+									attachExceptionToTestCase("Exception raised during afterRun() at "
+											+ StackTraceTool.getComingStackTraceElementLocation(e, TestHarness.class), e, tc, isLastTry(
+											retry, isAReloadableTestCase));
+								} catch(Exception e2) {
+									e.printStackTrace();
+								}
+
+							}
+						}
+					} catch(Throwable e) {
+						attachExceptionToTestCase("Exception raised during beforeRun() at "
+								+ StackTraceTool.getComingStackTraceElementLocation(e, TestHarness.class), e, tc, isLastTry(retry,
+								isAReloadableTestCase));
+
+					} finally {
+						try {
+							releaseLogAppender(logAppender, logOutput);
+						} catch(IOException e) {
+							e.printStackTrace();
+						}
 					}
-				}
 
-				long endTime = System.currentTimeMillis();
-				tc.setElapsedTime(new Duration(startTime, endTime));
-				printTestCaseResults(tc);
-				printTestCaseSynthesis(tc);
+					if(!isLastTry(retry, isAReloadableTestCase)) {
+						for(TestResult tr : tc.getResults()) {
+							if(!tr.isSuccessful()) {
+								continue retry;
+							}
+						}
+					}
 
-				// Attaching test result to requirements
-				for(TestResult tr : tc.getResults()) {
-					String requirementId = tr.getRequirementId();
-					getSrd().createRequirement(requirementId); // add the requirement if not existing
-					Requirement target = getSrd().getRequirement(requirementId);
-					target.addTestResult(tr);
+					long endTime = System.currentTimeMillis();
+					tc.setElapsedTime(new Duration(startTime, endTime));
+					printTestCaseResults(tc);
+					printTestCaseSynthesis(tc);
+
+					// Attaching test result to requirements
+					for(TestResult tr : tc.getResults()) {
+						String requirementId = tr.getRequirementId();
+						getSrd().createRequirement(requirementId); // add the requirement if not existing
+						Requirement target = getSrd().getRequirement(requirementId);
+						target.addTestResult(tr);
+					}
+					break;
 				}
 			}
 
 		} else {
 			ErrorsAndWarnings.addError("Test case '" + testCaseName + "' is not registered");
 		}
+
+	}
+
+	private boolean isLastTry(int retry, boolean isReloadable) {
+		return retry == MAX_RETRY - 1 || !isReloadable;
 	}
 
 	OutputStream getLogOutputStream(TestCase tc) throws IOException {
@@ -608,9 +681,12 @@ public abstract class TestHarness {
 		}
 	}
 
-	private void attachExceptionToTestCase(String label, Throwable e, TestCase tc) {
+	private void attachExceptionToTestCase(String label, Throwable e, TestCase tc, boolean isLastTry) {
 		logger.error(label, e);
-		ErrorsAndWarnings.addException(e);
+
+		if(isLastTry) {
+			ErrorsAndWarnings.addException(e);
+		}
 
 		String testCaseName = tc.getName();
 
