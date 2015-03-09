@@ -57,7 +57,7 @@ import qualify.tools.TestToolFile;
 public abstract class TestHarness {
 
 	static Logger logger = Logger.getLogger(TestHarness.class);
-	static final int MAX_RETRY = 5;
+	static final int DEFAULT_TEST_CASES_MAX_ATTEMPT = 5;
 
 	private Duration elapsedTime = null;
 
@@ -73,6 +73,7 @@ public abstract class TestHarness {
 	private TestHarnessHandler handler = null;
 
 	private HashSet<Class<? extends TestCase>> reloadableTestCases = new HashSet<Class<? extends TestCase>>();
+	private int testCasesMaxAttemptNumber = DEFAULT_TEST_CASES_MAX_ATTEMPT;
 
 	public List<TestCase> getTestCases() {
 		List<TestCase> result = new LinkedList<TestCase>();
@@ -341,6 +342,9 @@ public abstract class TestHarness {
 		th.registerTestCases();
 
 		th.prepareReloadableTestCases();
+		if(cmd.isOptionInCommandLine(Qualify.OPTION_TEST_CASE_MAX_ATTEMPT)) {
+			th.setTestCasesMaxAttempt(cmd);
+		}
 
 		HTTPServer server = startHTTPServer(cmd);
 
@@ -415,6 +419,19 @@ public abstract class TestHarness {
 		}
 
 		return ErrorsAndWarnings.getErrorsCount();
+	}
+
+	private void setTestCasesMaxAttempt(CommandLineTool cmd) {
+		try {
+			int tcMaxAttempt = Integer.valueOf(cmd.getOptionValue(Qualify.OPTION_TEST_CASE_MAX_ATTEMPT));
+			if(tcMaxAttempt < 1) {
+				throw new IllegalArgumentException("Must be greater or equals to 1");
+			}
+			testCasesMaxAttemptNumber = tcMaxAttempt;
+		} catch(Throwable t) {
+			ErrorsAndWarnings.addError(String.format("Wrong value for option %s: %s. Must be an integer greater or equal to 1.",
+					Qualify.OPTION_TEST_CASE_MAX_ATTEMPT, cmd.getOptionValue(Qualify.OPTION_TEST_CASE_MAX_ATTEMPT)));
+		}
 	}
 
 	private void prepareReloadableTestCases() {
@@ -548,11 +565,11 @@ public abstract class TestHarness {
 			if(!tc.hasRun()) {
 				boolean isAReloadableTestCase = reloadableTestCases.contains(tc.getClass());
 				if(isAReloadableTestCase) {
-					logger.info(String.format("TEST CASE %s is a reloadable (max retry: %s)", tc.getName(), MAX_RETRY));
+					logger.info(String.format("TEST CASE %s is a reloadable (max retry: %s)", tc.getName(), testCasesMaxAttemptNumber));
 				}
-				retry: for(int retry = 0; retry < MAX_RETRY; retry++) {
+				retry: for(int retry = 0; retry < testCasesMaxAttemptNumber; retry++) {
 					if(isAReloadableTestCase) {
-						logger.info(String.format("TEST CASE %s attempt: %s/%s", tc.getName(), retry + 1, MAX_RETRY));
+						logger.info(String.format("TEST CASE %s attempt: %s/%s", tc.getName(), retry + 1, testCasesMaxAttemptNumber));
 					}
 					if(retry > 0) {
 						try {
@@ -653,7 +670,7 @@ public abstract class TestHarness {
 	}
 
 	private boolean isLastTry(int retry, boolean isReloadable) {
-		return retry == MAX_RETRY - 1 || !isReloadable;
+		return retry == testCasesMaxAttemptNumber - 1 || !isReloadable;
 	}
 
 	OutputStream getLogOutputStream(TestCase tc) throws IOException {

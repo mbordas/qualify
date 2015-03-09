@@ -45,7 +45,8 @@ public class Qualify {
 			OPTION_RESULT_DIR = "result_dir", OPTION_TEST_TO_RUN = "test", OPTION_KEYWORD_TO_TEST = "keyword",
 			OPTION_REQUIREMENT_TO_TEST = "requirement", OPTION_NO_SANITY = "no_sanity", OPTION_RUN_LAST_FAILED = "run_last_failed",
 			OPTION_LOG_LEVEL = "log_level", OPTION_LOG_OUTPUT_FILE_NAME = "log_file", OPTION_HTTP_SERVER = "http_server",
-			OPTION_HTTP_SERVER_WEBAPPS_DIR = "http_server_webapps_dir", OPTION_HTTP_SERVER_ROOT_DIR = "http_server_root_dir";
+			OPTION_HTTP_SERVER_WEBAPPS_DIR = "http_server_webapps_dir", OPTION_HTTP_SERVER_ROOT_DIR = "http_server_root_dir",
+			OPTION_TEST_CASE_MAX_ATTEMPT = "max_attempt_per_test_case";
 
 	private static HashMap<String, String> options = null;
 
