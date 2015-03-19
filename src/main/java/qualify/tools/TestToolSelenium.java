@@ -104,7 +104,11 @@ public abstract class TestToolSelenium {
 	}
 
 	public WebElement find(String elementIdentifier) {
-		WebElement result = findElement(getElementIdentifier(elementIdentifier));
+		return find(getElementIdentifier(elementIdentifier));
+	}
+
+	public WebElement find(By by) {
+		WebElement result = findElement(by);
 		return result;
 	}
 
@@ -124,6 +128,16 @@ public abstract class TestToolSelenium {
 		}
 		click(testObject.getPath());
 		return testObject;
+	}
+
+	public void click(By by) {
+		waitPresent(by, defaultTimeout);
+		WebElement w = findElement(by);
+		if(w != null) {
+			w.click();
+		} else {
+			testCase.addTestResult(false, "Cannot click on null element (by='" + by.toString() + "').");
+		}
 	}
 
 	public void forceClick(String elementIdentifier) {
@@ -183,6 +197,10 @@ public abstract class TestToolSelenium {
 		return (find(elementIdentifier) != null);
 	}
 
+	public boolean isPresent(By by) {
+		return (find(by) != null);
+	}
+
 	public boolean waitPresent(final String elementIdentifier, final double timeoutInSeconds) {
 		try {
 			(new WebDriverWait(driver, Double.valueOf(timeoutInSeconds).intValue())).until(new ExpectedCondition<Boolean>() {
@@ -193,6 +211,18 @@ public abstract class TestToolSelenium {
 		} catch(TimeoutException e) {
 		}
 		return isPresent(elementIdentifier);
+	}
+
+	public boolean waitPresent(final By by, final double timeoutInSeconds) {
+		try {
+			(new WebDriverWait(driver, Double.valueOf(timeoutInSeconds).intValue())).until(new ExpectedCondition<Boolean>() {
+				public Boolean apply(WebDriver d) {
+					return isPresent(by);
+				}
+			});
+		} catch(TimeoutException e) {
+		}
+		return isPresent(by);
 	}
 
 	public boolean waitVanish(final String elementIdentifier, final double timeoutInSeconds) {
@@ -392,6 +422,11 @@ public abstract class TestToolSelenium {
 	public void setInput(String elementId, String value) {
 		clear(elementId);
 		type(elementId, value);
+	}
+
+	public void select(String identifier, String optionText) {
+		Select select = new Select(driver.findElement(getElementIdentifier(identifier)));
+		select.selectByVisibleText(optionText);
 	}
 
 }
