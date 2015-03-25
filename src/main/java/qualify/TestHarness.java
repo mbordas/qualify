@@ -57,7 +57,7 @@ import qualify.tools.TestToolFile;
 public abstract class TestHarness {
 
 	static Logger logger = Logger.getLogger(TestHarness.class);
-	static final int DEFAULT_TEST_CASES_MAX_ATTEMPT = 5;
+	static final int DEFAULT_TEST_CASES_MAX_ATTEMPT = 1;
 
 	private Duration elapsedTime = null;
 
