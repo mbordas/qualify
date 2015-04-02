@@ -46,7 +46,6 @@ public class ReleaseNote {
 
 	public static final String ELEMENT_ROOT_NAME = "release_note", ATTRIBUTE_SUT_NAME = "sut_name", ATTRIBUTE_SUT_DATE = "date",
 			ATTRIBUTE_SUT_VERSION = "version";
-
 	private String sutName = null, sutDate = null, sutVersion = null;
 
 	private List<Requirement> requirements = new ArrayList<Requirement>();;

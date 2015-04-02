@@ -20,7 +20,6 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
-import qualify.ErrorsAndWarnings;
 import qualify.TestCase;
 import qualify.testRunner.TProcess;
 
@@ -155,7 +154,7 @@ public class TestToolProcess {
 		if(logFile != null) {
 			testCase.attachFile(logFile);
 		} else {
-			ErrorsAndWarnings.addError("Cannot attach file with null reference");
+			testCase.addError("Cannot attach file with null reference");
 		}
 		new TestToolNumbers(testCase).checkEquality(expectedExitCode, exitCode);
 	}
@@ -182,7 +181,7 @@ public class TestToolProcess {
 		if(logFile != null) {
 			testCase.attachFile(logFile);
 		} else {
-			ErrorsAndWarnings.addError("Cannot attach file with null reference");
+			testCase.addError("Cannot attach file with null reference");
 		}
 		new TestToolNumbers(testCase).checkEquality(expectedExitCode, exitCode);
 	}

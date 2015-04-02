@@ -112,10 +112,12 @@ public class CommandLineTool {
 				} else {
 					params.add(args[index]);
 				}
-			} else if(args[index].substring(0, 1).equals("-")) {
-				optionDetected = true;
-				optionName = args[index].substring(1, args[index].length());
-				params = new LinkedList<String>();
+			} else if(args[index].length() > 0) {
+				if(args[index].substring(0, 1).equals("-")) {
+					optionDetected = true;
+					optionName = args[index].substring(1, args[index].length());
+					params = new LinkedList<String>();
+				}
 			}
 		}
 		if(optionName == null) {

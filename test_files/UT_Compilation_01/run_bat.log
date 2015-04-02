@@ -1,128 +1,19 @@
-";C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\cglib-nodep-2.1_3.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\commons-codec-1.4.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\commons-collections-3.2.1.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\commons-io-1.4.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\commons-lang-2.4.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\commons-logging-1.1.1.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\cssparser-0.9.5.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\diff_match_patch.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\groovy-all-1.8.0-rc-4.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\guava-r09.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\htmlunit-2.9.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\htmlunit-core-js-2.9.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\httpclient-4.1.2.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\httpcore-4.1.2.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\httpmime-4.1.2.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\jdom-1.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\jetty-continuation-8.0.0.M2.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\jetty-http-8.0.0.M2.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\jetty-io-8.0.0.M2.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\jetty-server-8.0.0.M2.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\jetty-util-8.0.0.M2.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\jna-3.3.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\joda-time-1.6.2.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\json-20080701.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\log4j-1.2.15.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\nekohtml-1.9.15.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\sac-1.3.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\selenium-android-driver-2.6.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\selenium-api-2.6.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\selenium-chrome-driver-2.6.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\selenium-firefox-driver-2.6.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\selenium-htmlunit-driver-2.6.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\selenium-ie-driver-2.6.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\selenium-iphone-driver-2.6.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\selenium-java-2.6.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\selenium-remote-driver-2.6.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\selenium-support-2.6.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\serializer-2.7.1.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\servlet-api-3.0.20100224.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\sikuli-script.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\xalan-2.7.1.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\xercesImpl-2.9.1.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\xml-apis-1.3.04.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\xmlParserAPIs-2.6.2.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\qualify-0.7.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\cglib-nodep-2.1_3.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\commons-codec-1.4.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\commons-collections-3.2.1.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\commons-io-1.4.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\commons-lang-2.4.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\commons-logging-1.1.1.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\cssparser-0.9.5.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\diff_match_patch.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\groovy-all-1.8.0-rc-4.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\guava-r09.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\htmlunit-2.9.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\htmlunit-core-js-2.9.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\httpclient-4.1.2.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\httpcore-4.1.2.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\httpmime-4.1.2.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\jdom-1.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\jetty-continuation-8.0.0.M2.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\jetty-http-8.0.0.M2.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\jetty-io-8.0.0.M2.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\jetty-server-8.0.0.M2.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\jetty-util-8.0.0.M2.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\jna-3.3.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\joda-time-1.6.2.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\json-20080701.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\log4j-1.2.15.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\nekohtml-1.9.15.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\sac-1.3.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\selenium-android-driver-2.6.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\selenium-api-2.6.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\selenium-chrome-driver-2.6.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\selenium-firefox-driver-2.6.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\selenium-htmlunit-driver-2.6.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\selenium-ie-driver-2.6.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\selenium-iphone-driver-2.6.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\selenium-java-2.6.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\selenium-remote-driver-2.6.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\selenium-support-2.6.0.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\serializer-2.7.1.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\servlet-api-3.0.20100224.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\sikuli-script.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\xalan-2.7.1.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\xercesImpl-2.9.1.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\xml-apis-1.3.04.jar;C:\Users\mathieu\SmartGridEnergy\java\qualify\target\dependency\xmlParserAPIs-2.6.2.jar"
-2012-08-22 11:12:25,371 INFO - OPTION [sut_date] : 18/12/2010
-2012-08-22 11:12:25,371 INFO - OPTION [script_dirs] : ./scripts
-2012-08-22 11:12:25,371 INFO - OPTION [release_note] : result/release_note.xml
-2012-08-22 11:12:25,371 INFO - OPTION [sut_name] : Project Sample 00
-2012-08-22 11:12:25,371 INFO - OPTION [sut_version] : 1.0
-2012-08-22 11:12:25,371 INFO - OPTION [log_level] : DEBUG
-2012-08-22 11:12:25,371 INFO - OPTION [option_file] : options.xml
-2012-08-22 11:12:25,371 INFO - OPTION [script_dependencies_dirs] : ./dependencies
-2012-08-22 11:12:25,371 INFO - Setting log level to: DEBUG
-2012-08-22 11:12:25,371 INFO - Loading script dependencies...
-2012-08-22 11:12:25,971 INFO - Loading scripts...
-2012-08-22 11:12:25,971 INFO - loading test script: C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\.\scripts\Test.groovy
-2012-08-22 11:12:25,981 INFO - loading script: C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\.\scripts\Test.groovy
-2012-08-22 11:12:25,981 DEBUG - Looking for keywords for test C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\.\scripts\Test.groovy
-2012-08-22 11:12:26,121 INFO - *************************
-2012-08-22 11:12:26,121 INFO - * TEST CASE STARTS: Test
-2012-08-22 11:12:26,121 INFO - * HARNESS PROGRESS: 1 / 1
-2012-08-22 11:12:26,121 INFO - *************************
-2012-08-22 11:12:26,131 DEBUG - alternative stack length: 27
-2012-08-22 11:12:26,131 DEBUG - alternative stack[0]: null:-1
-2012-08-22 11:12:26,131 DEBUG - alternative stack[1]: StackTraceTool.java:27
-2012-08-22 11:12:26,131 DEBUG - alternative stack[2]: TestCase.java:290
-2012-08-22 11:12:26,131 DEBUG - alternative stack[3]: null:-2
-2012-08-22 11:12:26,131 DEBUG - alternative stack[4]: null:-1
-2012-08-22 11:12:26,131 DEBUG - alternative stack[5]: null:-1
-2012-08-22 11:12:26,131 DEBUG - alternative stack[6]: null:-1
-2012-08-22 11:12:26,131 DEBUG - alternative stack[7]: PogoMetaMethodSite.java:267
-2012-08-22 11:12:26,131 DEBUG - alternative stack[8]: PogoMetaMethodSite.java:52
-2012-08-22 11:12:26,131 DEBUG - alternative stack[9]: CallSiteArray.java:46
-2012-08-22 11:12:26,131 DEBUG - alternative stack[10]: AbstractCallSite.java:133
-2012-08-22 11:12:26,131 DEBUG - alternative stack[11]: AbstractCallSite.java:141
-2012-08-22 11:12:26,131 DEBUG - alternative stack[12]: MotherTest.groovy:12
-2012-08-22 11:12:26,131 DEBUG - alternative stack[13]: null:-2
-2012-08-22 11:12:26,131 DEBUG - alternative stack[14]: null:-1
-2012-08-22 11:12:26,131 DEBUG - alternative stack[15]: null:-1
-2012-08-22 11:12:26,131 DEBUG - alternative stack[16]: null:-1
-2012-08-22 11:12:26,131 DEBUG - alternative stack[17]: PogoMetaMethodSite.java:267
-2012-08-22 11:12:26,131 DEBUG - alternative stack[18]: PogoMetaMethodSite.java:52
-2012-08-22 11:12:26,131 DEBUG - alternative stack[19]: CallSiteArray.java:46
-2012-08-22 11:12:26,131 DEBUG - alternative stack[20]: AbstractCallSite.java:133
-2012-08-22 11:12:26,131 DEBUG - alternative stack[21]: AbstractCallSite.java:141
-2012-08-22 11:12:26,131 DEBUG - alternative stack[22]: Test.groovy_preproc:10
-2012-08-22 11:12:26,131 DEBUG - alternative stack[23]: TestHarness.java:496
-2012-08-22 11:12:26,211 INFO - comment added line 10 : 
-call to MotherClass.check
-2012-08-22 11:12:26,211 DEBUG - alternative stack length: 28
-2012-08-22 11:12:26,211 DEBUG - alternative stack[0]: null:-1
-2012-08-22 11:12:26,211 DEBUG - alternative stack[1]: StackTraceTool.java:27
-2012-08-22 11:12:26,211 DEBUG - alternative stack[2]: TestCase.java:255
-2012-08-22 11:12:26,211 DEBUG - alternative stack[3]: TestCase.java:241
-2012-08-22 11:12:26,211 DEBUG - alternative stack[4]: MotherTest.groovy:-1
-2012-08-22 11:12:26,211 DEBUG - alternative stack[5]: null:-2
-2012-08-22 11:12:26,211 DEBUG - alternative stack[6]: null:-1
-2012-08-22 11:12:26,211 DEBUG - alternative stack[7]: null:-1
-2012-08-22 11:12:26,211 DEBUG - alternative stack[8]: null:-1
-2012-08-22 11:12:26,211 DEBUG - alternative stack[9]: CachedMethod.java:90
-2012-08-22 11:12:26,211 DEBUG - alternative stack[10]: MetaMethod.java:233
-2012-08-22 11:12:26,211 DEBUG - alternative stack[11]: MetaClassImpl.java:1055
-2012-08-22 11:12:26,211 DEBUG - alternative stack[12]: ScriptBytecodeAdapter.java:128
-2012-08-22 11:12:26,211 DEBUG - alternative stack[13]: MotherTest.groovy:13
-2012-08-22 11:12:26,211 DEBUG - alternative stack[14]: null:-2
-2012-08-22 11:12:26,211 DEBUG - alternative stack[15]: null:-1
-2012-08-22 11:12:26,211 DEBUG - alternative stack[16]: null:-1
-2012-08-22 11:12:26,211 DEBUG - alternative stack[17]: null:-1
-2012-08-22 11:12:26,211 DEBUG - alternative stack[18]: PogoMetaMethodSite.java:267
-2012-08-22 11:12:26,211 DEBUG - alternative stack[19]: PogoMetaMethodSite.java:52
-2012-08-22 11:12:26,931 DEBUG - alternative stack[20]: CallSiteArray.java:46
-2012-08-22 11:12:26,931 DEBUG - alternative stack[21]: AbstractCallSite.java:133
-2012-08-22 11:12:26,931 DEBUG - alternative stack[22]: AbstractCallSite.java:141
-2012-08-22 11:12:26,931 DEBUG - alternative stack[23]: Test.groovy_preproc:10
-2012-08-22 11:12:26,931 DEBUG - alternative stack[24]: TestHarness.java:496
-2012-08-22 11:12:26,931 DEBUG - new TestResult: isSuccesfull=true, requirement.getId=REQ-1
-2012-08-22 11:12:26,941 DEBUG - alternative stack length: 14
-2012-08-22 11:12:26,941 DEBUG - alternative stack[0]: null:-1
-2012-08-22 11:12:26,941 DEBUG - alternative stack[1]: StackTraceTool.java:27
-2012-08-22 11:12:26,941 DEBUG - alternative stack[2]: TestCase.java:349
-2012-08-22 11:12:26,941 DEBUG - alternative stack[3]: TestToolStrings.java:94
-2012-08-22 11:12:26,941 DEBUG - alternative stack[4]: TestToolStrings.java:56
-2012-08-22 11:12:26,941 DEBUG - alternative stack[5]: null:-1
-2012-08-22 11:12:26,941 DEBUG - alternative stack[6]: CallSiteArray.java:42
-2012-08-22 11:12:26,941 DEBUG - alternative stack[7]: AbstractCallSite.java:108
-2012-08-22 11:12:26,941 DEBUG - alternative stack[8]: AbstractCallSite.java:120
-2012-08-22 11:12:26,941 DEBUG - alternative stack[9]: Test.groovy_preproc:12
-2012-08-22 11:12:26,941 DEBUG - alternative stack[10]: TestHarness.java:496
-2012-08-22 11:12:26,941 DEBUG - new TestResult: isSuccesfull=false, requirement.getId=REQ-1
-2012-08-22 11:12:26,941 INFO - TEST CASE [Test:10] OK : REQ-1
-2012-08-22 11:12:26,941 INFO - TEST CASE [Test:12] NOK : REQ-1
-2012-08-22 11:12:26,941 INFO - TEST CASE [Test] GLOBAL: NOK
-2012-08-22 11:12:26,951 DEBUG - Requirement 'REQ-1' added to SRD
-2012-08-22 11:12:26,951 INFO - **********************
-2012-08-22 11:12:26,951 INFO - * TEST CASES SUMMARY *
-2012-08-22 11:12:26,951 INFO - **********************
-2012-08-22 11:12:26,951 DEBUG - Number of requirements: 1, Successful requirements: 0
-2012-08-22 11:12:26,951 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/release_note.xsl', 'style/release_note.xsl'
-2012-08-22 11:12:26,961 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/source.xsl', 'style/source.xsl'
-2012-08-22 11:12:26,971 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/test_cases_table.xsl', 'style/test_cases_table.xsl'
-2012-08-22 11:12:26,981 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/qualify.css', 'style/qualify.css'
-2012-08-22 11:12:26,981 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/jquery.treeTable.css', 'style/jquery.treeTable.css'
-2012-08-22 11:12:26,991 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/jquery.tools.min.js', 'style/jquery.tools.min.js'
-2012-08-22 11:12:27,001 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/jquery.js', 'style/jquery.js'
-2012-08-22 11:12:27,001 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/jquery.ui.js', 'style/jquery.ui.js'
-2012-08-22 11:12:27,011 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/jquery.treeTable.js', 'style/jquery.treeTable.js'
-2012-08-22 11:12:27,021 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/toggle-collapse-dark.png', 'style/toggle-collapse-dark.png'
-2012-08-22 11:12:27,021 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/toggle-expand-dark.png', 'style/toggle-expand-dark.png'
-2012-08-22 11:12:27,021 DEBUG - Exporting 1 test case(s)...
-2012-08-22 11:12:27,036 DEBUG - Exporting 1 requirement(s)...
-2012-08-22 11:12:27,036 DEBUG - Exporting requirement 'REQ-1'...
-2012-08-22 11:12:27,036 DEBUG - Exporting 2 test results...
-2012-08-22 11:12:27,052 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/release_note.xsl', 'style/release_note.xsl'
-2012-08-22 11:12:27,052 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/source.xsl', 'style/source.xsl'
-2012-08-22 11:12:27,957 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/test_cases_table.xsl', 'style/test_cases_table.xsl'
-2012-08-22 11:12:27,957 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/qualify.css', 'style/qualify.css'
-2012-08-22 11:12:27,957 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/jquery.treeTable.css', 'style/jquery.treeTable.css'
-2012-08-22 11:12:27,972 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/jquery.tools.min.js', 'style/jquery.tools.min.js'
-2012-08-22 11:12:27,972 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/jquery.js', 'style/jquery.js'
-2012-08-22 11:12:27,972 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/jquery.ui.js', 'style/jquery.ui.js'
-2012-08-22 11:12:27,988 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/jquery.treeTable.js', 'style/jquery.treeTable.js'
-2012-08-22 11:12:27,988 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/toggle-collapse-dark.png', 'style/toggle-collapse-dark.png'
-2012-08-22 11:12:27,988 DEBUG - copyFileFromResources('C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result', 'style/toggle-expand-dark.png', 'style/toggle-expand-dark.png'
-2012-08-22 11:12:27,988 DEBUG - Exporting 1 test case(s)...
-2012-08-22 11:12:28,003 DEBUG - Generating test source Test into file 'C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result\Test\Test.xml
-2012-08-22 11:12:28,003 INFO - Test cases table successfully exported: C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result\test_cases_table.xml
-2012-08-22 11:12:28,003 INFO - Release note successfully exported: C:\Users\mathieu\SmartGridEnergy\java\qualify\test_files\UT_Compilation_01\result\release_note.xml
-2012-08-22 11:12:28,003 INFO - TEST CASE [Test] GLOBAL: NOK
-2012-08-22 11:12:28,003 INFO - ********************
-2012-08-22 11:12:28,003 INFO - * TEST HARNESS END *
-2012-08-22 11:12:28,003 INFO - ********************
+";C:\Users\mathieu\SmartGridEnergy\java\qualify\target\qualify-1.0-SNAPSHOT.jar"
+java.lang.NoClassDefFoundError: org/apache/log4j/Layout
+	at java.lang.Class.getDeclaredMethods0(Native Method)
+	at java.lang.Class.privateGetDeclaredMethods(Unknown Source)
+	at java.lang.Class.privateGetMethodRecursive(Unknown Source)
+	at java.lang.Class.getMethod0(Unknown Source)
+	at java.lang.Class.getMethod(Unknown Source)
+	at sun.launcher.LauncherHelper.validateMainClass(Unknown Source)
+	at sun.launcher.LauncherHelper.checkAndLoadMain(Unknown Source)
+Caused by: java.lang.ClassNotFoundException: org.apache.log4j.Layout
+	at java.net.URLClassLoader$1.run(Unknown Source)
+	at java.net.URLClassLoader$1.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(Unknown Source)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at sun.misc.Launcher$AppClassLoader.loadClass(Unknown Source)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	... 7 more
+Exception in thread "main" 

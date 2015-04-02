@@ -39,17 +39,10 @@ public class TestResult implements DomElementAble {
 	private TestCase testCase = null;
 	private DateTime creationTime = null;
 
-	public static final String TAG_NAME = "test_result",
-	TIME_ATTRIBUTE_NAME = "time",
-	REQUIREMENT_ID_ATTRIBUTE_NAME = "requirement",
-	SOURCE_ATTRIBUTE_NAME = "source",
-	SOURCE_LINE_ATTRIBUTE_NAME = "source_line",
-	RESULT_ATTRIBUTE_NAME = "result",
-	RESULT_OK_VALUE = "OK",
-	RESULT_NOK_VALUE = "NOK",
-	EMPTY_COMMENT_VALUE = "no comment available",
-	EMPTY_SOURCE_LINE_VALUE = "0",
-	EMPTY_SOURCE_VALUE = "no_source";
+	public static final String TAG_NAME = "test_result", TIME_ATTRIBUTE_NAME = "time", REQUIREMENT_ID_ATTRIBUTE_NAME = "requirement",
+			SOURCE_ATTRIBUTE_NAME = "source", SOURCE_LINE_ATTRIBUTE_NAME = "source_line", RESULT_ATTRIBUTE_NAME = "result",
+			RESULT_OK_VALUE = "OK", RESULT_NOK_VALUE = "NOK", EMPTY_COMMENT_VALUE = "no comment available", EMPTY_SOURCE_LINE_VALUE = "0",
+			EMPTY_SOURCE_VALUE = "no_source";
 
 	public TestResult(boolean isSuccessful, String requirementId, String comment, String testSource, int testSourceLine, TestCase testCase) {
 		this.isSuccessful = isSuccessful;
@@ -64,10 +57,11 @@ public class TestResult implements DomElementAble {
 		if(requirementId == null) {
 			this.requirementId = Requirement.EMPTY_REQUIREMENT_ID;
 		}
-		logger.debug("new TestResult: isSuccesfull=" + isSuccessful + ", requirement.getId=" + requirementId);
+		logger.debug("new TestResult: isSuccesful=" + isSuccessful + ", requirement.getId=" + requirementId);
 	}
 
-	public TestResult(boolean isSuccessful, String requirementId, DomElementAble comment, String testSource, int testSourceLine, TestCase testCase) {
+	public TestResult(boolean isSuccessful, String requirementId, DomElementAble comment, String testSource, int testSourceLine,
+			TestCase testCase) {
 		this.isSuccessful = isSuccessful;
 		this.requirementId = requirementId;
 		this.comment = comment;
@@ -84,7 +78,7 @@ public class TestResult implements DomElementAble {
 	public void setCreationTime(DateTime t) {
 		this.creationTime = t;
 	}
-	
+
 	public DateTime getCreationTime() {
 		return creationTime;
 	}
@@ -108,7 +102,7 @@ public class TestResult implements DomElementAble {
 	public String getTestSource() {
 		return testSource;
 	}
-	
+
 	public void setSourceLineNumber(int number) {
 		this.testSourceLine = number;
 	}
@@ -151,17 +145,12 @@ public class TestResult implements DomElementAble {
 			return RESULT_NOK_VALUE;
 		}
 	}
-	
+
 	public static TestResult createTestResultFromDomElement(Element testResultTag) {
 		TestResult result = null;
 		boolean success = testResultTag.getAttributeValue("result").equals("OK");
-		result = new TestResult(
-				success,
-				"",
-				"",
-				testResultTag.getAttributeValue("test_source"),
-				Integer.valueOf(testResultTag.getAttributeValue("test_source_line")).intValue(),
-				null);
+		result = new TestResult(success, "", "", testResultTag.getAttributeValue("test_source"), Integer.valueOf(
+				testResultTag.getAttributeValue("test_source_line")).intValue(), null);
 		return result;
 	}
 

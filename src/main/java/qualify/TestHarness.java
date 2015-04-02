@@ -21,9 +21,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
@@ -44,7 +47,7 @@ import qualify.tools.TestObject;
 import qualify.tools.TestToolFile;
 
 /**
- * Override a TestHarness to create the beginning point of your testing application. From your main(String[]), call the static method:
+ * Create a TestHarness to create the beginning point of your testing application. From your main(String[]), call the static method:
  * runTestHarness(<i>args</i>, <i>testHarness</i>) Options are:
  * <ul>
  * <li>sut_name the Software Under Test that will be displayed at the top of the release note</li>
@@ -61,7 +64,8 @@ public abstract class TestHarness {
 
 	private Duration elapsedTime = null;
 
-	private List<TestCase> testCases = new LinkedList<TestCase>(), sanityTests = new LinkedList<TestCase>();
+	private Map<String, TestCase> testCases = new LinkedHashMap<String, TestCase>();
+	private Map<String, TestCase> sanityTests = new LinkedHashMap<String, TestCase>();
 
 	private List<File> testCasesSourceDirs = new LinkedList<File>();
 	private List<String> testCasesScriptDirs = new LinkedList<String>();
@@ -77,8 +81,8 @@ public abstract class TestHarness {
 
 	public List<TestCase> getTestCases() {
 		List<TestCase> result = new LinkedList<TestCase>();
-		result.addAll(sanityTests);
-		result.addAll(testCases);
+		result.addAll(sanityTests.values());
+		result.addAll(testCases.values());
 		return result;
 	}
 
@@ -272,16 +276,18 @@ public abstract class TestHarness {
 		return result;
 	}
 
-	private static List<String> getTestCasesFromRequirement(CommandLineTool cmd) {
-		List<String> result = new LinkedList<String>();
+	private Collection<TestCase> getTestCasesFromRequirement(CommandLineTool cmd) {
+		Collection<TestCase> result = new LinkedList<TestCase>();
 		if(cmd.isOptionInCommandLine(Qualify.OPTION_REFERENCE_RELEASE_NOTE)) {
 			String requirementName = cmd.getOptionValue(Qualify.OPTION_REQUIREMENT_TO_TEST);
 			File referenceReleaseNote = new File(cmd.getOptionValue(Qualify.OPTION_REFERENCE_RELEASE_NOTE));
 			if(referenceReleaseNote.isFile() && referenceReleaseNote.exists()) {
-				result = ReleaseNote.getTestCasesFromRequirement(referenceReleaseNote, requirementName);
+				for(String tcName : ReleaseNote.getTestCasesFromRequirement(referenceReleaseNote, requirementName)) {
+					result.add(getTestCase(tcName));
+				}
 				logger.info("*** TEST CASES FOR REQUIREMENT " + requirementName + " (" + result.size() + ") :");
-				for(String testCaseName : result) {
-					logger.info("** " + testCaseName);
+				for(TestCase testCase : result) {
+					logger.info("** " + testCase.getLocalName());
 				}
 			} else {
 				ErrorsAndWarnings.addError("Cannot find reference release note '"
@@ -294,26 +300,28 @@ public abstract class TestHarness {
 		return result;
 	}
 
-	private static List<String> getTestCasesFromKeyword(CommandLineTool cmd, TestHarness th) {
-		List<String> result = new LinkedList<String>();
+	private Collection<TestCase> getTestCasesFromKeyword(CommandLineTool cmd) {
+		Collection<TestCase> result = new LinkedList<TestCase>();
 		String keywordToTest = cmd.getOptionValue(Qualify.OPTION_KEYWORD_TO_TEST);
-		for(TestCase tc : th.getTestCases()) {
+		for(TestCase tc : getTestCases()) {
 			if(tc.hasKeyword(keywordToTest)) {
-				result.add(tc.getLocalName());
+				result.add(tc);
 			}
 		}
 		return result;
 	}
 
-	private static List<String> getLastFailedTestCases(CommandLineTool cmd) {
-		List<String> result = new LinkedList<String>();
+	private Collection<TestCase> getLastFailedTestCases(CommandLineTool cmd) {
+		Collection<TestCase> result = new LinkedList<TestCase>();
 		if(cmd.isOptionInCommandLine(Qualify.OPTION_RELEASE_NOTE_FILE_NAME)) {
 			File releaseNote = new File(cmd.getOptionValue(Qualify.OPTION_RELEASE_NOTE_FILE_NAME));
 			if(releaseNote.exists() && releaseNote.isFile()) {
-				result = ReleaseNote.getFailedTestCases(releaseNote);
+				for(String tcName : ReleaseNote.getFailedTestCases(releaseNote)) {
+					result.add(getTestCase(tcName));
+				}
 				logger.info("*** LAST FAILED TEST CASES (" + result.size() + ") :");
-				for(String testCaseName : result) {
-					logger.info("** " + testCaseName);
+				for(TestCase testCase : result) {
+					logger.info("** " + testCase.getLocalName());
 				}
 			} else {
 				ErrorsAndWarnings.addError("Cannot run last failed because release note '" + releaseNote.getAbsolutePath()
@@ -348,16 +356,28 @@ public abstract class TestHarness {
 
 		HTTPServer server = startHTTPServer(cmd);
 
-		List<String> testCasesToRun = new LinkedList<String>();
+		Collection<TestCase> testCasesToRun = new LinkedList<TestCase>();
 
 		if((ErrorsAndWarnings.getErrorsCount() == 0) || cmd.isOptionInCommandLine(Qualify.OPTION_RUN_ON_ERROR)) {
+
+			File continuousReleaseNoteFile = null;
+			if(cmd.isOptionInCommandLine(Qualify.OPTION_CONTINUOUS_RELEASE_NOTE)
+					&& cmd.getOptionValue(Qualify.OPTION_RELEASE_NOTE_FILE_NAME) != null) {
+				continuousReleaseNoteFile = new File(cmd.getOptionValue(Qualify.OPTION_RELEASE_NOTE_FILE_NAME));
+
+				try {
+					ReleaseNote.generateReleaseNote(th, continuousReleaseNoteFile);
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
 
 			boolean sanityPassed = false;
 
 			if(cmd.isOptionInCommandLine(Qualify.OPTION_NO_SANITY)) {
 				sanityPassed = true;
 			} else {
-				th.runAllSanityTests();
+				th.runAllSanityTests(continuousReleaseNoteFile);
 				sanityPassed = th.areSanityTestsSuccessful();
 			}
 
@@ -365,16 +385,16 @@ public abstract class TestHarness {
 				if(cmd.isOptionInCommandLine(Qualify.OPTION_TEST_TO_RUN)) {
 					String[] testCasesNames = cmd.getOptionValues(Qualify.OPTION_TEST_TO_RUN);
 					for(String testCaseName : testCasesNames) {
-						testCasesToRun.add(testCaseName);
+						testCasesToRun.add(th.getTestCase(testCaseName));
 					}
 				} else if(cmd.isOptionInCommandLine(Qualify.OPTION_REQUIREMENT_TO_TEST)) {
-					testCasesToRun = getTestCasesFromRequirement(cmd);
+					testCasesToRun = th.getTestCasesFromRequirement(cmd);
 				} else if(cmd.isOptionInCommandLine(Qualify.OPTION_KEYWORD_TO_TEST)) {
-					testCasesToRun = getTestCasesFromKeyword(cmd, th);
+					testCasesToRun = th.getTestCasesFromKeyword(cmd);
 				} else if(cmd.isOptionInCommandLine(Qualify.OPTION_RUN_LAST_FAILED)) {
-					testCasesToRun = getLastFailedTestCases(cmd);
+					testCasesToRun = th.getLastFailedTestCases(cmd);
 				} else {
-					testCasesToRun = TestCase.getLocalNames(th.testCases);
+					testCasesToRun = new LinkedHashMap<String, TestCase>(th.testCases).values();
 				}
 			} else {
 				ErrorsAndWarnings.addError("Sanity tests have failed");
@@ -383,12 +403,7 @@ public abstract class TestHarness {
 			if(cmd.isOptionInCommandLine(Qualify.OPTION_TEST_CASE_LIST_NAME)) {
 				th.printTestCaseList();
 			} else {
-				if(cmd.isOptionInCommandLine(Qualify.OPTION_CONTINUOUS_RELEASE_NOTE)
-						&& cmd.getOptionValue(Qualify.OPTION_RELEASE_NOTE_FILE_NAME) != null) {
-					th.runTestCases(testCasesToRun, new File(cmd.getOptionValue(Qualify.OPTION_RELEASE_NOTE_FILE_NAME)));
-				} else {
-					th.runTestCases(testCasesToRun);
-				}
+				th.runTestCases(testCasesToRun, continuousReleaseNoteFile);
 
 				logger.info("**********************");
 				logger.info("* TEST CASES SUMMARY *");
@@ -397,7 +412,11 @@ public abstract class TestHarness {
 
 			exportReports(th);
 
-			th.printTestCasesSynthesis(testCasesToRun);
+			Collection<String> testCasesNames = new LinkedList<String>();
+			for(TestCase testCase : testCasesToRun) {
+				testCasesNames.add(testCase.getLocalName());
+			}
+			th.printTestCasesSynthesis(testCasesNames);
 
 			logger.info("********************");
 			logger.info("* TEST HARNESS END *");
@@ -418,7 +437,26 @@ public abstract class TestHarness {
 			}
 		}
 
+		Collection<String> warnings = ErrorsAndWarnings.getWarnings();
+		Collection<String> errors = ErrorsAndWarnings.getErrors();
+		StringBuilder errorsAndWarnings = new StringBuilder("" + warnings.size() + " Warning(s) and " + errors.size() + " error(s)\n");
+		for(String warning : warnings) {
+			errorsAndWarnings.append("WARNING\t" + warning + "\n");
+		}
+		for(String error : errors) {
+			errorsAndWarnings.append("ERROR\t" + error + "\n");
+		}
+		logger.info(errorsAndWarnings.toString());
+
 		return ErrorsAndWarnings.getErrorsCount();
+	}
+
+	private TestCase getTestCase(String name) {
+		TestCase result = testCases.get(name);
+		if(result == null) {
+			result = sanityTests.get(name);
+		}
+		return result;
 	}
 
 	private void setTestCasesMaxAttempt(CommandLineTool cmd) {
@@ -452,12 +490,13 @@ public abstract class TestHarness {
 	 */
 	protected final void register(TestCase tc) {
 		Qualify.initLogs();
-		String testCaseShortClassName = tc.getLocalName();
-		if(TestCase.get(testCases, testCaseShortClassName) == null) {
-			testCases.add(tc);
 
-			// If no TestSource is set for the TestCase, then it is automatically search
-			// for all test cases made from Groovy scripts, TestSource is already attached
+		String testCaseShortClassName = tc.getLocalName();
+		if(testCases.get(testCaseShortClassName) == null) {
+			testCases.put(testCaseShortClassName, tc);
+
+			// If no TestSource is set for the TestCase, then it is automatically searched.
+			// For all test cases made from Groovy scripts, TestSource is already attached.
 			if(tc.getReport() == null) {
 				boolean sourceFileFound = false;
 				for(File sourceDir : testCasesSourceDirs) {
@@ -489,8 +528,8 @@ public abstract class TestHarness {
 	protected final void addSanityTest(TestCase tc) {
 		Qualify.initLogs();
 		String testCaseShortClassName = tc.getLocalName();
-		if(TestCase.get(sanityTests, testCaseShortClassName) == null) {
-			sanityTests.add(tc);
+		if(sanityTests.get(testCaseShortClassName) == null) {
+			sanityTests.put(testCaseShortClassName, tc);
 
 			for(File sourceDir : testCasesSourceDirs) {
 				String sourceRelativeFileName = getRelativeFileName(testCaseShortClassName + ".java", sourceDir);
@@ -536,141 +575,103 @@ public abstract class TestHarness {
 	 */
 	protected abstract void registerTestCases();
 
-	private TestCase renewTestCase(String testCaseName, TestCase tc) throws Throwable {
-		testCases.remove(tc);
+	/**
+	 * Returns a fresh instance of <code>testCase</code>. That means that if registered with its {@link Class}, a new instance is created.
+	 * If registered with instance, the same instance is returned (bypass).
+	 * 
+	 * @param testCase
+	 * @return
+	 */
+	private TestCase getRefreshedTestCase(TestCase testCase) {
+		TestCase result = testCase;
+		boolean isAReloadableTestCase = reloadableTestCases.contains(testCase.getClass());
+		if(isAReloadableTestCase) {
+			logger.info(String.format("TEST CASE %s is a reloadable (max retry: %s)", testCase.getName(), testCasesMaxAttemptNumber));
+			try {
+				testCases.remove(testCase.getLocalName());
 
-		try {
-			tc = tc.getClass().newInstance();
-			register(tc);
-			return tc;
-		} catch(Throwable t) {
-			ErrorsAndWarnings.addError("Test case '" + testCaseName + "' is not reloadable: " + t.getMessage());
-			throw t;
+				try {
+					testCase = testCase.getClass().newInstance();
+					register(testCase);
+					result = testCase;
+				} catch(Throwable t) {
+					ErrorsAndWarnings.addError("Test case '" + testCase.getLocalName() + "' is not reloadable: " + t.getMessage());
+					throw t;
+				}
+			} catch(Throwable t) {
+				ErrorsAndWarnings.addError("Test case '" + testCase.getLocalName() + "' is not reloadable: " + t.getMessage());
+			}
 		}
+
+		return result;
 	}
 
 	/**
-	 * Runs one single test case
+	 * Runs one single test case.
 	 * 
+	 * @return success
 	 * @param testCaseName
 	 */
-	protected final void runSingleTestCase(String testCaseName) {
-		TestCase tc = TestCase.get(testCases, testCaseName);
-
-		if(tc == null) {
-			tc = TestCase.get(sanityTests, testCaseName);
-		}
-
+	protected final boolean runSingleTestCase(TestCase tc) {
 		if(tc != null) {
 			if(!tc.hasRun()) {
-				boolean isAReloadableTestCase = reloadableTestCases.contains(tc.getClass());
-				if(isAReloadableTestCase) {
-					logger.info(String.format("TEST CASE %s is a reloadable (max retry: %s)", tc.getName(), testCasesMaxAttemptNumber));
+				for(TestSpy testSpy : spies) {
+					testSpy.beforeTest(tc);
 				}
-				retry: for(int retry = 0; retry < testCasesMaxAttemptNumber; retry++) {
-					if(isAReloadableTestCase) {
-						logger.info(String.format("TEST CASE %s attempt: %s/%s", tc.getName(), retry + 1, testCasesMaxAttemptNumber));
-					}
-					if(retry > 0) {
+
+				OutputStream logOutput = null;
+				Appender logAppender = null;
+				try {
+					logOutput = getLogOutputStream(tc);
+					logAppender = prepareLogAppender(tc, logOutput);
+					tc.resetRequirementTarget();
+					ErrorsAndWarnings.activateWarnings();
+					tc.beforeRun();
+					if(tc.getNbNOK() == 0) {
 						try {
-							tc = renewTestCase(testCaseName, tc);
-						} catch(Throwable t) {
-							ErrorsAndWarnings.addError("Test case '" + testCaseName + "' is not reloadable: " + t.getMessage());
-							break;
+							tc.hasRun(true);
+							tc.run();
+						} catch(Throwable e) {
+							try {
+								attachExceptionToTestCase("Exception raised during run() at "
+										+ StackTraceTool.getCall(e.getStackTrace(), tc.getName()), e, tc);
+							} catch(Exception e2) {
+								e.printStackTrace();
+							}
+						}
+						try {
+							logger.info("CLOSING TEST CASE " + tc.getName());
+							tc.afterRun();
+
+							for(TestSpy testSpy : spies) {
+								testSpy.afterTest(tc);
+							}
+
+						} catch(Exception e) {
+							try {
+								attachExceptionToTestCase("Exception raised during afterRun() at "
+										+ StackTraceTool.getComingStackTraceElementLocation(e, TestHarness.class), e, tc);
+							} catch(Exception e2) {
+								e.printStackTrace();
+							}
+
 						}
 					}
+				} catch(Throwable e) {
+					attachExceptionToTestCase("Exception raised during beforeRun() at "
+							+ StackTraceTool.getComingStackTraceElementLocation(e, TestHarness.class), e, tc);
 
-					for(TestSpy testSpy : spies) {
-						testSpy.beforeTest(tc);
-					}
-
-					long startTime = System.currentTimeMillis();
-
-					OutputStream logOutput = null;
-					Appender logAppender = null;
+				} finally {
 					try {
-						logOutput = getLogOutputStream(tc);
-						logAppender = prepareLogAppender(tc, logOutput);
-						tc.resetRequirementTarget();
-						ErrorsAndWarnings.activateWarnings();
-						tc.beforeRun();
-						if(tc.getNbNOK() == 0) {
-							try {
-								tc.hasRun(true);
-								tc.run();
-							} catch(Throwable e) {
-								try {
-									attachExceptionToTestCase("Exception raised during run() at "
-											+ StackTraceTool.getCall(e.getStackTrace(), tc.getName()), e, tc, isLastTry(retry,
-											isAReloadableTestCase));
-								} catch(Exception e2) {
-									e.printStackTrace();
-								}
-							}
-							try {
-								logger.info("CLOSING TEST CASE " + tc.getName());
-								tc.afterRun();
-
-								for(TestSpy testSpy : spies) {
-									testSpy.afterTest(tc);
-								}
-
-							} catch(Exception e) {
-								try {
-									attachExceptionToTestCase("Exception raised during afterRun() at "
-											+ StackTraceTool.getComingStackTraceElementLocation(e, TestHarness.class), e, tc, isLastTry(
-											retry, isAReloadableTestCase));
-								} catch(Exception e2) {
-									e.printStackTrace();
-								}
-
-							}
-						}
-					} catch(Throwable e) {
-						attachExceptionToTestCase("Exception raised during beforeRun() at "
-								+ StackTraceTool.getComingStackTraceElementLocation(e, TestHarness.class), e, tc, isLastTry(retry,
-								isAReloadableTestCase));
-
-					} finally {
-						try {
-							releaseLogAppender(logAppender, logOutput);
-						} catch(IOException e) {
-							e.printStackTrace();
-						}
+						releaseLogAppender(logAppender, logOutput);
+					} catch(IOException e) {
+						e.printStackTrace();
 					}
-
-					if(!isLastTry(retry, isAReloadableTestCase)) {
-						for(TestResult tr : tc.getResults()) {
-							if(!tr.isSuccessful()) {
-								continue retry;
-							}
-						}
-					}
-
-					long endTime = System.currentTimeMillis();
-					tc.setElapsedTime(new Duration(startTime, endTime));
-					printTestCaseResults(tc);
-					printTestCaseSynthesis(tc);
-
-					// Attaching test result to requirements
-					for(TestResult tr : tc.getResults()) {
-						String requirementId = tr.getRequirementId();
-						getSrd().createRequirement(requirementId); // add the requirement if not existing
-						Requirement target = getSrd().getRequirement(requirementId);
-						target.addTestResult(tr);
-					}
-					break;
 				}
 			}
-
-		} else {
-			ErrorsAndWarnings.addError("Test case '" + testCaseName + "' is not registered");
 		}
 
-	}
-
-	private boolean isLastTry(int retry, boolean isReloadable) {
-		return retry == testCasesMaxAttemptNumber - 1 || !isReloadable;
+		return tc.isSuccessful();
 	}
 
 	OutputStream getLogOutputStream(TestCase tc) throws IOException {
@@ -698,12 +699,8 @@ public abstract class TestHarness {
 		}
 	}
 
-	private void attachExceptionToTestCase(String label, Throwable e, TestCase tc, boolean isLastTry) {
+	private void attachExceptionToTestCase(String label, Throwable e, TestCase tc) {
 		logger.error(label, e);
-
-		if(isLastTry) {
-			ErrorsAndWarnings.addException(e);
-		}
 
 		String testCaseName = tc.getName();
 
@@ -731,36 +728,50 @@ public abstract class TestHarness {
 	}
 
 	/**
-	 * Runs all the test cases
-	 */
-	protected final void runTestCases(List<String> testCasesToRun) {
-		int testIndex = 1;
-		long startTime = System.currentTimeMillis();
-		for(String testCaseName : testCasesToRun) {
-			logger.info("*************************");
-			logger.info("* TEST CASE STARTS: " + testCaseName);
-			logger.info("* HARNESS PROGRESS: " + testIndex + " / " + testCasesToRun.size());
-			logger.info("*************************");
-			runSingleTestCase(testCaseName);
-			this.elapsedTime = new Duration(startTime, System.currentTimeMillis());
-			testIndex++;
-		}
-	}
-
-	/**
 	 * Runs all the Sanity tests
 	 */
-	protected final void runAllSanityTests() {
+	protected final void runAllSanityTests(File continuousReleaseNoteFile) {
 		if(sanityTests.size() > 0) {
 			int testIndex = 1;
 			long startTime = System.currentTimeMillis();
-			for(String testCaseName : TestCase.getLocalNames(sanityTests)) {
+			for(TestCase testCase : sanityTests.values()) {
 				logger.info("*************************");
-				logger.info("* SANITY TEST STARTS: " + testCaseName);
+				logger.info("* SANITY TEST STARTS: " + testCase.getLocalName());
 				logger.info("* SANITY PROGRESS: " + testIndex + " / " + sanityTests.size());
 				logger.info("*************************");
-				runSingleTestCase(testCaseName);
+
+				long tcStartTime = System.currentTimeMillis();
+
+				//
+				runSingleTestCase(testCase);
+				//
+
+				long tcEndTime = System.currentTimeMillis();
+
+				testCase.setElapsedTime(new Duration(tcStartTime, tcEndTime));
+
+				// Attaching test result to requirements
+				for(TestResult tr : testCase.getResults()) {
+					String requirementId = tr.getRequirementId();
+					getSrd().createRequirement(requirementId); // add the requirement if not existing
+					Requirement target = getSrd().getRequirement(requirementId);
+					target.addTestResult(tr);
+				}
+
 				this.elapsedTime = new Duration(startTime, System.currentTimeMillis());
+
+				printTestCaseResults(testCase);
+				printTestCaseSynthesis(testCase);
+
+				// WRITING RELEASE NOTE
+				if(continuousReleaseNoteFile != null) {
+					try {
+						ReleaseNote.generateReleaseNote(this, continuousReleaseNoteFile);
+					} catch(IOException e) {
+						e.printStackTrace();
+					}
+				}
+
 				testIndex++;
 			}
 			logger.info("*******************************");
@@ -775,34 +786,131 @@ public abstract class TestHarness {
 
 	private boolean areSanityTestsSuccessful() {
 		boolean result = true;
-		for(TestCase tc : sanityTests) {
+		for(TestCase tc : sanityTests.values()) {
 			result = result && tc.isSuccessful();
 		}
 		return result;
 	}
 
-	protected final void runTestCases(List<String> testCasesToRun, File continuousReleaseNoteFile) {
-		int testIndex = 1;
+	protected final void runTestCases(final Collection<TestCase> testCasesToRun, File continuousReleaseNoteFile) {
+
 		long startTime = System.currentTimeMillis();
 
 		for(TestSpy testSpy : spies) {
 			testSpy.beforeHarness(this);
 		}
 
-		for(String testCaseName : testCasesToRun) {
-			logger.info("*************************");
-			logger.info("* TEST CASE STARTS: " + testCaseName);
-			logger.info("* HARNESS PROGRESS: " + testIndex + " / " + testCasesToRun.size());
-			logger.info("*************************");
-			runSingleTestCase(testCaseName);
-			this.elapsedTime = new Duration(startTime, System.currentTimeMillis());
-			try {
-				ReleaseNote.generateReleaseNote(this, continuousReleaseNoteFile);
-			} catch(IOException e) {
-				e.printStackTrace();
+		// Preparing storage for test cases to retry at the end.
+		Collection<TestCase> remainingTestCases = new LinkedList<TestCase>();
+
+		// FIRST RUN
+		{
+			int testIndex = 1;
+			for(TestCase testCase : testCasesToRun) {
+				logger.info("*************************");
+				logger.info("* TEST CASE STARTS: " + testCase.getLocalName());
+				logger.info("* HARNESS PROGRESS: " + testIndex + " / " + testCasesToRun.size());
+				logger.info("*************************");
+
+				long tcStartTime = System.currentTimeMillis();
+
+				//
+				boolean isSuccessful = runSingleTestCase(testCase);
+				//
+
+				long tcEndTime = System.currentTimeMillis();
+
+				testCase.setElapsedTime(new Duration(tcStartTime, tcEndTime));
+
+				printTestCaseResults(testCase);
+				printTestCaseSynthesis(testCase);
+
+				// Attaching test result to requirements
+				for(TestResult tr : testCase.getResults()) {
+					String requirementId = tr.getRequirementId();
+					getSrd().createRequirement(requirementId); // add the requirement if not existing
+					Requirement target = getSrd().getRequirement(requirementId);
+					target.addTestResult(tr);
+				}
+
+				if(!isSuccessful) {
+					remainingTestCases.add(testCase);
+				}
+
+				// WRITING RELEASE NOTE
+				if(continuousReleaseNoteFile != null) {
+					try {
+						ReleaseNote.generateReleaseNote(this, continuousReleaseNoteFile);
+					} catch(IOException e) {
+						e.printStackTrace();
+					}
+				}
+
+				testIndex++;
 			}
-			testIndex++;
 		}
+
+		// RETRIES
+		for(int retry = 1; retry <= testCasesMaxAttemptNumber; retry++) {
+			Collection<TestCase> failedTestCases = new LinkedList<TestCase>();
+
+			int testIndex = 1;
+			for(TestCase testCase : remainingTestCases) {
+				logger.info("*************************");
+				logger.info("* TEST CASE RETRY (" + retry + "/" + testCasesMaxAttemptNumber + "): " + testCase.getLocalName());
+				logger.info("* HARNESS RETRY PROGRESS: " + testIndex + " / " + remainingTestCases.size());
+				logger.info("*************************");
+
+				long tcStartTime = System.currentTimeMillis();
+
+				testCase = getRefreshedTestCase(testCase);
+
+				//
+				boolean isSuccessful = runSingleTestCase(testCase);
+				//
+
+				long tcEndTime = System.currentTimeMillis();
+
+				testCase.setElapsedTime(new Duration(tcStartTime, tcEndTime));
+
+				printTestCaseResults(testCase);
+				printTestCaseSynthesis(testCase);
+
+				// Attaching test result to requirements
+				for(TestResult tr : testCase.getResults()) {
+					String requirementId = tr.getRequirementId();
+					getSrd().createRequirement(requirementId); // add the requirement if not existing
+					Requirement target = getSrd().getRequirement(requirementId);
+					target.addTestResult(tr);
+				}
+
+				if(!isSuccessful) {
+					failedTestCases.add(testCase);
+					if(retry == testCasesMaxAttemptNumber) {
+						ErrorsAndWarnings.addWarningsAndErrors(testCase);
+					}
+				}
+
+				// WRITING RELEASE NOTE
+				if(continuousReleaseNoteFile != null) {
+					try {
+						ReleaseNote.generateReleaseNote(this, continuousReleaseNoteFile);
+					} catch(IOException e) {
+						e.printStackTrace();
+					}
+				}
+
+				testIndex++;
+			}
+
+			remainingTestCases = failedTestCases;
+
+			if(remainingTestCases.size() == 0) {
+				break;
+			}
+		}
+
+		this.elapsedTime = new Duration(startTime, System.currentTimeMillis());
 
 		for(TestSpy testSpy : spies) {
 			testSpy.afterHarness(this);
@@ -878,10 +986,14 @@ public abstract class TestHarness {
 	 */
 	protected final void printTestCaseList() {
 		logger.info("* TEST CASES LIST:");
-		for(String testCaseName : TestCase.getLocalNames(testCases)) {
-			logger.info(testCaseName);
+		for(TestCase testCase : getTestCases()) {
+			logger.info(testCase.getLocalName());
 		}
 		logger.info("* END OF LIST");
+	}
+
+	protected final void printTestCaseSynthesis(String testCaseName) {
+		printTestCaseResults(getTestCase(testCaseName));
 	}
 
 	/**
@@ -919,13 +1031,13 @@ public abstract class TestHarness {
 		}
 	}
 
-	protected final void printTestCasesSynthesis(List<String> testCasesToRun) {
+	protected final void printTestCasesSynthesis(Collection<String> testCasesToRun) {
 		StringBuilder runFailedOption = null;
 		for(String testCaseName : testCasesToRun) {
-			TestCase tc = TestCase.get(testCases, testCaseName);
-			printTestCaseSynthesis(tc);
+			TestCase testCase = getTestCase(testCaseName);
+			printTestCaseSynthesis(testCase);
 
-			if(!tc.isSuccessful()) {
+			if(!testCase.isSuccessful()) {
 				if(runFailedOption == null) {
 					runFailedOption = new StringBuilder("-D" + CommandLineTool.OPTION_SYSTEM_PROPERTIES_PREFIX + Qualify.OPTION_TEST_TO_RUN
 							+ "=" + testCaseName);
@@ -941,8 +1053,8 @@ public abstract class TestHarness {
 	}
 
 	protected final void printAllTestCasesResults() {
-		for(String testCaseName : TestCase.getLocalNames(testCases)) {
-			printTestCaseResults(TestCase.get(testCases, testCaseName));
+		for(TestCase testCase : getTestCases()) {
+			printTestCaseResults(testCase);
 		}
 	}
 

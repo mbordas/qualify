@@ -105,7 +105,7 @@ public class TestToolSikuli {
 				TestToolFile.createDir(dir);
 			} catch(IOException e) {
 				e.printStackTrace();
-				ErrorsAndWarnings.addError("Images directory '" + imgDir.getAbsolutePath() + "' cannot be created.");
+				testCase.addError("Images directory '" + imgDir.getAbsolutePath() + "' cannot be created.");
 			}
 		}
 	}

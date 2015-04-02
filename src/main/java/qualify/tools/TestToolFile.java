@@ -587,7 +587,6 @@ public class TestToolFile {
 			FileUtils.copyDirectory(srcDir, destDir);
 		} catch(IOException e) {
 			this.testCase.addTestResult(false, e.getMessage());
-			ErrorsAndWarnings.addException(e);
 		}
 
 	}

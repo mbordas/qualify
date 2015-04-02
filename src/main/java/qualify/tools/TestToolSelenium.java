@@ -30,7 +30,6 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import qualify.ErrorsAndWarnings;
 import qualify.TestCase;
 import qualify.TestException;
 
@@ -248,7 +247,7 @@ public abstract class TestToolSelenium {
 			page = TestToolFile.createNewTemporaryFile("html");
 		} catch(IOException e1) {
 			testCase.addTestResult(false, "IOException raised: " + e1.getLocalizedMessage());
-			ErrorsAndWarnings.addException(e1);
+			testCase.addException(e1);
 		}
 		try {
 			FileUtils.writeStringToFile(page, htmlContent);

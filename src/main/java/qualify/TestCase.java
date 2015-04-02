@@ -16,6 +16,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package qualify;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -58,6 +59,9 @@ public abstract class TestCase {
 	private LinkedList<TestResult> results = null;
 	private LinkedList<TestComment> comments = null;
 	private LinkedList<String> keywords = null;
+
+	private static LinkedList<String> warnings = new LinkedList<String>();
+	private static LinkedList<String> errors = new LinkedList<String>();
 
 	private static final String TAG_NAME = "test_case", NAME_ATTRIBUTE_NAME = "name";
 
@@ -162,7 +166,7 @@ public abstract class TestCase {
 		if(trace != null) {
 			report.addStep(trace.getLineNumber(), title);
 		} else {
-			ErrorsAndWarnings.addWarning("Cannot add step to report: unable to process stack trace.");
+			addWarning("Cannot add step to report: unable to process stack trace.");
 		}
 	}
 
@@ -174,17 +178,16 @@ public abstract class TestCase {
 				if(report != null) {
 					report.addTestComment(tc);
 				} else {
-					ErrorsAndWarnings.addWarning("Cannot add TestComment to source because TestSource '" + fileName + "' doesn't exist.");
+					addWarning("Cannot add TestComment to source because TestSource '" + fileName + "' doesn't exist.");
 				}
 			} else {
-				ErrorsAndWarnings.addWarning("Cannot add TestComment to source because TestSource is not found from StackTrace.");
+				addWarning("Cannot add TestComment to source because TestSource is not found from StackTrace.");
 			}
 		} else {
 			if(report != null) {
 				report.addTestComment(tc);
 			} else {
-				ErrorsAndWarnings.addWarning("Cannot add TestComment to source because TestSource '" + tc.getTestSource()
-						+ "' doesn't exist.");
+				addWarning("Cannot add TestComment to source because TestSource '" + tc.getTestSource() + "' doesn't exist.");
 			}
 		}
 		comments.add(tc);
@@ -196,7 +199,7 @@ public abstract class TestCase {
 		String fileName = trace.getFileName();
 		TestComment testComment = null;
 		if(getReport() == null) {
-			ErrorsAndWarnings.addWarning("Cannot add TestComment to source because TestSource '" + fileName + "' doesn't exist.");
+			addWarning("Cannot add TestComment to source because TestSource '" + fileName + "' doesn't exist.");
 		} else {
 			testComment = new TestComment(comment, fileName, trace.getLineNumber(), this);
 			report.addTestComment(testComment);
@@ -209,7 +212,7 @@ public abstract class TestCase {
 		String fileName = trace.getFileName();
 		TestComment comment = new TestComment(text, fileName, trace.getLineNumber(), this);
 		if(getReport() == null) {
-			ErrorsAndWarnings.addWarning("Cannot add TestComment to source because TestSource '" + fileName + "' doesn't exist.");
+			addWarning("Cannot add TestComment to source because TestSource '" + fileName + "' doesn't exist.");
 		} else {
 			report.addTestComment(comment);
 		}
@@ -225,17 +228,16 @@ public abstract class TestCase {
 				if(report != null) {
 					report.addTestResult(tr);
 				} else {
-					ErrorsAndWarnings.addWarning("Cannot add TestResult to source because TestSource '" + fileName + "' doesn't exist.");
+					addWarning("Cannot add TestResult to source because TestSource '" + fileName + "' doesn't exist.");
 				}
 			} else {
-				ErrorsAndWarnings.addWarning("Cannot add TestResult to source because TestSource is not found from StackTrace.");
+				addWarning("Cannot add TestResult to source because TestSource is not found from StackTrace.");
 			}
 		} else {
 			if(report != null) {
 				report.addTestResult(tr);
 			} else {
-				ErrorsAndWarnings.addWarning("Cannot add TestResult to source because TestSource '" + tr.getTestSource()
-						+ "' doesn't exist.");
+				addWarning("Cannot add TestResult to source because TestSource '" + tr.getTestSource() + "' doesn't exist.");
 			}
 		}
 		results.add(tr);
@@ -441,7 +443,7 @@ public abstract class TestCase {
 		if(report != null) {
 			report.attachFile(f, type, se.getFileName(), se.getLineNumber());
 		} else {
-			ErrorsAndWarnings.addWarning("Cannot attach file '" + f.getAbsolutePath() + "': no source is available");
+			addWarning("Cannot attach file '" + f.getAbsolutePath() + "': no source is available");
 		}
 	}
 
@@ -449,7 +451,7 @@ public abstract class TestCase {
 		if(report != null) {
 			attachFile(f, Attachment.Type.OTHER);
 		} else {
-			ErrorsAndWarnings.addWarning("Cannot attach file '" + f.getAbsolutePath() + "': no source is available");
+			addWarning("Cannot attach file '" + f.getAbsolutePath() + "': no source is available");
 		}
 	}
 
@@ -457,7 +459,7 @@ public abstract class TestCase {
 		if(report != null) {
 			this.report.attachFile(f, Attachment.Type.OTHER, fileName, TestCase.class);
 		} else {
-			ErrorsAndWarnings.addWarning("Cannot attach file '" + f.getAbsolutePath() + "': no source is available");
+			addWarning("Cannot attach file '" + f.getAbsolutePath() + "': no source is available");
 		}
 	}
 
@@ -481,8 +483,8 @@ public abstract class TestCase {
 			this.requirementTarget = requirementId;
 		} else {
 			StackTraceElement callingTestCase = StackTraceTool.getTestCaseCall();
-			ErrorsAndWarnings.addWarning("Requirement target '" + requirementId + "' does not exist (" + callingTestCase.getFileName()
-					+ " : " + callingTestCase.getLineNumber() + ")");
+			addWarning("Requirement target '" + requirementId + "' does not exist (" + callingTestCase.getFileName() + " : "
+					+ callingTestCase.getLineNumber() + ")");
 			this.requirementTarget = Requirement.EMPTY_REQUIREMENT_ID;
 		}
 	}
@@ -525,7 +527,7 @@ public abstract class TestCase {
 			comment("Duration = " + duration_ms + " ms");
 		} catch(InterruptedException e) {
 			e.printStackTrace();
-			ErrorsAndWarnings.addError("An Exception occured during Thread.sleep");
+			addError("An Exception occured during Thread.sleep");
 		}
 	}
 
@@ -591,27 +593,7 @@ public abstract class TestCase {
 		return result;
 	}
 
-	/**
-	 * Finds a TestCase from a list.
-	 * 
-	 * @param testCases
-	 *            The list of TestCase objects to parse.
-	 * @param testCaseName
-	 *            The name of the search TestCase object.
-	 * @return The first TestCase object with searched name or <code>null</code> if no matching TestCase is found.
-	 */
-	public static TestCase get(List<TestCase> testCases, String testCaseName) {
-		TestCase result = null;
-		for(TestCase tc : testCases) {
-			if(tc.getLocalName().equals(testCaseName)) {
-				result = tc;
-				break;
-			}
-		}
-		return result;
-	}
-
-	public static List<String> getLocalNames(List<TestCase> testCases) {
+	public static List<String> getLocalNames(Collection<TestCase> testCases) {
 		List<String> result = new LinkedList<String>();
 		for(TestCase tc : testCases) {
 			result.add(tc.getLocalName());
@@ -638,6 +620,31 @@ public abstract class TestCase {
 			public void afterRun() {
 			}
 		};
+	}
+
+	public static void addWarning(String warnMessage) {
+		logger.warn(warnMessage);
+		if(!warnings.contains(warnMessage)) {
+			warnings.add(warnMessage);
+		}
+	}
+
+	public void addError(String errMessage) {
+		logger.error(errMessage);
+		errors.add(errMessage);
+	}
+
+	public void addException(Throwable e) {
+		logger.error(e.getMessage(), e);
+		errors.add(e.getMessage());
+	}
+
+	public Collection<String> getWarnings() {
+		return warnings;
+	}
+
+	public Collection<String> getErrors() {
+		return errors;
 	}
 
 }
