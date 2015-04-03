@@ -128,7 +128,7 @@ public class SRD {
 		return result;
 	}
 	
-	public void createRequirement(String requirementId) {
+	public void createRequirementIfNeeded(String requirementId) {
 		if(getRequirement(requirementId) == null) {
 			addRequirement(new Requirement(requirementId));
 		}

@@ -31,7 +31,7 @@ public class UT_SRD extends TestCase {
 		check(srd.getRequirement("new req") == null);
 		check(srd.getRequirement("CommandLine") != null);
 		
-		srd.createRequirement("new req");
+		srd.createRequirementIfNeeded("new req");
 		check(srd.getRequirement("new req") != null);
 		
 	}

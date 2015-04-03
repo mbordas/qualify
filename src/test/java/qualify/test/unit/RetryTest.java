@@ -10,12 +10,14 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import qualify.ErrorsAndWarnings;
 import qualify.TestHarness;
 
 public class RetryTest {
 
 	@Test
 	public void retryTest() {
+		ErrorsAndWarnings.reset();
 
 		TestHarness harness = new TestHarness() {
 			@Override
@@ -30,5 +32,6 @@ public class RetryTest {
 		TestHarness.runTestHarness(new String[] { "-option_file", "target/test-classes/RetryTest/options.xml" }, harness);
 
 		assertEquals(3, FakeTestCase.getExecutions());
+		assertEquals(0, ErrorsAndWarnings.getErrorsCount());
 	}
 }

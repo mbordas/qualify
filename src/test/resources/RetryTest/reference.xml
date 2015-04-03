@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="style/release_note.xsl"?>
+<release_note sut_name="Qualify" version="0.8" date="30/03/2015" successful_checks_percent="100" successful_test_cases_percent="100" successful_requirements_percent="0">
+  <requirement id="EMPTY_REQUIREMENT" result="OK" nbOKs="1" nbNOKs="1" path_index="" local_index="1">
+    <test_case name="FakeTestCase" test_source="FakeTestCase/FakeTestCase.xml">
+      <test_result result="OK" test_source="FakeTestCase/FakeTestCase.xml" test_case_name="FakeTestCase" test_source_line="21" />
+    </test_case>
+  </requirement>
+</release_note>
+

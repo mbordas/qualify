@@ -753,7 +753,7 @@ public abstract class TestHarness {
 				// Attaching test result to requirements
 				for(TestResult tr : testCase.getResults()) {
 					String requirementId = tr.getRequirementId();
-					getSrd().createRequirement(requirementId); // add the requirement if not existing
+					getSrd().createRequirementIfNeeded(requirementId); // add the requirement if not existing
 					Requirement target = getSrd().getRequirement(requirementId);
 					target.addTestResult(tr);
 				}
@@ -825,16 +825,18 @@ public abstract class TestHarness {
 				printTestCaseResults(testCase);
 				printTestCaseSynthesis(testCase);
 
-				// Attaching test result to requirements
-				for(TestResult tr : testCase.getResults()) {
-					String requirementId = tr.getRequirementId();
-					getSrd().createRequirement(requirementId); // add the requirement if not existing
-					Requirement target = getSrd().getRequirement(requirementId);
-					target.addTestResult(tr);
-				}
-
 				if(!isSuccessful) {
 					remainingTestCases.add(testCase);
+				}
+
+				if(isSuccessful || testCasesMaxAttemptNumber < 1) {
+					// Attaching test result to requirements
+					for(TestResult tr : testCase.getResults()) {
+						String requirementId = tr.getRequirementId();
+						getSrd().createRequirementIfNeeded(requirementId); // add the requirement if not existing
+						Requirement target = getSrd().getRequirement(requirementId);
+						target.addTestResult(tr);
+					}
 				}
 
 				// WRITING RELEASE NOTE
@@ -876,12 +878,14 @@ public abstract class TestHarness {
 				printTestCaseResults(testCase);
 				printTestCaseSynthesis(testCase);
 
-				// Attaching test result to requirements
-				for(TestResult tr : testCase.getResults()) {
-					String requirementId = tr.getRequirementId();
-					getSrd().createRequirement(requirementId); // add the requirement if not existing
-					Requirement target = getSrd().getRequirement(requirementId);
-					target.addTestResult(tr);
+				if(isSuccessful || retry == testCasesMaxAttemptNumber) {
+					// Attaching test result to requirements
+					for(TestResult tr : testCase.getResults()) {
+						String requirementId = tr.getRequirementId();
+						getSrd().createRequirementIfNeeded(requirementId); // add the requirement if not existing
+						Requirement target = getSrd().getRequirement(requirementId);
+						target.addTestResult(tr);
+					}
 				}
 
 				if(!isSuccessful) {

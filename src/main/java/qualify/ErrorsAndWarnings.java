@@ -43,6 +43,11 @@ public class ErrorsAndWarnings {
 		}
 	}
 
+	public static void reset() {
+		warnings = new LinkedList<String>();
+		errors = new LinkedList<String>();
+	}
+
 	public static int getErrorsCount() {
 		return errors.size();
 	}

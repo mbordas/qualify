@@ -18,7 +18,8 @@ public class FakeTestCase extends TestCase {
 	@Override
 	public void run() throws Throwable {
 		comment(s_executions.incrementAndGet());
-		need(s_failures.getAndDecrement() <= 0);
+		check(s_failures.getAndDecrement() <= 0);
+		// need(s_failures.getAndDecrement() <= 0);
 	}
 
 	public static void reset() {

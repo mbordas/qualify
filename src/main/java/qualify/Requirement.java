@@ -15,8 +15,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package qualify;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Vector;
@@ -25,7 +23,7 @@ import org.apache.log4j.Logger;
 import org.jdom.Element;
 
 public class Requirement {
-	
+
 	static Logger logger = Logger.getLogger(Requirement.class);
 
 	private String id = "";
@@ -42,10 +40,7 @@ public class Requirement {
 		this.localIndex = localIndex;
 	}
 
-	public static final String
-	EMPTY_REQUIREMENT_ID = "EMPTY_REQUIREMENT",
-	ELEMENT_NAME = "requirement",
-	ATTRIBUTE_ID = "id";
+	public static final String EMPTY_REQUIREMENT_ID = "EMPTY_REQUIREMENT", ELEMENT_NAME = "requirement", ATTRIBUTE_ID = "id";
 
 	private Vector<TestResult> results = null;
 
@@ -69,10 +64,8 @@ public class Requirement {
 			req.setParent(this);
 			req.setLocalIndex(subRequirements.size());
 		} else {
-			ErrorsAndWarnings.addError("Requirement with id='" + req.getId()
-					+ "' cannot be added as sub requirement of '" + this.getId()
-					+ "' CAUSE: it is already added as sub requirement of '"
-					+ req.getParent().getId() + "'");
+			ErrorsAndWarnings.addError("Requirement with id='" + req.getId() + "' cannot be added as sub requirement of '" + this.getId()
+					+ "' CAUSE: it is already added as sub requirement of '" + req.getParent().getId() + "'");
 		}
 	}
 
@@ -118,8 +111,8 @@ public class Requirement {
 			}
 		} else {
 			boolean isSuccessful = true;
-			for(TestResult result: results) {
-				if(! result.isSuccessful()) {
+			for(TestResult result : results) {
+				if(!result.isSuccessful()) {
 					isSuccessful = false;
 				}
 			}
@@ -132,7 +125,7 @@ public class Requirement {
 
 	public int getOKs() {
 		int numberOfOKs = 0;
-		for(TestResult result: results) {
+		for(TestResult result : results) {
 			if(result.isSuccessful()) {
 				numberOfOKs++;
 			}
@@ -145,8 +138,8 @@ public class Requirement {
 
 	public int getNOKs() {
 		int numberOfNOKs = 0;
-		for(TestResult result: results) {
-			if(! result.isSuccessful()) {
+		for(TestResult result : results) {
+			if(!result.isSuccessful()) {
 				numberOfNOKs++;
 			}
 		}
@@ -154,14 +147,6 @@ public class Requirement {
 			numberOfNOKs = numberOfNOKs + subReq.getNOKs();
 		}
 		return numberOfNOKs;
-	}
-
-	public void merge(Requirement requirement) {
-		if(this.same(requirement)) {
-			results.addAll(requirement.results);
-		} else {
-			// TODO: generate exception
-		}
 	}
 
 	public boolean same(Requirement requirement) {
@@ -186,24 +171,24 @@ public class Requirement {
 		if(id != null) {
 			result = new Requirement(id);
 			result.description = requirementTag.getText();
-			
+
 			for(Object testCaseTagObject : requirementTag.getChildren(TestCase.ELEMENT_NAME)) {
-				Element testCaseTag = (Element)testCaseTagObject;
+				Element testCaseTag = (Element) testCaseTagObject;
 				TestCase tc = TestCase.createTestCaseFromDomElement(testCaseTag);
 				for(TestResult tr : tc.getResults()) {
 					result.addTestResult(tr);
 				}
 				logger.debug("TestCase created from DOM: " + tc.getName());
 			}
-			
+
 			for(Object requirementTagObject : requirementTag.getChildren("requirement")) {
-				Element subRequirementTag = (Element)requirementTagObject;
+				Element subRequirementTag = (Element) requirementTagObject;
 				result.addSubRequirement(createRequirementFromDomElement(subRequirementTag));
 			}
 		} else {
 			ErrorsAndWarnings.addError("Unexpected requirement without 'id' attribute");
 		}
-		
+
 		return result;
 	}
 
@@ -219,7 +204,7 @@ public class Requirement {
 		}
 		return result;
 	}
-	
+
 	public static Element toDomElement(Requirement requirement, String mainOutputFolder) {
 		logger.debug("Exporting requirement '" + requirement.getId() + "'...");
 		Element requirementElement = new Element("requirement");
@@ -277,7 +262,7 @@ public class Requirement {
 
 		return requirementElement;
 	}
-	
+
 	public int getAllSubrequirementsCount() {
 		int result = 0;
 		for(Requirement subreq : getSubRequirements()) {
@@ -286,12 +271,12 @@ public class Requirement {
 		}
 		return result;
 	}
-	
+
 	public int getSuccessfulSubrequirements() {
 		int result = 0;
 		for(Requirement subreq : getSubRequirements()) {
 			if(subreq.isSuccessful()) {
-				result ++;
+				result++;
 			}
 			result += subreq.getSuccessfulSubrequirements();
 		}
