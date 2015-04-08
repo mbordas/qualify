@@ -853,13 +853,13 @@ public abstract class TestHarness {
 		}
 
 		// RETRIES
-		for(int retry = 1; retry <= testCasesMaxAttemptNumber; retry++) {
+		for(int retry = 1; retry <= testCasesMaxAttemptNumber - 1; retry++) {
 			Collection<TestCase> failedTestCases = new LinkedList<TestCase>();
 
 			int testIndex = 1;
 			for(TestCase testCase : remainingTestCases) {
 				logger.info("*************************");
-				logger.info("* TEST CASE RETRY (" + retry + "/" + testCasesMaxAttemptNumber + "): " + testCase.getLocalName());
+				logger.info("* TEST CASE RETRY (" + retry + "/" + (testCasesMaxAttemptNumber - 1) + "): " + testCase.getLocalName());
 				logger.info("* HARNESS RETRY PROGRESS: " + testIndex + " / " + remainingTestCases.size());
 				logger.info("*************************");
 
@@ -878,7 +878,7 @@ public abstract class TestHarness {
 				printTestCaseResults(testCase);
 				printTestCaseSynthesis(testCase);
 
-				if(isSuccessful || retry == testCasesMaxAttemptNumber) {
+				if(isSuccessful || retry == (testCasesMaxAttemptNumber - 1)) {
 					// Attaching test result to requirements
 					for(TestResult tr : testCase.getResults()) {
 						String requirementId = tr.getRequirementId();
@@ -890,7 +890,7 @@ public abstract class TestHarness {
 
 				if(!isSuccessful) {
 					failedTestCases.add(testCase);
-					if(retry == testCasesMaxAttemptNumber) {
+					if(retry == (testCasesMaxAttemptNumber - 1)) {
 						ErrorsAndWarnings.addWarningsAndErrors(testCase);
 					}
 				}
