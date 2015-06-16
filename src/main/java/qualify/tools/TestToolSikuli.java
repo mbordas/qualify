@@ -30,14 +30,13 @@ import java.util.List;
 import javax.swing.KeyStroke;
 
 import org.apache.log4j.Logger;
+import org.sikuli.basics.WinUtil;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.IRobot;
-import org.sikuli.script.Location;
 import org.sikuli.script.Match;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Region;
 import org.sikuli.script.Screen;
-import org.sikuli.script.Win32Util;
 
 import qualify.ErrorsAndWarnings;
 import qualify.TestCase;
@@ -143,7 +142,7 @@ public class TestToolSikuli {
 	 *            The path to the executable or the name of the application (e.g. "Mozilla Firefox")
 	 */
 	public void switchMSWindowsApp(String applicationPath) {
-		Win32Util win = new Win32Util();
+		WinUtil win = new WinUtil();
 		win.switchApp(applicationPath);
 	}
 
@@ -252,21 +251,21 @@ public class TestToolSikuli {
 	 */
 	public void click(int x, int y) {
 		mouseMove(x, y);
-		robot.mousePress(InputEvent.BUTTON1_MASK);
-		robot.mouseRelease(InputEvent.BUTTON1_MASK);
+		robot.mouseDown(InputEvent.BUTTON1_MASK);
+		robot.mouseUp(InputEvent.BUTTON1_MASK);
 	}
 
 	public void doubleClick(int x, int y) {
 		mouseMove(x, y);
-		robot.mousePress(InputEvent.BUTTON1_MASK);
-		robot.mouseRelease(InputEvent.BUTTON1_MASK);
+		robot.mouseDown(InputEvent.BUTTON1_MASK);
+		robot.mouseUp(InputEvent.BUTTON1_MASK);
 		try {
 			Thread.sleep(50);
 		} catch(InterruptedException e) {
 			e.printStackTrace();
 		}
-		robot.mousePress(InputEvent.BUTTON1_MASK);
-		robot.mouseRelease(InputEvent.BUTTON1_MASK);
+		robot.mouseDown(InputEvent.BUTTON1_MASK);
+		robot.mouseUp(InputEvent.BUTTON1_MASK);
 	}
 
 	/**
@@ -281,15 +280,15 @@ public class TestToolSikuli {
 
 	public void doubleClick(Point p) {
 		moveMouse(p);
-		robot.mousePress(InputEvent.BUTTON1_MASK);
-		robot.mouseRelease(InputEvent.BUTTON1_MASK);
+		robot.mouseDown(InputEvent.BUTTON1_MASK);
+		robot.mouseUp(InputEvent.BUTTON1_MASK);
 		try {
 			Thread.sleep(50);
 		} catch(InterruptedException e) {
 			e.printStackTrace();
 		}
-		robot.mousePress(InputEvent.BUTTON1_MASK);
-		robot.mouseRelease(InputEvent.BUTTON1_MASK);
+		robot.mouseDown(InputEvent.BUTTON1_MASK);
+		robot.mouseUp(InputEvent.BUTTON1_MASK);
 	}
 
 	/**
@@ -347,38 +346,38 @@ public class TestToolSikuli {
 	 * Presses the main button of the mouse. Use releaseMouse() to release that button.
 	 */
 	public void pressMouse() {
-		robot.mousePress(InputEvent.BUTTON1_MASK);
+		robot.mouseDown(InputEvent.BUTTON1_MASK);
 	}
 
 	/**
 	 * Releases the main button of the mouse. Use pressMouse() to press that button.
 	 */
 	public void releaseMouse() {
-		robot.mouseRelease(InputEvent.BUTTON1_MASK);
+		robot.mouseUp(InputEvent.BUTTON1_MASK);
 	}
 
 	/**
 	 * Clicks with the main button of the mouse.
 	 */
 	public void click() {
-		robot.mousePress(InputEvent.BUTTON1_MASK);
-		robot.mouseRelease(InputEvent.BUTTON1_MASK);
+		robot.mouseDown(InputEvent.BUTTON1_MASK);
+		robot.mouseUp(InputEvent.BUTTON1_MASK);
 	}
 
 	/**
 	 * Clicks with the right button of the mouse
 	 */
 	public void rightClick() {
-		robot.mousePress(InputEvent.BUTTON2_MASK);
-		robot.mouseRelease(InputEvent.BUTTON2_MASK);
+		robot.mouseDown(InputEvent.BUTTON2_MASK);
+		robot.mouseUp(InputEvent.BUTTON2_MASK);
 	}
 
 	/**
 	 * Clicks the 3rd button of the mouse (wheel button for example)
 	 */
 	public void thirdClick() {
-		robot.mousePress(InputEvent.BUTTON3_MASK);
-		robot.mouseRelease(InputEvent.BUTTON3_MASK);
+		robot.mouseDown(InputEvent.BUTTON3_MASK);
+		robot.mouseUp(InputEvent.BUTTON3_MASK);
 	}
 
 	/**
@@ -561,11 +560,7 @@ public class TestToolSikuli {
 	}
 
 	public void type(Area a, String whatToType) {
-		try {
-			a.getRegion().type(whatToType);
-		} catch(FindFailed e) {
-			e.printStackTrace();
-		}
+		a.getRegion().type(whatToType);
 	}
 
 	/**
@@ -621,11 +616,11 @@ public class TestToolSikuli {
 		int[] keyCodes = Keyboard.getKeyCodeFRKeyboard(c);
 		// pressing keys in normal order
 		for(int i = 0; i < keyCodes.length; i++) {
-			robot.keyPress(keyCodes[i]);
+			robot.keyDown(keyCodes[i]);
 		}
 		// releasing keys in reverse order
 		for(int i = 0; i < keyCodes.length; i++) {
-			robot.keyRelease(keyCodes[i]);
+			robot.keyUp(keyCodes[i]);
 		}
 	}
 
@@ -654,11 +649,7 @@ public class TestToolSikuli {
 	 *            The text to be pasted.
 	 */
 	public void paste(String whatToType) {
-		try {
-			screen.paste(whatToType);
-		} catch(FindFailed e) {
-			e.printStackTrace();
-		}
+		screen.paste(whatToType);
 	}
 
 	/**
@@ -980,12 +971,10 @@ public class TestToolSikuli {
 			int startY = area.center().y;
 			int endX = startX + xMove;
 			int endY = startY + yMove;
-			try {
-				screen.dragDrop(new Location(startX, startY), new Location(endX, endY), 0);
-			} catch(FindFailed e) {
-				e.printStackTrace();
-				testCase.addTestResult(false, "unexpected error when trying to drag and drop");
-			}
+			mouseMove(startX, startY);
+			robot.mouseDown(InputEvent.BUTTON1_MASK);
+			mouseMove(endX, endY);
+			robot.mouseUp(InputEvent.BUTTON1_MASK);
 		} else {
 			testCase.addTestResult(false, "expected image '" + getImageDescription(imageIdentifier) + "' not found in screen");
 		}
@@ -996,7 +985,7 @@ public class TestToolSikuli {
 	 */
 	public void captureScreen() {
 		File capturedImage = getNewImageFile();
-		images.saveImage(screen.capture().getImage(), capturedImage);
+		TestToolImages.saveImage(screen.capture().getImage(), capturedImage);
 		testCase.attachFile(capturedImage, Attachment.Type.IMAGE);
 	}
 
@@ -1008,7 +997,7 @@ public class TestToolSikuli {
 	 */
 	public void captureRegion(Region region) {
 		File capturedImage = getNewImageFile();
-		images.saveImage(screen.capture(region).getImage(), capturedImage);
+		TestToolImages.saveImage(screen.capture(region).getImage(), capturedImage);
 		testCase.attachFile(capturedImage, Attachment.Type.IMAGE);
 	}
 
@@ -1024,7 +1013,7 @@ public class TestToolSikuli {
 
 	public void captureArea(Area area, boolean inline) {
 		File capturedImage = getNewImageFile();
-		images.saveImage(screen.capture(area.getRegion()).getImage(), capturedImage);
+		TestToolImages.saveImage(screen.capture(area.getRegion()).getImage(), capturedImage);
 		if(inline) {
 			testCase.attachFile(capturedImage, Attachment.Type.INLINE_IMAGE);
 		} else {
@@ -1054,7 +1043,7 @@ public class TestToolSikuli {
 
 	public File attachInlineImage(BufferedImage buffImg) {
 		File capturedImage = getNewImageFile();
-		images.saveImage(buffImg, capturedImage);
+		TestToolImages.saveImage(buffImg, capturedImage);
 		testCase.attachFile(capturedImage, Attachment.Type.IMAGE);
 		return capturedImage;
 	}

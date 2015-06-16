@@ -35,18 +35,34 @@ public class Qualify {
 	static Logger logger = Logger.getLogger(Qualify.class);
 
 	// Options
-	public static final String OPTION_OPTIONS_FILE = "option_file", OPTION_TEST_CASE_LIST_NAME = "list", OPTION_SUT_NAME = "sut_name",
-			OPTION_SUT_VERSION = "sut_version", OPTION_SUT_DATE = "sut_date", OPTION_SOURCE_DIRS = "source_dirs",
-			OPTION_SCRIPT_DIRS = "script_dirs", OPTION_SCRIPT_DEPENDENCIES_DIRS = "script_dependencies_dirs",
-			OPTION_SCRIPT_PREPROCESSORS_DIRS = "script_preprocessors_dirs", OPTION_RUN_ON_ERROR = "run_on_error",
-			OPTION_OBJECT_REPOSITORIES_DIRS = "object_repositories_dirs", OPTION_SRD_FILE = "srd_file",
-			OPTION_RELEASE_NOTE_FILE_NAME = "release_note", OPTION_CONTINUOUS_RELEASE_NOTE = "continuous_release_note",
-			OPTION_REFERENCE_RELEASE_NOTE = "reference_release_note", OPTION_TEST_CASE_TABLE_FILE_NAME = "test_case_table",
-			OPTION_RESULT_DIR = "result_dir", OPTION_TEST_TO_RUN = "test", OPTION_KEYWORD_TO_TEST = "keyword",
-			OPTION_REQUIREMENT_TO_TEST = "requirement", OPTION_NO_SANITY = "no_sanity", OPTION_RUN_LAST_FAILED = "run_last_failed",
-			OPTION_LOG_LEVEL = "log_level", OPTION_LOG_OUTPUT_FILE_NAME = "log_file", OPTION_HTTP_SERVER = "http_server",
-			OPTION_HTTP_SERVER_WEBAPPS_DIR = "http_server_webapps_dir", OPTION_HTTP_SERVER_ROOT_DIR = "http_server_root_dir",
-			OPTION_TEST_CASE_MAX_ATTEMPT = "max_attempt_per_test_case";
+	public static final String OPTION_OPTIONS_FILE = "option_file";
+	public static final String OPTION_TEST_CASE_LIST_NAME = "list";
+	public static final String OPTION_SUT_NAME = "sut_name";
+	public static final String OPTION_SUT_VERSION = "sut_version";
+	public static final String OPTION_SUT_DATE = "sut_date";
+	public static final String OPTION_SOURCE_DIRS = "source_dirs";
+	public static final String OPTION_SCRIPT_DIRS = "script_dirs";
+	public static final String OPTION_SCRIPT_DEPENDENCIES_DIRS = "script_dependencies_dirs";
+	public static final String OPTION_SCRIPT_PREPROCESSORS_DIRS = "script_preprocessors_dirs";
+	public static final String OPTION_RUN_ON_ERROR = "run_on_error";
+	public static final String OPTION_OBJECT_REPOSITORIES_DIRS = "object_repositories_dirs";
+	public static final String OPTION_SRD_FILE = "srd_file";
+	public static final String OPTION_RELEASE_NOTE_FILE_NAME = "release_note";
+	public static final String OPTION_CONTINUOUS_RELEASE_NOTE = "continuous_release_note";
+	public static final String OPTION_REFERENCE_RELEASE_NOTE = "reference_release_note";
+	public static final String OPTION_TEST_CASE_TABLE_FILE_NAME = "test_case_table";
+	public static final String OPTION_RESULT_DIR = "result_dir";
+	public static final String OPTION_TEST_TO_RUN = "test";
+	public static final String OPTION_KEYWORD_TO_TEST = "keyword";
+	public static final String OPTION_REQUIREMENT_TO_TEST = "requirement";
+	public static final String OPTION_NO_SANITY = "no_sanity";
+	public static final String OPTION_RUN_LAST_FAILED = "run_last_failed";
+	public static final String OPTION_LOG_LEVEL = "log_level";
+	public static final String OPTION_LOG_OUTPUT_FILE_NAME = "log_file";
+	public static final String OPTION_HTTP_SERVER = "http_server";
+	public static final String OPTION_HTTP_SERVER_WEBAPPS_DIR = "http_server_webapps_dir";
+	public static final String OPTION_HTTP_SERVER_ROOT_DIR = "http_server_root_dir";
+	public static final String OPTION_TEST_CASE_MAX_ATTEMPT = "max_attempt_per_test_case";
 
 	private static HashMap<String, String> options = null;
 

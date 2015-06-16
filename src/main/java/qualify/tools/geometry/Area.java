@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.jdom.Element;
-import org.sikuli.script.FindFailed;
 import org.sikuli.script.Region;
 
 import qualify.TestCase;
@@ -287,21 +286,11 @@ public class Area extends Shape {
 	}
 
 	public void type(String whatToType) {
-		try {
-			getRegion().type(whatToType);
-		} catch(FindFailed e) {
-			e.printStackTrace();
-			testCase.addTestResult(false, "unexpected error when trying to paste in Area");
-		}
+		getRegion().type(whatToType);
 	}
 
 	public void paste(String textToPaste) {
-		try {
-			getRegion().paste(textToPaste);
-		} catch(FindFailed e) {
-			e.printStackTrace();
-			testCase.addTestResult(false, "unexpected error when trying to paste in Area");
-		}
+		getRegion().paste(textToPaste);
 	}
 
 	public Map<File, String> getAttachedFiles() {
