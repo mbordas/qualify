@@ -29,7 +29,7 @@ public class RetryTest {
 		FakeTestCase.reset(2);
 
 		// option set: <option name="max_attempt_per_test_case">5</option>
-		TestHarness.runTestHarness(new String[] { "-option_file", "target/test-classes/RetryTest/options.xml" }, harness);
+		TestHarness.runTestHarness(new String[] { "option_file=target/test-classes/RetryTest/options.xml" }, harness);
 
 		assertEquals(3, FakeTestCase.getExecutions());
 		assertEquals(0, ErrorsAndWarnings.getErrorsCount());

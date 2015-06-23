@@ -70,7 +70,7 @@ public class Qualify {
 		Qualify.initLogs();
 
 		if(args.length == 0) {
-			args = new String[] { "-" + OPTION_OPTIONS_FILE, "options.xml" };
+			args = new String[] { OPTION_OPTIONS_FILE + "=options.xml" };
 		}
 
 		CommandLineTool cmd = new CommandLineTool(args);
@@ -196,7 +196,7 @@ public class Qualify {
 
 	public static CommandLineTool loadOptions(String[] args) {
 		if(args.length == 0) {
-			args = new String[] { "-option_file", "options.xml" };
+			args = new String[] { "option_file=options.xml" };
 		}
 
 		CommandLineTool cmd = new CommandLineTool(args);

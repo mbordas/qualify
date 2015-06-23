@@ -15,18 +15,26 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package qualify.tools;
 
-import org.apache.log4j.Logger;
+import java.io.File;
+
+import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 
+import qualify.Qualify;
 import qualify.TestCase;
-
 
 public class TestToolSeleniumFirefox extends TestToolSelenium {
 
-	private Logger logger = Logger.getLogger(TestToolSeleniumFirefox.class);
+	public static final String OPTION_FIREFOX_BINARY = "firefox_binary";
 
 	public TestToolSeleniumFirefox(TestCase tc) {
 		super(tc);
-		driver = new FirefoxDriver();
+		String binaryPath = Qualify.getOptionValue(OPTION_FIREFOX_BINARY);
+		if(binaryPath != null) {
+			driver = new FirefoxDriver(new FirefoxBinary(new File(binaryPath)), new FirefoxProfile());
+		} else {
+			driver = new FirefoxDriver();
+		}
 	}
 }

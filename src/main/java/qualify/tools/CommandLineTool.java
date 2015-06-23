@@ -18,7 +18,6 @@ package qualify.tools;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 import org.apache.log4j.Logger;
 import org.jdom.Document;
@@ -100,38 +99,10 @@ public class CommandLineTool {
 	}
 
 	private void loadOptionsFromCommandLine(String[] args, boolean override) {
-		LinkedList<String> params = null;
-		boolean optionDetected = false;
-		String optionName = null;
-		for(int index = 0; index < args.length; index++) {
-			if(optionDetected == true) {
-				if(args[index].substring(0, 1).equals("-")) {
-					optionDetected = true;
-					optionName = args[index].substring(1, args[index].length());
-					params = new LinkedList<String>();
-				} else {
-					params.add(args[index]);
-				}
-			} else if(args[index].length() > 0) {
-				if(args[index].substring(0, 1).equals("-")) {
-					optionDetected = true;
-					optionName = args[index].substring(1, args[index].length());
-					params = new LinkedList<String>();
-				}
+		for(String optionString : args) {
+			if(optionString.contains("=")) {
+				setOption(optionString.split("=")[0], optionString.split("=")[1], override);
 			}
-		}
-		if(optionName == null) {
-			ErrorsAndWarnings.addError("Command line is null");
-		} else {
-			String value = null;
-			for(String param : params) {
-				if(value == null) {
-					value = param;
-				} else {
-					value += OPTION_VALUE_SEPARATOR + param;
-				}
-			}
-			setOption(optionName, value, override);
 		}
 	}
 
