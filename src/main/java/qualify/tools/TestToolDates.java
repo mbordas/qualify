@@ -266,4 +266,8 @@ public class TestToolDates {
 		return result;
 	}
 
+	public void checkTimeEquality(DateTime d1, DateTime d2) {
+		checkTimeEquality(d1.toDate(), d2.toDate());
+	}
+
 }

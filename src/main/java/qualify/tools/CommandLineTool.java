@@ -44,12 +44,25 @@ public class CommandLineTool {
 		loadOptionsFromCommandLine(commandLine, true);
 
 		if(isOptionInCommandLine(OPTION_FILE)) {
-			File optionFile = new File(getOptionValue(OPTION_FILE));
-			if(optionFile.exists()) {
-				loadOptionsFromXMLFile(optionFile, false);
+			String fileNames = getOptionValue(OPTION_FILE);
+			if(fileNames.contains(",")) {
+				for(String fileName : fileNames.split(",")) {
+					File optionFile = new File(fileName);
+					if(optionFile.exists()) {
+						loadOptionsFromXMLFile(optionFile, false);
+					} else {
+						ErrorsAndWarnings.addError("Option file '" + optionFile.getAbsolutePath() + "' does not exist");
+					}
+				}
 			} else {
-				ErrorsAndWarnings.addError("Option file '" + optionFile.getAbsolutePath() + "' does not exist");
+				File optionFile = new File(fileNames);
+				if(optionFile.exists()) {
+					loadOptionsFromXMLFile(optionFile, false);
+				} else {
+					ErrorsAndWarnings.addError("Option file '" + optionFile.getAbsolutePath() + "' does not exist");
+				}
 			}
+
 		}
 
 		for(String option : options.keySet()) {
