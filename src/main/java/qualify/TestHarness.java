@@ -47,7 +47,7 @@ import qualify.tools.TestObject;
 import qualify.tools.TestToolFile;
 
 /**
- * Create a TestHarness to create the beginning point of your testing application. From your main(String[]), call the static method:
+ * Create a {@link TestHarness} to create the beginning point of your testing application. From your main(String[]), call the static method:
  * runTestHarness(<i>args</i>, <i>testHarness</i>) Options are:
  * <ul>
  * <li>sut_name the Software Under Test that will be displayed at the top of the release note</li>
@@ -829,7 +829,7 @@ public abstract class TestHarness {
 					remainingTestCases.add(testCase);
 				}
 
-				if(isSuccessful || testCasesMaxAttemptNumber < 1) {
+				if(isSuccessful || testCasesMaxAttemptNumber <= 1) {
 					// Attaching test result to requirements
 					for(TestResult tr : testCase.getResults()) {
 						String requirementId = tr.getRequirementId();
@@ -837,6 +837,10 @@ public abstract class TestHarness {
 						Requirement target = getSrd().getRequirement(requirementId);
 						target.addTestResult(tr);
 					}
+				}
+
+				if(testCasesMaxAttemptNumber <= 1) {
+					ErrorsAndWarnings.addWarningsAndErrors(testCase);
 				}
 
 				// WRITING RELEASE NOTE
