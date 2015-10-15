@@ -200,6 +200,15 @@ public abstract class TestToolSelenium {
 		return (find(by) != null);
 	}
 
+	public boolean isDisplayed(String elementIdentifier) {
+		WebElement element = find(elementIdentifier);
+		if(element != null) {
+			return element.isDisplayed();
+		} else {
+			return false;
+		}
+	}
+
 	public boolean waitPresent(final String elementIdentifier, final double timeoutInSeconds) {
 		try {
 			(new WebDriverWait(driver, Double.valueOf(timeoutInSeconds).intValue())).until(new ExpectedCondition<Boolean>() {
@@ -338,7 +347,12 @@ public abstract class TestToolSelenium {
 
 	public boolean checkText(String elementId, Double expectedValue, double epsilon) {
 		boolean result = false;
-		Double testedValue = Double.valueOf(getText(elementId));
+		Double testedValue = null;
+		try {
+			testedValue = Double.valueOf(getText(elementId));
+		} catch(NumberFormatException e) {
+			testCase.addError(e.getMessage());
+		}
 		TestToolNumbers numbers = new TestToolNumbers(testCase);
 		numbers.checkEquality(expectedValue, testedValue, epsilon);
 		return result;
@@ -404,9 +418,20 @@ public abstract class TestToolSelenium {
 	 * @return
 	 */
 	public String getValue(String elementId) {
+		return getAttribute(elementId, "value");
+	}
+
+	/**
+	 * Returns the value of element's attribute <code>key</code>.
+	 * 
+	 * @param elementId
+	 * @param key
+	 * @return
+	 */
+	public String getAttribute(String elementId, String key) {
 		WebElement element = findElementById(elementId);
 		if(element != null) {
-			return element.getAttribute("value");
+			return element.getAttribute(key);
 		} else {
 			throw new TestException("Web element not found with identifier '" + elementId + "'");
 		}
