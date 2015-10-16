@@ -23,6 +23,7 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -431,7 +432,14 @@ public abstract class TestToolSelenium {
 	public String getAttribute(String elementId, String key) {
 		WebElement element = findElementById(elementId);
 		if(element != null) {
-			return element.getAttribute(key);
+			try {
+				return element.getAttribute(key);
+			} catch(StaleElementReferenceException e) {
+				// Such exception could be thrown when element is moved/modified between calls to 'find()' and 'getAttribute()'.
+				// To avoid this, we just re-find it.
+				element = findElementById(elementId);
+				return element.getAttribute(key);
+			}
 		} else {
 			throw new TestException("Web element not found with identifier '" + elementId + "'");
 		}
