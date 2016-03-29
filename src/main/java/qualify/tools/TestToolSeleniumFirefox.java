@@ -32,7 +32,10 @@ public class TestToolSeleniumFirefox extends TestToolSelenium {
 		super(tc);
 		String binaryPath = Qualify.getOptionValue(OPTION_FIREFOX_BINARY);
 		if(binaryPath != null) {
-			driver = new FirefoxDriver(new FirefoxBinary(new File(binaryPath)), new FirefoxProfile());
+			FirefoxProfile profile = new FirefoxProfile();
+			profile.setPreference("browser.startup.homepage_override.mstone", "ignore");
+			profile.setPreference("startup.homepage_welcome_url.additional", "about:blank");
+			driver = new FirefoxDriver(new FirefoxBinary(new File(binaryPath)), profile);
 		} else {
 			driver = new FirefoxDriver();
 		}
