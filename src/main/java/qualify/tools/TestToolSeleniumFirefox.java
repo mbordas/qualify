@@ -27,17 +27,25 @@ import qualify.TestCase;
 public class TestToolSeleniumFirefox extends TestToolSelenium {
 
 	public static final String OPTION_FIREFOX_BINARY = "firefox_binary";
+	public static final String OPTION_FIREFOX_PROFILE = "firefox_profile";
 
 	public TestToolSeleniumFirefox(TestCase tc) {
 		super(tc);
+
+		FirefoxProfile profile = null;
+
+		String profilePath = Qualify.getOptionValue(OPTION_FIREFOX_PROFILE);
+		if(profilePath != null) {
+			profile = new FirefoxProfile(new File(profilePath));
+		} else {
+			profile = new FirefoxProfile();
+		}
+
 		String binaryPath = Qualify.getOptionValue(OPTION_FIREFOX_BINARY);
 		if(binaryPath != null) {
-			FirefoxProfile profile = new FirefoxProfile();
-			profile.setPreference("browser.startup.homepage_override.mstone", "ignore");
-			profile.setPreference("startup.homepage_welcome_url.additional", "about:blank");
 			driver = new FirefoxDriver(new FirefoxBinary(new File(binaryPath)), profile);
 		} else {
-			driver = new FirefoxDriver();
+			driver = new FirefoxDriver(profile);
 		}
 	}
 }
