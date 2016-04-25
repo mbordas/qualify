@@ -22,7 +22,6 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -76,7 +75,7 @@ public abstract class TestHarness {
 
 	private TestHarnessHandler handler = null;
 
-	private HashSet<Class<? extends TestCase>> reloadableTestCases = new HashSet<Class<? extends TestCase>>();
+	private List<Class<? extends TestCase>> reloadableTestCases = new LinkedList<Class<? extends TestCase>>();
 	private int testCasesMaxAttemptNumber = DEFAULT_TEST_CASES_MAX_ATTEMPT;
 
 	public List<TestCase> getTestCases() {
@@ -227,9 +226,8 @@ public abstract class TestHarness {
 							newTestCase.setSource(TestSource.createTestSource(scriptFile));
 							newTestCase.setName(testCaseName);
 							th.register(newTestCase);
-							newTestCase.getReport().addException(
-									"Exception raised during compilation at "
-											+ StackTraceTool.getStackTraceElementLocation(e, ".*" + testCaseName + ".*"), e);
+							newTestCase.getReport().addException("Exception raised during compilation at "
+									+ StackTraceTool.getStackTraceElementLocation(e, ".*" + testCaseName + ".*"), e);
 						}
 					}
 				} else {
@@ -290,8 +288,8 @@ public abstract class TestHarness {
 					logger.info("** " + testCase.getLocalName());
 				}
 			} else {
-				ErrorsAndWarnings.addError("Cannot find reference release note '"
-						+ cmd.getOptionValue(Qualify.OPTION_REFERENCE_RELEASE_NOTE) + "'. File does not exist or is a directory.");
+				ErrorsAndWarnings.addError("Cannot find reference release note '" + cmd.getOptionValue(
+						Qualify.OPTION_REFERENCE_RELEASE_NOTE) + "'. File does not exist or is a directory.");
 			}
 		} else {
 			ErrorsAndWarnings.addError("Cannot find test cases for requirement '" + cmd.getOptionValue(Qualify.OPTION_REQUIREMENT_TO_TEST)
@@ -361,8 +359,8 @@ public abstract class TestHarness {
 		if((ErrorsAndWarnings.getErrorsCount() == 0) || cmd.isOptionInCommandLine(Qualify.OPTION_RUN_ON_ERROR)) {
 
 			File continuousReleaseNoteFile = null;
-			if(cmd.isOptionInCommandLine(Qualify.OPTION_CONTINUOUS_RELEASE_NOTE)
-					&& cmd.getOptionValue(Qualify.OPTION_RELEASE_NOTE_FILE_NAME) != null) {
+			if(cmd.isOptionInCommandLine(Qualify.OPTION_CONTINUOUS_RELEASE_NOTE) && cmd.getOptionValue(
+					Qualify.OPTION_RELEASE_NOTE_FILE_NAME) != null) {
 				continuousReleaseNoteFile = new File(cmd.getOptionValue(Qualify.OPTION_RELEASE_NOTE_FILE_NAME));
 
 				try {
@@ -633,8 +631,8 @@ public abstract class TestHarness {
 							tc.run();
 						} catch(Throwable e) {
 							try {
-								attachExceptionToTestCase("Exception raised during run() at "
-										+ StackTraceTool.getCall(e.getStackTrace(), tc.getName()), e, tc);
+								attachExceptionToTestCase("Exception raised during run() at " + StackTraceTool.getCall(e.getStackTrace(),
+										tc.getName()), e, tc);
 							} catch(Exception e2) {
 								e.printStackTrace();
 							}
@@ -658,8 +656,8 @@ public abstract class TestHarness {
 						}
 					}
 				} catch(Throwable e) {
-					attachExceptionToTestCase("Exception raised during beforeRun() at "
-							+ StackTraceTool.getComingStackTraceElementLocation(e, TestHarness.class), e, tc);
+					attachExceptionToTestCase("Exception raised during beforeRun() at " + StackTraceTool.getComingStackTraceElementLocation(
+							e, TestHarness.class), e, tc);
 
 				} finally {
 					try {
