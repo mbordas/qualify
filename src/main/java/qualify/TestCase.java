@@ -29,6 +29,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 import qualify.doc.Attachment;
+import qualify.doc.Base64Image;
 import qualify.doc.DocList;
 import qualify.doc.DocString;
 import qualify.doc.DomElementAble;
@@ -413,6 +414,11 @@ public abstract class TestCase {
 		}
 
 		comment(table);
+	}
+	
+	protected void commentBase64Image(String image) {
+		Base64Image domImage = new Base64Image(image);
+		comment(domImage);
 	}
 
 	/**

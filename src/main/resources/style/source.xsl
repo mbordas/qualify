@@ -300,4 +300,12 @@ $(function() {
   </xsl:if>
 </xsl:template>
 
+<xsl:template match="base64Image">
+  <img>
+    <xsl:attribute name="src">
+      <xsl:value-of select="concat('data:image/gif;base64,',@content)"/>
+    </xsl:attribute>
+  </img>
+</xsl:template>
+
 </xsl:stylesheet>
