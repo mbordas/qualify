@@ -23,7 +23,9 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -461,4 +463,39 @@ public abstract class TestToolSelenium {
 		select.selectByVisibleText(optionText);
 	}
 
+	/**
+	 * Generate a screenshot of the current view of the WebDriver and save it as a file
+	 * 
+	 * @param outputFile
+	 * @throws Exception
+	 */
+	public void getScreenshotAsFile(File outputFile) throws Exception {
+		Class<? extends WebDriver> driverClass = driver.getClass();
+		// Check if the driver is implementing the interface TakesScreenshot
+		if(TakesScreenshot.class.isAssignableFrom(driverClass)) {
+			TakesScreenshot screenshotDriver = (TakesScreenshot) driver;
+			File screenFile = screenshotDriver.getScreenshotAs(OutputType.FILE);
+			FileUtils.copyFile(screenFile, outputFile);
+		} else {
+			throw new Exception("Can not take screenshots with driver '" + driverClass.getName() + "'");
+		}
+	}
+
+	/**
+	 * Generate a screenshot of the current view of the WebDriver and get it as a Base64 encoded string
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public String getScreenshotAsBase64() throws Exception {
+		Class<? extends WebDriver> driverClass = driver.getClass();
+		// Check if the driver is implementing the interface TakesScreenshot
+		if(TakesScreenshot.class.isAssignableFrom(driverClass)) {
+			TakesScreenshot screenshotDriver = (TakesScreenshot) driver;
+			String screenFile = screenshotDriver.getScreenshotAs(OutputType.BASE64);
+			return screenFile;
+		} else {
+			throw new Exception("Can not take screenshots with driver '" + driverClass.getName() + "'");
+		}
+	}
 }
