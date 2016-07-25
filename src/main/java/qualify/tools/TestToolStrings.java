@@ -227,6 +227,24 @@ public class TestToolStrings {
 		}
 		return result;
 	}
+	
+	public boolean checkDoesntContain(String expectedContainedString, String testedString, boolean caseSensitive) {
+		boolean result = false;
+		if(testedString == null) {
+			if(expectedContainedString == null) {
+				result = false;
+				m_testCase.addTestResult(result, "expected string is null | tested string is null");
+			} else {
+				result = false;
+				m_testCase.addTestResult(result, "expected='" + expectedContainedString + "' | tested string is null");
+			}
+		} else {
+			result = !contains(expectedContainedString, testedString, caseSensitive);
+
+			m_testCase.addTestResult(result, "expected='" + expectedContainedString + "' | tested='" + testedString + "'");
+		}
+		return result;
+	}
 
 	public void checkContains(String expectedContainedString, String[] testedStrings, boolean caseSensitive) {
 		boolean result = false;
