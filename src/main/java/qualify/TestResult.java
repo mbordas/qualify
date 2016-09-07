@@ -44,7 +44,8 @@ public class TestResult implements DomElementAble {
 			RESULT_OK_VALUE = "OK", RESULT_NOK_VALUE = "NOK", EMPTY_COMMENT_VALUE = "no comment available", EMPTY_SOURCE_LINE_VALUE = "0",
 			EMPTY_SOURCE_VALUE = "no_source";
 
-	public TestResult(boolean isSuccessful, String requirementId, String comment, String testSource, int testSourceLine, TestCase testCase) {
+	public TestResult(boolean isSuccessful, String requirementId, String comment, String testSource, int testSourceLine,
+			TestCase testCase) {
 		this.isSuccessful = isSuccessful;
 		this.requirementId = requirementId;
 		if(comment != null) {
@@ -57,7 +58,6 @@ public class TestResult implements DomElementAble {
 		if(requirementId == null) {
 			this.requirementId = Requirement.EMPTY_REQUIREMENT_ID;
 		}
-		logger.debug("new TestResult: isSuccesful=" + isSuccessful + ", requirement.getId=" + requirementId);
 	}
 
 	public TestResult(boolean isSuccessful, String requirementId, DomElementAble comment, String testSource, int testSourceLine,
@@ -72,7 +72,6 @@ public class TestResult implements DomElementAble {
 		if(requirementId == null) {
 			this.requirementId = Requirement.EMPTY_REQUIREMENT_ID;
 		}
-		logger.debug("new TestResult: isSuccesfull=" + isSuccessful + ", requirement.getId=" + requirementId);
 	}
 
 	public void setCreationTime(DateTime t) {
