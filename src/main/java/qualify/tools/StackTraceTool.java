@@ -31,7 +31,6 @@ public class StackTraceTool {
 			if(stack[i] != null) {
 				for(int j = 0; j < stack.length; j++) {
 					if(stack[j] != null) {
-						logger.debug("alternative stack[" + j + "]: " + stack[j].getFileName() + ":" + stack[j].getLineNumber());
 						if(stack[j].getFileName() != null) {
 							if(stack[j].getFileName().equals("TestHarness.java")) {
 								return stack[j - 1];
@@ -66,7 +65,6 @@ public class StackTraceTool {
 	}
 
 	public static StackTraceElement getCall(StackTraceElement[] stackTrace, String throwingClass) {
-		logger.error("getCall class=" + throwingClass);
 		if(throwingClass == null) {
 			return stackTrace[1];
 		} else {
@@ -74,8 +72,8 @@ public class StackTraceTool {
 				if(stackTrace[i] != null) {
 					if(stackTrace[i].getFileName() != null) {
 						logger.error("getCall " + i + " => " + stackTrace[i].getFileName());
-						if(stackTrace[i].getFileName().equals(throwingClass + ".java")
-								|| stackTrace[i].getFileName().equals(throwingClass + ".groovy_preproc")) {
+						if(stackTrace[i].getFileName().equals(throwingClass + ".java") || stackTrace[i].getFileName().equals(throwingClass
+								+ ".groovy_preproc")) {
 							logger.error("returned i=" + i);
 							return stackTrace[i];
 						}
