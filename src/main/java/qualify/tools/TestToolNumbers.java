@@ -74,12 +74,15 @@ public class TestToolNumbers {
 		}
 	}
 
-	public void checkGreater(double limitDouble, double testedDouble, boolean allowEquality) {
+	public boolean checkGreater(double limitDouble, double testedDouble, boolean allowEquality) {
+		boolean success = false;
 		if(allowEquality) {
-			testCase.addTestResult(testedDouble >= limitDouble, "limit=" + limitDouble + " >= tested=" + testedDouble);
+			success = testCase.addTestResult(testedDouble >= limitDouble, "limit=" + limitDouble + " >= tested=" + testedDouble);
+
 		} else {
-			testCase.addTestResult(testedDouble > limitDouble, "limit=" + limitDouble + " > tested=" + testedDouble);
+			success = testCase.addTestResult(testedDouble > limitDouble, "limit=" + limitDouble + " > tested=" + testedDouble);
 		}
+		return success;
 	}
 
 	public void checkLesser(int limitInteger, int testedInteger, boolean allowEquality) {
@@ -112,8 +115,8 @@ public class TestToolNumbers {
 	}
 
 	public void checkNear(long expectedLong, long testedLong, long maxDistanceAllowed) {
-		testCase.addTestResult(Math.abs(testedLong - expectedLong) <= Math.abs(maxDistanceAllowed), "expected=" + expectedLong
-				+ " ~= (+/- " + maxDistanceAllowed + ") tested=" + testedLong);
+		testCase.addTestResult(Math.abs(testedLong - expectedLong) <= Math.abs(maxDistanceAllowed), "expected=" + expectedLong + " ~= (+/- "
+				+ maxDistanceAllowed + ") tested=" + testedLong);
 	}
 
 	public void checkNear(double expectedDouble, double testedDouble, double maxDistanceAllowed) {

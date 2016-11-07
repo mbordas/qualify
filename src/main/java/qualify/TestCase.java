@@ -415,7 +415,7 @@ public abstract class TestCase {
 
 		comment(table);
 	}
-	
+
 	protected void commentBase64Image(String image) {
 		Base64Image domImage = new Base64Image(image);
 		comment(domImage);
@@ -428,12 +428,13 @@ public abstract class TestCase {
 	 * @param comment
 	 * @return
 	 */
-	public void addTestResult(boolean condition, String comment) {
+	public boolean addTestResult(boolean condition, String comment) {
 		StackTraceElement se = StackTraceTool.getTestCaseCall();
 		if(requirementTarget == null) {
 			requirementTarget = Requirement.EMPTY_REQUIREMENT_ID;
 		}
 		addTestResult(new TestResult(condition, requirementTarget, comment, se.getFileName(), se.getLineNumber(), this));
+		return condition;
 	}
 
 	public void addTestResult(boolean condition, DomElementAble comment) {
