@@ -105,8 +105,13 @@ public abstract class TestToolSelenium {
 		return result;
 	}
 
-	public WebElement find(String elementIdentifier) {
-		return find(getElementIdentifier(elementIdentifier));
+	public WebElement find(String elementIdentifier) throws ElementNotFoundException {
+		WebElement element = find(getElementIdentifier(elementIdentifier));
+		if(element != null) {
+			return element;
+		} else {
+			throw new ElementNotFoundException("Element not found with identifier: " + elementIdentifier);
+		}
 	}
 
 	public WebElement find(By by) {
@@ -196,20 +201,25 @@ public abstract class TestToolSelenium {
 	}
 
 	public boolean isPresent(String elementIdentifier) {
-		return (find(elementIdentifier) != null);
+		try {
+			return (find(elementIdentifier) != null);
+		} catch(ElementNotFoundException e) {
+			return false;
+		}
 	}
 
 	public boolean isPresent(By by) {
 		return (find(by) != null);
 	}
 
-	public boolean isDisplayed(String elementIdentifier) {
+	public boolean isDisplayed(String elementIdentifier) throws ElementNotFoundException {
 		WebElement element = find(elementIdentifier);
-		if(element != null) {
-			return element.isDisplayed();
-		} else {
-			return false;
-		}
+		return element.isDisplayed();
+	}
+
+	public boolean isEnabled(String elementIdentifier) throws ElementNotFoundException {
+		WebElement element = find(elementIdentifier);
+		return element.isEnabled();
 	}
 
 	public boolean waitPresent(final String elementIdentifier, final double timeoutInSeconds) {
@@ -496,6 +506,13 @@ public abstract class TestToolSelenium {
 			return screenFile;
 		} else {
 			throw new Exception("Can not take screenshots with driver '" + driverClass.getName() + "'");
+		}
+	}
+
+	public static class ElementNotFoundException extends Exception {
+
+		public ElementNotFoundException(String message) {
+			super(message);
 		}
 	}
 }
