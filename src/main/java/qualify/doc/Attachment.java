@@ -20,52 +20,46 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.jdom.Element;
 
 import qualify.ErrorsAndWarnings;
 import qualify.tools.TestToolFile;
 
 public class Attachment implements DomElementAble {
-	
-	private static Logger logger = Logger.getLogger(Attachment.class);
 
-	private static final String
-	ELEMENT_NAME = "attachment",
-	SOURCE_FILE_ATTRIBUTE_NAME = "source_file",
-	TYPE_ATTRIBUTE_NAME = "type",
-	ATTACHMENT_FILE_ATTRIBUTE_NAME = "attachment_file";
-	
+	private static final String ELEMENT_NAME = "attachment", SOURCE_FILE_ATTRIBUTE_NAME = "source_file", TYPE_ATTRIBUTE_NAME = "type",
+			ATTACHMENT_FILE_ATTRIBUTE_NAME = "attachment_file";
+
 	public static enum Type {
-	    TEXT, BINARY, IMAGE, INLINE_IMAGE, XML, OTHER 
+		TEXT, BINARY, IMAGE, INLINE_IMAGE, XML, OTHER
 	}
-	
+
 	private int lineNumber = -1;
 	private File tmpFile = null;
 	private String sourceCompletePath = null;
 	private File sourceFile = null, temporaryCopiedFile = null;
 	private Type type = null;
-	
+
 	public Attachment(File file, String fileName, int lineNumber, Type type) {
 		try {
 			tmpFile = TestToolFile.createNewTemporaryFile(fileName);
 			sourceCompletePath = file.getAbsolutePath();
 			TestToolFile.copyFile(file, tmpFile);
-		} catch (IOException e) {
+		} catch(IOException e) {
 			ErrorsAndWarnings.addException(e);
 		}
 		this.lineNumber = lineNumber;
 		this.type = type;
 	}
-	
+
 	public int getLineNumber() {
 		return lineNumber;
 	}
-	
+
 	public File getTemporaryAttachmentFile() {
 		return temporaryCopiedFile;
 	}
-	
+
 	public Element toDomElement() {
 		Element attachmentElement = new Element(ELEMENT_NAME);
 		attachmentElement.setAttribute(SOURCE_FILE_ATTRIBUTE_NAME, this.sourceCompletePath);
@@ -74,7 +68,7 @@ public class Attachment implements DomElementAble {
 		attachFileToElement(attachmentElement, tmpFile, tmpFile.getName());
 		return attachmentElement;
 	}
-	
+
 	public String toStringForConsole() {
 		return "Attachment source file: " + this.sourceFile.getAbsolutePath();
 	}
@@ -88,7 +82,7 @@ public class Attachment implements DomElementAble {
 			return null;
 		}
 	}
-	
+
 	public static void attachFileToElement(Element element, File file, String relativePath) {
 		int index = 1;
 		while(element.getAttribute(getAttributeNameForFile(index)) != null) {
@@ -97,7 +91,7 @@ public class Attachment implements DomElementAble {
 		element.setAttribute(getAttributeNameForFile(index), file.getAbsolutePath());
 		element.setAttribute(getAttributeNameForPath(index), relativePath);
 	}
-	
+
 	public static int copyAttachedFiles(Element element, File rootDir) {
 		int result = 0;
 		int index = 1;
@@ -107,21 +101,22 @@ public class Attachment implements DomElementAble {
 			try {
 				TestToolFile.copyFile(srcFile, destFile);
 				result++;
-			} catch (IOException e) {
+			} catch(IOException e) {
 				ErrorsAndWarnings.addException(e);
 			}
 			index++;
 		}
 		for(Object subElementObject : element.getChildren()) {
-			Element subElement = (Element)subElementObject;
+			Element subElement = (Element) subElementObject;
 			copyAttachedFiles(subElement, rootDir);
 		}
 		return result;
 	}
-	
+
 	private static String getAttributeNameForFile(int index) {
 		return "ATTACHED_FILE_SOURCE_" + index;
 	}
+
 	private static String getAttributeNameForPath(int index) {
 		return "ATTACHED_FILE_DESTINATION_" + index;
 	}
