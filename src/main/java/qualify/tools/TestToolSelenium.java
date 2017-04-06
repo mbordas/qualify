@@ -457,6 +457,15 @@ public abstract class TestToolSelenium {
 		}
 	}
 
+	public String getHTML(String elementId) {
+		WebElement element = findElementById(elementId);
+		if(element != null) {
+			return element.getAttribute("innerHTML");
+		} else {
+			return null;
+		}
+	}
+
 	/**
 	 * Clears input text then type <code>value</code>.
 	 * 
