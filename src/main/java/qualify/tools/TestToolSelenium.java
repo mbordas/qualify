@@ -17,6 +17,8 @@ package qualify.tools;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -49,8 +51,8 @@ public abstract class TestToolSelenium {
 
 	private static final Logger logger = Logger.getLogger(TestToolSeleniumFirefox.class);
 
-	public WebDriver driver = null;
-	private TestCase testCase = null;
+	protected WebDriver driver = null;
+	protected TestCase testCase = null;
 
 	private double defaultTimeout = 10.0;
 
@@ -63,7 +65,9 @@ public abstract class TestToolSelenium {
 	}
 
 	public void quit() {
-		driver.quit();
+		if(driver != null) {
+			driver.quit();
+		}
 	}
 
 	/**
@@ -432,6 +436,21 @@ public abstract class TestToolSelenium {
 	 */
 	public String getValue(String elementId) {
 		return getAttribute(elementId, "value");
+	}
+
+	public Collection<String> getSelectOptions(String id) throws ElementNotFoundException {
+		Collection<String> result = null;
+
+		WebElement element = findElementById(id);
+		if(element != null) {
+			result = new ArrayList<String>();
+			Select select = new Select(element);
+			for(WebElement option : select.getOptions()) {
+				result.add(option.getAttribute("value"));
+			}
+		}
+
+		return result;
 	}
 
 	/**

@@ -371,6 +371,12 @@ public abstract class TestCase {
 		comment("" + b);
 	}
 
+	protected void commentAll(Collection<? extends Object> objects) {
+		for(Object object : objects) {
+			comment(object.toString());
+		}
+	}
+
 	protected void comment(DomElementAble element) {
 		// Searching java file and line number of test file
 		String testSource = null;
