@@ -37,6 +37,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import qualify.TestCase;
 import qualify.TestException;
+import qualify.doc.DocList;
+import qualify.doc.DocString;
 
 /**
  * TestToolSelenium extends the FirefoxDriver object from Selenium 2 API. New convenient methods are added, such as isPresent, waitPresent
@@ -110,7 +112,11 @@ public abstract class TestToolSelenium {
 	}
 
 	public WebElement find(String elementIdentifier) throws ElementNotFoundException {
-		WebElement element = find(getElementIdentifier(elementIdentifier));
+		By identifier = getElementIdentifier(elementIdentifier);
+		if(identifier == null) {
+			throw new ElementNotFoundException("Unparsed identifier: " + elementIdentifier);
+		}
+		WebElement element = find(identifier);
 		if(element != null) {
 			return element;
 		} else {
@@ -124,12 +130,19 @@ public abstract class TestToolSelenium {
 	}
 
 	public void click(String elementIdentifier) {
-		waitPresent(elementIdentifier, defaultTimeout);
-		WebElement w = findElement(getElementIdentifier(elementIdentifier));
-		if(w != null) {
-			w.click();
+		By identifier = getElementIdentifier(elementIdentifier);
+		if(identifier == null) {
+			throw new TestException("Unparsed element identifier: " + elementIdentifier);
+		}
+		if(waitPresent(elementIdentifier, defaultTimeout)) {
+			WebElement w = findElement(identifier);
+			if(w != null) {
+				w.click();
+			} else {
+				testCase.addTestResult(false, "Cannot click on null element (identifier='" + elementIdentifier + "').");
+			}
 		} else {
-			testCase.addTestResult(false, "Cannot click on null element (identifier='" + elementIdentifier + "').");
+			testCase.addTestResult(false, "Cannot click on element not found (identifier='" + elementIdentifier + "').");
 		}
 	}
 
@@ -438,6 +451,14 @@ public abstract class TestToolSelenium {
 		return getAttribute(elementId, "value");
 	}
 
+	public void commentOptions(String id) throws ElementNotFoundException {
+		DocList list = new DocList();
+		for(String option : getSelectOptions(id)) {
+			list.addItem(new DocString(option));
+		}
+		testCase.addComment(list, getClass());
+	}
+
 	public Collection<String> getSelectOptions(String id) throws ElementNotFoundException {
 		Collection<String> result = null;
 
@@ -499,6 +520,15 @@ public abstract class TestToolSelenium {
 	public void select(String identifier, String optionText) {
 		Select select = new Select(driver.findElement(getElementIdentifier(identifier)));
 		select.selectByVisibleText(optionText);
+	}
+
+	public void selectCheckbox(String identifier, boolean checked) {
+		WebElement element = findElement(getElementIdentifier(identifier));
+		if(element != null) {
+			if(element.isSelected() != checked) {
+				element.click();
+			}
+		}
 	}
 
 	/**
