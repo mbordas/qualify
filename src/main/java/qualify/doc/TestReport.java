@@ -337,7 +337,7 @@ public class TestReport {
 	 *            the Element to update.
 	 * @param lineNumber
 	 *            The line number. Used to find related results, comments and attachments.
-	 * @return True if at least one result, comment or attachment is found. False elsewhere
+	 * @return True if at least one result, comment or attachment is found. False otherwise.
 	 */
 	private boolean reportResultCommentAndAttachment(Element lineElement, int lineNumber) {
 		boolean hasResultCommentOrAttachment = false;

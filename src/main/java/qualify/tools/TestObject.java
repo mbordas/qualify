@@ -39,8 +39,7 @@ public class TestObject {
 	private HashMap<String, String> attributes = null;
 	private HashMap<String, TestObject> children = null;
 
-	private File repositoryFile = null, 
-	attachedFile = null;
+	private File repositoryFile = null, attachedFile = null;
 
 	private static HashMap<String, TestObject> repositories = new HashMap<String, TestObject>();
 
@@ -48,18 +47,16 @@ public class TestObject {
 		TestObject result = new TestObject(objectRepository);
 		String repoName = result.getId();
 		if(repoName != null) {
-			if(! repositories.containsKey(repoName)) {
+			if(!repositories.containsKey(repoName)) {
 				repositories.put(getLocalPath(result), result);
 			} else {
-				ErrorsAndWarnings.addError("Cannot load object repository " +
-						objectRepository.getAbsolutePath() +
-				" because a repository is already loaded with same root id");
+				ErrorsAndWarnings.addError("Cannot load object repository " + objectRepository.getAbsolutePath()
+						+ " because a repository is already loaded with same root id");
 			}
 		} else {
 			result = null;
-			ErrorsAndWarnings.addError("Cannot load object repository " +
-					objectRepository.getAbsolutePath() +
-			" because root element doesn't have id");
+			ErrorsAndWarnings.addError("Cannot load object repository " + objectRepository.getAbsolutePath()
+					+ " because root element doesn't have id");
 		}
 		return result;
 	}
@@ -77,10 +74,10 @@ public class TestObject {
 				try {
 					objectRepositoryDocument = parser.build(objectRepository);
 					loadElement(objectRepositoryDocument.getRootElement(), objectRepository);
-				} catch (JDOMException e) {
+				} catch(JDOMException e) {
 					e.printStackTrace();
 					ErrorsAndWarnings.addError("Object repository reading Exception : " + e.getMessage());
-				} catch (IOException e) {
+				} catch(IOException e) {
 					e.printStackTrace();
 					ErrorsAndWarnings.addError("Object repository reading Exception : " + e.getMessage());
 				}
@@ -100,10 +97,11 @@ public class TestObject {
 		for(Object attributeObject : objectElement.getAttributes()) {
 			Attribute attribute = (Attribute) attributeObject;
 			String value = attribute.getValue();
-			if(! attributes.containsKey(attribute.getName())) {
+			if(!attributes.containsKey(attribute.getName())) {
 				attributes.put(attribute.getName(), value);
 			} else {
-				ErrorsAndWarnings.addWarning("Attribute '" + attribute.getName() + "' for object with id '" + id + "' ignored because already exists.");
+				ErrorsAndWarnings.addWarning("Attribute '" + attribute.getName() + "' for object with id '" + id
+						+ "' ignored because already exists.");
 			}
 
 			if("file".equals(attribute.getName())) {
@@ -123,7 +121,7 @@ public class TestObject {
 			Element childElement = (Element) childObject;
 			String childId = childElement.getAttributeValue(ATTRIBUTE_ID);
 			String childType = childElement.getName();
-			if(! children.containsKey(childType + "(" + childId + ")")) {
+			if(!children.containsKey(childType + "(" + childId + ")")) {
 				TestObject child = new TestObject(childElement, repositoryFile);
 				child.parent = this;
 				child.repositoryFile = this.repositoryFile;
@@ -169,11 +167,11 @@ public class TestObject {
 			return children.get(localPath);
 		}
 	}
-	
+
 	public String getPath() {
 		return getPath(this);
 	}
-	
+
 	public static String getPath(TestObject object) {
 		String result = getLocalPath(object);
 		TestObject currentObject = object.getParent();
@@ -194,8 +192,10 @@ public class TestObject {
 
 	/**
 	 * Returns the object from loaded repositories.
-	 * @param path The path of the searched object, like: repository(name)>objectType(Name)
-	 * @return the TestObject if found, null elsewhere
+	 * 
+	 * @param path
+	 *            The path of the searched object, like: repository(name)>objectType(Name)
+	 * @return the TestObject if found, null otherwise
 	 */
 	public static TestObject getFromRepo(String path) {
 		TestObject repo = repositories.get(getBeginningPath(path));

@@ -211,7 +211,7 @@ public class Area extends Shape {
 	 * 
 	 * @param textToFind
 	 *            The text to look for
-	 * @return True if the specific text is contained. False elsewhere.
+	 * @return True if the specific text is contained. False otherwise.
 	 */
 	public boolean contains(String textToFind) {
 		String insideText = sikuli.getText(this);

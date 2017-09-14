@@ -194,7 +194,7 @@ public class TestToolSikuli {
 	 * 
 	 * @param patternImage
 	 * @param similarity
-	 * @return True if the pattern is found and click. False elsewhere
+	 * @return True if the pattern is found and click. False otherwise
 	 */
 	public boolean tryClick(File patternImage, float similarity) {
 		boolean clickPerformed = false;
@@ -671,7 +671,7 @@ public class TestToolSikuli {
 	 * 
 	 * @param imageIdentifier
 	 *            The identifier of the image used as pattern.
-	 * @return True if the pattern image is found on the screen. False elsewhere.
+	 * @return True if the pattern image is found on the screen. False otherwise.
 	 */
 	public boolean find(String imageIdentifier) {
 		return findArea(imageIdentifier) != null;
@@ -684,7 +684,7 @@ public class TestToolSikuli {
 	 *            The identifier of the image used as pattern.
 	 * @param similarity
 	 *            The similarity factor to be used: from 0.0 (bad match) to 1.0 (exact match)
-	 * @return True if the pattern image is found on the screen. False elsewhere.
+	 * @return True if the pattern image is found on the screen. False otherwise.
 	 */
 	public boolean find(String imageIdentifier, float similarity) {
 		return findArea(imageIdentifier, similarity) != null;
@@ -697,7 +697,7 @@ public class TestToolSikuli {
 	 *            The identifier of the image used as pattern.
 	 * @param restrictedArea
 	 *            The Area in which the pattern image is searched.
-	 * @return True if the pattern image is found on the screen. False elsewhere.
+	 * @return True if the pattern image is found on the screen. False otherwise.
 	 */
 	public boolean find(String imageIdentifier, Area restrictedArea) {
 		return findArea(imageIdentifier, restrictedArea) != null;
@@ -713,7 +713,7 @@ public class TestToolSikuli {
 	 *            The Area in which the pattern image is searched.
 	 * @param similarity
 	 *            The similarity factor to be used: from 0.0 (bad match) to 1.0 (exact match)
-	 * @return True if the pattern image is found on the screen. False elsewhere.
+	 * @return True if the pattern image is found on the screen. False otherwise.
 	 */
 	public boolean find(String imageIdentifier, Area restrictedArea, float similarity) {
 		return findArea(imageIdentifier, restrictedArea, similarity) != null;
