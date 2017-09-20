@@ -554,6 +554,13 @@ public abstract class TestCase {
 		pause((double) timeInSeconds);
 	}
 
+	protected void pause(DateTime until) {
+		long delay_ms = until.getMillis() - System.currentTimeMillis();
+		if(delay_ms > 0) {
+			pause(delay_ms / 1000);
+		}
+	}
+
 	protected void suppressWarnings() {
 		ErrorsAndWarnings.suppressWarnings();
 	}
