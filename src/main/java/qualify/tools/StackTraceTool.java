@@ -84,7 +84,7 @@ public class StackTraceTool {
 		return null;
 	}
 
-	public static String getComingStackTraceElementLocation(Throwable e, Class arrivalClass) {
+	public static String getComingStackTraceElementLocation(Throwable e, Class<?> arrivalClass) {
 		// Looking for the call just before TestHarness
 		StackTraceElement callAtClass = getCall(e.getStackTrace(), arrivalClass.getSimpleName());
 		int i = 0;
