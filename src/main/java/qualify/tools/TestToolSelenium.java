@@ -366,19 +366,37 @@ public abstract class TestToolSelenium {
 	}
 
 	public boolean checkText(String elementId, String expectedValue, boolean caseSensitive) {
-		boolean result = false;
-		WebElement element = findElementById(elementId);
+		By element = getElementIdentifier(elementId);
 		if(element != null) {
+			return checkText(element, expectedValue, caseSensitive);
+		} else {
+			testCase.addTestResult(false, "Web element not found with identifier '" + elementId);
+			return false;
+		}
+	}
+	public boolean checkText(By elementId, String expectedValue, boolean caseSensitive) {
+		boolean result = false;
+		if(elementId != null) {
 			String text = getText(elementId);
 			result = TestToolStrings.checkEquality(testCase, expectedValue, text, caseSensitive);
 		} else {
 			result = false;
-			testCase.addTestResult(false, "Web element not found with identifier '" + elementId);
+			testCase.addTestResult(false, "Web element not found with null identifier");
 		}
 		return result;
 	}
 
 	public boolean checkText(String elementId, Double expectedValue, double epsilon) {
+		By by = getElementIdentifier(elementId);
+		if (by != null) {
+			return checkText(by, expectedValue, epsilon);
+		} else {
+			testCase.addTestResult(false, "Web element not found with identifier '" + elementId);
+			return false;
+		}
+	}
+
+	public boolean checkText(By elementId, Double expectedValue, double epsilon) {
 		boolean result = false;
 		Double testedValue = null;
 		try {
@@ -387,9 +405,9 @@ public abstract class TestToolSelenium {
 			testCase.addError(e.getMessage());
 		}
 		TestToolNumbers numbers = new TestToolNumbers(testCase);
-		numbers.checkEquality(expectedValue, testedValue, epsilon);
-		return result;
+		return numbers.checkEquality(expectedValue, testedValue, epsilon);
 	}
+
 
 	public boolean checkValue(String elementId, String expectedValue) {
 		return checkValue(elementId, expectedValue, true);
