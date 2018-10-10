@@ -432,7 +432,15 @@ public abstract class TestToolSelenium {
 	 * @return
 	 */
 	public String getText(String elementId) {
-		WebElement element = findElementById(elementId);
+		By by = getElementIdentifier(elementId);
+		if (by != null) {
+			return getText(by);
+		} else {
+			throw new TestException("Web element not found with identifier '" + elementId + "'");
+		}
+	}
+	public String getText(By elementId) {
+		WebElement element = findElement(elementId);
 		if(element != null) {
 			if(element.getTagName().equals("input")) {
 				return element.getAttribute("value");
@@ -443,6 +451,8 @@ public abstract class TestToolSelenium {
 			throw new TestException("Web element not found with identifier '" + elementId + "'");
 		}
 	}
+
+
 
 	/**
 	 * Returns the 'value' attribute of element.
