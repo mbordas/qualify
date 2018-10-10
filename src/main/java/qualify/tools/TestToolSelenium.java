@@ -15,11 +15,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package qualify.tools;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
@@ -34,18 +29,22 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import qualify.TestCase;
 import qualify.TestException;
 import qualify.doc.DocList;
 import qualify.doc.DocString;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * TestToolSelenium extends the FirefoxDriver object from Selenium 2 API. New convenient methods are added, such as isPresent, waitPresent
  * and waitVanish. To better use that tool, you should use the object repositories (see the class called TestObject). The supported
  * TestObject have the following structure: <element id="my element"> <identifier id="xpath" value="//body/h1[1]"/> </element> The following
  * identifiers are supported: - id - name - xpath - linkText - partialLinkText - cssSelector - tagName - className
- * 
+ *
  * @author Mathieu Bordas
  */
 
@@ -96,7 +95,7 @@ public abstract class TestToolSelenium {
 
 	/**
 	 * Checks that the element identified by the specified ID is present in the actual web page
-	 * 
+	 *
 	 * @param elementId
 	 * @return
 	 */
@@ -195,7 +194,12 @@ public abstract class TestToolSelenium {
 	}
 
 	public void type(String elementIdentifier, String textToType) {
-		WebElement w = findElement(getElementIdentifier(elementIdentifier));
+		By by = getElementIdentifier(elementIdentifier);
+		type(by, textToType);
+	}
+
+	public void type(By elementIdentifier, String textToType) {
+		WebElement w = findElement(elementIdentifier);
 		if(w != null) {
 			w.sendKeys(textToType);
 		} else {
@@ -205,7 +209,7 @@ public abstract class TestToolSelenium {
 
 	/**
 	 * Clear text of element.
-	 * 
+	 *
 	 * @param elementIdentifier
 	 */
 	public void clear(String elementIdentifier) {
@@ -299,9 +303,8 @@ public abstract class TestToolSelenium {
 
 	/**
 	 * Computes the By identifier (see the official Selenium documentation) from the TestObject found in the object repositories.
-	 * 
-	 * @param webElementIdentifier
-	 *            The identifier from object repositories
+	 *
+	 * @param webElementIdentifier The identifier from object repositories
 	 * @return The By object supported by the Selenium 2 WebDriver
 	 */
 	public By getElementIdentifier(String webElementIdentifier) {
@@ -312,8 +315,8 @@ public abstract class TestToolSelenium {
 			if(obj != null) {
 				result = getElementIdentifier(obj);
 			} else {
-				testCase.addTestResult(false, "Web element from identifier '" + webElementIdentifier
-						+ "' does not exist in object repositories.");
+				testCase.addTestResult(false,
+						"Web element from identifier '" + webElementIdentifier + "' does not exist in object repositories.");
 			}
 		} else {
 			result = new By.ById(webElementIdentifier);
@@ -424,7 +427,7 @@ public abstract class TestToolSelenium {
 
 	/**
 	 * Returns the text or the 'value' attribute of element.
-	 * 
+	 *
 	 * @param elementId
 	 * @return
 	 */
@@ -443,7 +446,7 @@ public abstract class TestToolSelenium {
 
 	/**
 	 * Returns the 'value' attribute of element.
-	 * 
+	 *
 	 * @param elementId
 	 * @return
 	 */
@@ -476,7 +479,7 @@ public abstract class TestToolSelenium {
 
 	/**
 	 * Returns the value of element's attribute <code>key</code>.
-	 * 
+	 *
 	 * @param elementId
 	 * @param key
 	 * @return
@@ -508,7 +511,7 @@ public abstract class TestToolSelenium {
 
 	/**
 	 * Clears input text then type <code>value</code>.
-	 * 
+	 *
 	 * @param elementId
 	 * @param value
 	 */
@@ -533,7 +536,7 @@ public abstract class TestToolSelenium {
 
 	/**
 	 * Generate a screenshot of the current view of the WebDriver and save it as a file
-	 * 
+	 *
 	 * @param outputFile
 	 * @throws Exception
 	 */
@@ -551,7 +554,7 @@ public abstract class TestToolSelenium {
 
 	/**
 	 * Generate a screenshot of the current view of the WebDriver and get it as a Base64 encoded string
-	 * 
+	 *
 	 * @return
 	 * @throws Exception
 	 */
