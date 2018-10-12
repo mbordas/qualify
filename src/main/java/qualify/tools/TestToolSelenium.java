@@ -213,11 +213,16 @@ public abstract class TestToolSelenium {
 	 * @param elementIdentifier
 	 */
 	public void clear(String elementIdentifier) {
-		WebElement w = findElement(getElementIdentifier(elementIdentifier));
+		By by = getElementIdentifier(elementIdentifier);
+		clear(by);
+	}
+
+	public void clear(By elementIdentifier) {
+		WebElement w = findElement(elementIdentifier);
 		if(w != null) {
 			w.clear();
 		} else {
-			testCase.addTestResult(false, "Cannot type on null element (identifier='" + elementIdentifier + "').");
+			testCase.addTestResult(false, "Cannot clear null element (identifier='" + elementIdentifier + "').");
 		}
 	}
 
