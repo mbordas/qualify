@@ -460,7 +460,8 @@ public abstract class TestToolSelenium {
 	public String getText(By elementId) {
 		WebElement element = findElement(elementId);
 		if(element != null) {
-			if(element.getTagName().equals("input")) {
+			String tagName = element.getTagName();
+			if(tagName != null && tagName.equals("input")) {
 				return element.getAttribute("value");
 			} else {
 				return element.getText();
