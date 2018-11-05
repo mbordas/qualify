@@ -6,4 +6,5 @@
 qualify.log
 /result/
 *~
-qualify.iml
+*.iml
+.idea/

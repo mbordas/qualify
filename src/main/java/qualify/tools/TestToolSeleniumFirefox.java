@@ -15,37 +15,49 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package qualify.tools;
 
-import java.io.File;
-
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
+import org.openqa.selenium.firefox.FirefoxProfile;
 import qualify.Qualify;
 import qualify.TestCase;
+
+import java.io.File;
 
 public class TestToolSeleniumFirefox extends TestToolSelenium {
 
 	public static final String OPTION_FIREFOX_BINARY = "firefox_binary";
 	public static final String OPTION_FIREFOX_PROFILE = "firefox_profile";
+	public static final String OPTION_FIREFOX_HEADLESS = "firefox_headless";
+	public static final String OPTION_FIREFOX_GECKODRIVER_BINARY = "firefox_geckodriver_binary";
 
 	public TestToolSeleniumFirefox(TestCase tc) {
 		super(tc);
 
-		FirefoxProfile profile = null;
+		final String geckodriverBinary = Qualify.getOptionValue(OPTION_FIREFOX_GECKODRIVER_BINARY);
+		if(geckodriverBinary != null) {
+			System.setProperty("webdriver.gecko.driver", geckodriverBinary);
+		}
 
-		String profilePath = Qualify.getOptionValue(OPTION_FIREFOX_PROFILE);
+		final FirefoxOptions options = new FirefoxOptions();
+
+		final String profilePath = Qualify.getOptionValue(OPTION_FIREFOX_PROFILE);
 		if(profilePath != null) {
-			profile = new FirefoxProfile(new File(profilePath));
-		} else {
-			profile = new FirefoxProfile();
+			options.setProfile(new FirefoxProfile(new File(profilePath)));
 		}
 
-		String binaryPath = Qualify.getOptionValue(OPTION_FIREFOX_BINARY);
+		final String binaryPath = Qualify.getOptionValue(OPTION_FIREFOX_BINARY);
 		if(binaryPath != null) {
-			driver = new FirefoxDriver(new FirefoxBinary(new File(binaryPath)), profile);
-		} else {
-			driver = new FirefoxDriver(profile);
+			options.setBinary(new FirefoxBinary(new File(binaryPath)));
 		}
+
+		final String headless = Qualify.getOptionValue(OPTION_FIREFOX_HEADLESS);
+		if(Boolean.parseBoolean(headless)) {
+			options.addArguments("--headless");
+		}
+
+		options.setCapability("marionette", true);
+		driver = new FirefoxDriver(options);
 	}
 }
