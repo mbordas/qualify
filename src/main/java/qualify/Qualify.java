@@ -15,20 +15,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package qualify;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Enumeration;
-import java.util.HashMap;
-
 import org.apache.log4j.Appender;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
-
 import qualify.server.HTTPServer;
 import qualify.tools.CommandLineTool;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.HashMap;
 
 public class Qualify {
 
@@ -122,8 +121,24 @@ public class Qualify {
 		}
 	}
 
+	public static boolean isOptionSet(String optionName) {
+		String value = System.getProperty(CommandLineTool.OPTION_SYSTEM_PROPERTIES_PREFIX + optionName);
+		if(value == null) {
+			value = options.get(optionName);
+			return Boolean.valueOf(value);
+		} else if("".equalsIgnoreCase(value)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public static String getOptionValue(String optionName) {
-		return options.get(optionName);
+		String value = System.getProperty(CommandLineTool.OPTION_SYSTEM_PROPERTIES_PREFIX + optionName);
+		if(value == null) {
+			value = options.get(optionName);
+		}
+		return value;
 	}
 
 	public static String[] getOptionValues(String optionName) {
@@ -146,8 +161,7 @@ public class Qualify {
 	public static synchronized void initLogs() {
 		if(initialized == false) {
 			boolean consoleAppenderExists = false;
-			@SuppressWarnings("unchecked")
-			Enumeration<Appender> appenders = (Enumeration<Appender>) Logger.getRootLogger().getAllAppenders();
+			@SuppressWarnings("unchecked") Enumeration<Appender> appenders = (Enumeration<Appender>) Logger.getRootLogger().getAllAppenders();
 			while(appenders.hasMoreElements()) {
 				Appender appender = appenders.nextElement();
 				if(appender.getClass() == ConsoleAppender.class) {

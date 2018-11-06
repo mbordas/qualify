@@ -18,14 +18,17 @@ package qualify.tools;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import qualify.Qualify;
 import qualify.TestCase;
 
 import java.io.File;
 
 public class TestToolSeleniumFirefox extends TestToolSelenium {
+
+	private static final Logger LOG = LoggerFactory.getLogger(TestToolSeleniumFirefox.class);
 
 	public static final String OPTION_FIREFOX_BINARY = "firefox_binary";
 	public static final String OPTION_FIREFOX_PROFILE = "firefox_profile";
@@ -52,8 +55,8 @@ public class TestToolSeleniumFirefox extends TestToolSelenium {
 			options.setBinary(new FirefoxBinary(new File(binaryPath)));
 		}
 
-		final String headless = Qualify.getOptionValue(OPTION_FIREFOX_HEADLESS);
-		if(Boolean.parseBoolean(headless)) {
+		if(Qualify.isOptionSet(OPTION_FIREFOX_HEADLESS)) {
+			System.out.println("Using Firefox headless");
 			options.addArguments("--headless");
 		}
 
