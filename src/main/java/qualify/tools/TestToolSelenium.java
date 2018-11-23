@@ -19,6 +19,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.StaleElementReferenceException;
@@ -201,7 +202,12 @@ public abstract class TestToolSelenium {
 	public void type(By elementIdentifier, String textToType) {
 		WebElement w = findElement(elementIdentifier);
 		if(w != null) {
-			w.sendKeys(textToType);
+			if(textToType.endsWith("\n")) {
+				w.sendKeys(textToType.replaceAll("\n", ""));
+				w.sendKeys(Keys.ENTER);
+			} else {
+				w.sendKeys(textToType);
+			}
 		} else {
 			testCase.addTestResult(false, "Cannot type on null element (identifier='" + elementIdentifier + "').");
 		}
@@ -379,6 +385,7 @@ public abstract class TestToolSelenium {
 			return false;
 		}
 	}
+
 	public boolean checkText(By elementId, String expectedValue, boolean caseSensitive) {
 		boolean result = false;
 		if(elementId != null) {
@@ -393,7 +400,7 @@ public abstract class TestToolSelenium {
 
 	public boolean checkText(String elementId, Double expectedValue, double epsilon) {
 		By by = getElementIdentifier(elementId);
-		if (by != null) {
+		if(by != null) {
 			return checkText(by, expectedValue, epsilon);
 		} else {
 			testCase.addTestResult(false, "Web element not found with identifier '" + elementId);
@@ -412,7 +419,6 @@ public abstract class TestToolSelenium {
 		TestToolNumbers numbers = new TestToolNumbers(testCase);
 		return numbers.checkEquality(expectedValue, testedValue, epsilon);
 	}
-
 
 	public boolean checkValue(String elementId, String expectedValue) {
 		return checkValue(elementId, expectedValue, true);
@@ -456,12 +462,13 @@ public abstract class TestToolSelenium {
 	 */
 	public String getText(String elementId) {
 		By by = getElementIdentifier(elementId);
-		if (by != null) {
+		if(by != null) {
 			return getText(by);
 		} else {
 			throw new TestException("Web element not found with identifier '" + elementId + "'");
 		}
 	}
+
 	public String getText(By elementId) {
 		WebElement element = findElement(elementId);
 		if(element != null) {
@@ -475,8 +482,6 @@ public abstract class TestToolSelenium {
 			throw new TestException("Web element not found with identifier '" + elementId + "'");
 		}
 	}
-
-
 
 	/**
 	 * Returns the 'value' attribute of element.
