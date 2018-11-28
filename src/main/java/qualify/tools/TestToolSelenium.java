@@ -17,6 +17,7 @@ package qualify.tools;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -28,6 +29,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import qualify.TestCase;
@@ -174,9 +176,18 @@ public abstract class TestToolSelenium {
 		}
 	}
 
+	private Alert waitAlert(int defaultTimeout) {
+		WebDriverWait wait = new WebDriverWait(driver, defaultTimeout);
+		return wait.until(ExpectedConditions.alertIsPresent());
+	}
+
+	private Alert waitAlert() {
+		return waitAlert((int) defaultTimeout);
+	}
+
 	public boolean checkAlert(String textRegex) {
 		boolean result = false;
-		String alertText = driver.switchTo().alert().getText();
+		String alertText = waitAlert().getText();
 		if(TestToolStrings.matches(textRegex, alertText)) {
 			result = true;
 		} else {
@@ -187,11 +198,11 @@ public abstract class TestToolSelenium {
 	}
 
 	public void acceptAlert() {
-		driver.switchTo().alert().accept();
+		waitAlert().accept();
 	}
 
 	public void dismissAlert() {
-		driver.switchTo().alert().dismiss();
+		waitAlert().dismiss();
 	}
 
 	public void type(String elementIdentifier, String textToType) {
