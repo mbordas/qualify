@@ -58,7 +58,7 @@ public abstract class TestToolSelenium {
 	protected WebDriver driver = null;
 	protected TestCase testCase = null;
 
-	private double defaultTimeout = 10.0;
+	private double defaultTimeout_s = 10.0;
 
 	public TestToolSelenium(TestCase tc) {
 		testCase = tc;
@@ -136,7 +136,7 @@ public abstract class TestToolSelenium {
 		if(identifier == null) {
 			throw new TestException("Unparsed element identifier: " + elementIdentifier);
 		}
-		if(waitPresent(elementIdentifier, defaultTimeout)) {
+		if(waitPresent(elementIdentifier, defaultTimeout_s)) {
 			WebElement w = findElement(identifier);
 			if(w != null) {
 				w.click();
@@ -157,7 +157,7 @@ public abstract class TestToolSelenium {
 	}
 
 	public void click(By by) {
-		waitPresent(by, defaultTimeout);
+		waitPresent(by, defaultTimeout_s);
 		WebElement w = findElement(by);
 		if(w != null) {
 			w.click();
@@ -167,7 +167,7 @@ public abstract class TestToolSelenium {
 	}
 
 	public void forceClick(String elementIdentifier) {
-		waitPresent(elementIdentifier, defaultTimeout);
+		waitPresent(elementIdentifier, defaultTimeout_s);
 		WebElement w = findElement(getElementIdentifier(elementIdentifier));
 		if(w != null) {
 			((JavascriptExecutor) driver).executeScript("arguments[0].click();", w);
@@ -176,13 +176,18 @@ public abstract class TestToolSelenium {
 		}
 	}
 
-	private Alert waitAlert(int defaultTimeout) {
-		WebDriverWait wait = new WebDriverWait(driver, defaultTimeout);
+	private Alert waitAlert(int defaultTimeout_s) {
+		WebDriverWait wait = new WebDriverWait(driver, defaultTimeout_s);
 		return wait.until(ExpectedConditions.alertIsPresent());
 	}
 
 	private Alert waitAlert() {
-		return waitAlert((int) defaultTimeout);
+		return waitAlert((int) defaultTimeout_s);
+	}
+
+	private void waitNoAlert() {
+		WebDriverWait wait = new WebDriverWait(driver, (int) defaultTimeout_s);
+		wait.until(ExpectedConditions.not(ExpectedConditions.alertIsPresent()));
 	}
 
 	public boolean checkAlert(String textRegex) {
@@ -197,8 +202,35 @@ public abstract class TestToolSelenium {
 		return result;
 	}
 
-	public void acceptAlert() {
-		waitAlert().accept();
+	/**
+	 * Accepts alert and waits until it is no more displayed.
+	 *
+	 * @throws InterruptedException
+	 */
+	public void acceptAlert() throws InterruptedException {
+		Alert alert = waitAlert();
+		String text = alert.getText();
+		alert.accept();
+
+		// When alert is accepted current Java thread goes one, but the alert could persist in the browser.
+		// Some milliseconds later, a call to checkAlert could check the same alert one more time (because it not
+		// closed in the browser).
+
+		// To prevent such an confusing state, here we wait until this alert is hidden.
+		// 2 cases: either there is no more alert displayed, either the alert displayed is another one.
+
+		boolean sameAlertIsStillDisplayed = true;
+		long start_ms = System.currentTimeMillis();
+		while(sameAlertIsStillDisplayed && System.currentTimeMillis() < start_ms + defaultTimeout_s * 1000) {
+			try {
+				Alert _alert = waitAlert(1);
+				sameAlertIsStillDisplayed = text.equals(_alert.getText());
+
+				Thread.sleep(500);
+			} catch(Exception e) {
+				sameAlertIsStillDisplayed = false;
+			}
+		}
 	}
 
 	public void dismissAlert() {
