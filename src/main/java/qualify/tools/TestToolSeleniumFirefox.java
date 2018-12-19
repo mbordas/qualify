@@ -15,6 +15,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package qualify.tools;
 
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -62,5 +63,6 @@ public class TestToolSeleniumFirefox extends TestToolSelenium {
 
 		options.setCapability("marionette", true);
 		driver = new FirefoxDriver(options);
+		driver.manage().window().setSize(new Dimension(1920, 1080));
 	}
 }
