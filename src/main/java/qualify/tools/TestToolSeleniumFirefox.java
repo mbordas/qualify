@@ -35,6 +35,7 @@ public class TestToolSeleniumFirefox extends TestToolSelenium {
 	public static final String OPTION_FIREFOX_PROFILE = "firefox_profile";
 	public static final String OPTION_FIREFOX_HEADLESS = "firefox_headless";
 	public static final String OPTION_FIREFOX_GECKODRIVER_BINARY = "firefox_geckodriver_binary";
+	public static final String OPTION_FIREFOX_PRIVATE_BROWSER = "firefox_private_browser";
 
 	public TestToolSeleniumFirefox(TestCase tc) {
 		super(tc);
@@ -59,6 +60,11 @@ public class TestToolSeleniumFirefox extends TestToolSelenium {
 		if(Qualify.isOptionSet(OPTION_FIREFOX_HEADLESS)) {
 			System.out.println("Using Firefox headless");
 			options.addArguments("--headless");
+		}
+
+		if(Qualify.isOptionSet(OPTION_FIREFOX_PRIVATE_BROWSER)) {
+			System.out.println("Using Firefox private browser");
+			options.addArguments("--private");
 		}
 
 		options.setCapability("marionette", true);
