@@ -26,6 +26,7 @@ import qualify.Qualify;
 import qualify.TestCase;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 public class TestToolSeleniumFirefox extends TestToolSelenium {
 
@@ -69,6 +70,8 @@ public class TestToolSeleniumFirefox extends TestToolSelenium {
 
 		options.setCapability("marionette", true);
 		driver = new FirefoxDriver(options);
+
 		driver.manage().window().setSize(new Dimension(1920, 1080));
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
 }
