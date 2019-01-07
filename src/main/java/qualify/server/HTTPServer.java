@@ -16,7 +16,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package qualify.server;
 
 import org.eclipse.jetty.server.Server;
-
 import qualify.Qualify;
 
 public class HTTPServer {
@@ -26,7 +25,6 @@ public class HTTPServer {
 	private int port = 0;
 
 	public static void main(String[] args) throws Exception {
-		Qualify.initLogs();
 		Qualify.loadOptions(args);
 		Qualify.setLogLevel("DEBUG");
 

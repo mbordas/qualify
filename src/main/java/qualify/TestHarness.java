@@ -15,6 +15,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package qualify;
 
+import org.apache.log4j.Appender;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
+import org.apache.log4j.WriterAppender;
+import org.codehaus.groovy.control.CompilationFailedException;
+import org.joda.time.Duration;
+import qualify.doc.DocumentUtils;
+import qualify.doc.ReleaseNote;
+import qualify.doc.TestCasesTable;
+import qualify.doc.TestReport;
+import qualify.doc.TestSource;
+import qualify.server.HTTPServer;
+import qualify.tools.CommandLineTool;
+import qualify.tools.StackTraceTool;
+import qualify.tools.TestObject;
+import qualify.tools.TestToolFile;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -26,24 +43,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.log4j.Appender;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
-import org.apache.log4j.WriterAppender;
-import org.codehaus.groovy.control.CompilationFailedException;
-import org.joda.time.Duration;
-
-import qualify.doc.DocumentUtils;
-import qualify.doc.ReleaseNote;
-import qualify.doc.TestCasesTable;
-import qualify.doc.TestReport;
-import qualify.doc.TestSource;
-import qualify.server.HTTPServer;
-import qualify.tools.CommandLineTool;
-import qualify.tools.StackTraceTool;
-import qualify.tools.TestObject;
-import qualify.tools.TestToolFile;
 
 /**
  * Create a {@link TestHarness} to create the beginning point of your testing application. From your main(String[]), call the static method:
@@ -107,24 +106,6 @@ public abstract class TestHarness {
 
 	public TestHarnessHandler getHandler() {
 		return handler;
-	}
-
-	public static void setLogger(CommandLineTool cmd) {
-		if(cmd.isOptionInCommandLine(Qualify.OPTION_LOG_OUTPUT_FILE_NAME)) {
-			String logFileName = cmd.getOptionValue(Qualify.OPTION_LOG_OUTPUT_FILE_NAME);
-			logger.info("Setting log file: " + logFileName);
-			try {
-				Qualify.setLogFile(logFileName);
-			} catch(IOException e) {
-				e.printStackTrace();
-				ErrorsAndWarnings.addError("Cannot set log file '" + new File(logFileName).getAbsolutePath() + "'");
-			}
-		}
-		if(cmd.isOptionInCommandLine(Qualify.OPTION_LOG_LEVEL)) {
-			String logLevel = cmd.getOptionValue(Qualify.OPTION_LOG_LEVEL);
-			logger.info("Setting log level to: " + logLevel);
-			Qualify.setLogLevel(logLevel);
-		}
 	}
 
 	private static void setReleaseMetaData(CommandLineTool cmd) {
@@ -226,8 +207,9 @@ public abstract class TestHarness {
 							newTestCase.setSource(TestSource.createTestSource(scriptFile));
 							newTestCase.setName(testCaseName);
 							th.register(newTestCase);
-							newTestCase.getReport().addException("Exception raised during compilation at "
-									+ StackTraceTool.getStackTraceElementLocation(e, ".*" + testCaseName + ".*"), e);
+							newTestCase.getReport().addException(
+									"Exception raised during compilation at " + StackTraceTool.getStackTraceElementLocation(e,
+											".*" + testCaseName + ".*"), e);
 						}
 					}
 				} else {
@@ -249,8 +231,8 @@ public abstract class TestHarness {
 							TestObject.loadObjectRepository(repositoryFile);
 						}
 					} else {
-						ErrorsAndWarnings.addError("Object repository file '" + repositoryDir.getAbsolutePath()
-								+ "' does not exist or is not a file.");
+						ErrorsAndWarnings.addError(
+								"Object repository file '" + repositoryDir.getAbsolutePath() + "' does not exist or is not a file.");
 					}
 				} else {
 					repositoryDir.mkdirs();
@@ -288,8 +270,9 @@ public abstract class TestHarness {
 					logger.info("** " + testCase.getLocalName());
 				}
 			} else {
-				ErrorsAndWarnings.addError("Cannot find reference release note '" + cmd.getOptionValue(
-						Qualify.OPTION_REFERENCE_RELEASE_NOTE) + "'. File does not exist or is a directory.");
+				ErrorsAndWarnings.addError(
+						"Cannot find reference release note '" + cmd.getOptionValue(Qualify.OPTION_REFERENCE_RELEASE_NOTE)
+								+ "'. File does not exist or is a directory.");
 			}
 		} else {
 			ErrorsAndWarnings.addError("Cannot find test cases for requirement '" + cmd.getOptionValue(Qualify.OPTION_REQUIREMENT_TO_TEST)
@@ -332,11 +315,9 @@ public abstract class TestHarness {
 	}
 
 	public static int runTestHarness(String[] args, TestHarness th) {
-		Qualify.initLogs();
 
 		CommandLineTool cmd = Qualify.loadOptions(args);
 
-		setLogger(cmd);
 		setReleaseMetaData(cmd);
 		loadSRD(cmd, th);
 		setSourceDirs(cmd, th);
@@ -359,8 +340,8 @@ public abstract class TestHarness {
 		if((ErrorsAndWarnings.getErrorsCount() == 0) || cmd.isOptionInCommandLine(Qualify.OPTION_RUN_ON_ERROR)) {
 
 			File continuousReleaseNoteFile = null;
-			if(cmd.isOptionInCommandLine(Qualify.OPTION_CONTINUOUS_RELEASE_NOTE) && cmd.getOptionValue(
-					Qualify.OPTION_RELEASE_NOTE_FILE_NAME) != null) {
+			if(cmd.isOptionInCommandLine(Qualify.OPTION_CONTINUOUS_RELEASE_NOTE)
+					&& cmd.getOptionValue(Qualify.OPTION_RELEASE_NOTE_FILE_NAME) != null) {
 				continuousReleaseNoteFile = new File(cmd.getOptionValue(Qualify.OPTION_RELEASE_NOTE_FILE_NAME));
 
 				try {
@@ -483,12 +464,10 @@ public abstract class TestHarness {
 
 	/**
 	 * Registers the test case in the harness' test cases list.
-	 * 
+	 *
 	 * @param tc
 	 */
 	protected final void register(TestCase tc) {
-		Qualify.initLogs();
-
 		String testCaseShortClassName = tc.getLocalName();
 		if(testCases.get(testCaseShortClassName) == null) {
 			testCases.put(testCaseShortClassName, tc);
@@ -524,7 +503,6 @@ public abstract class TestHarness {
 	}
 
 	protected final void addSanityTest(TestCase tc) {
-		Qualify.initLogs();
 		String testCaseShortClassName = tc.getLocalName();
 		if(sanityTests.get(testCaseShortClassName) == null) {
 			sanityTests.put(testCaseShortClassName, tc);
@@ -541,11 +519,9 @@ public abstract class TestHarness {
 
 	/**
 	 * Returns the relative path to java source file with shortFileName, using the source directory given through parameters.
-	 * 
-	 * @param shortFileName
-	 *            The short name of the searched source file
-	 * @param directory
-	 *            The top directory where the file is searched recursively
+	 *
+	 * @param shortFileName The short name of the searched source file
+	 * @param directory     The top directory where the file is searched recursively
 	 * @return The file path, relative to JVM working directory.
 	 */
 	public static String getRelativeFileName(String shortFileName, File directory) {
@@ -576,7 +552,7 @@ public abstract class TestHarness {
 	/**
 	 * Returns a fresh instance of <code>testCase</code>. That means that if registered with its {@link Class}, a new instance is created.
 	 * If registered with instance, the same instance is returned (bypass).
-	 * 
+	 *
 	 * @param testCase
 	 * @return
 	 */
@@ -606,9 +582,9 @@ public abstract class TestHarness {
 
 	/**
 	 * Runs one single test case.
-	 * 
+	 *
+	 * @param tc
 	 * @return success
-	 * @param testCaseName
 	 */
 	protected final boolean runSingleTestCase(TestCase tc) {
 		if(tc != null) {
@@ -631,8 +607,9 @@ public abstract class TestHarness {
 							tc.run();
 						} catch(Throwable e) {
 							try {
-								attachExceptionToTestCase("Exception raised during run() at " + StackTraceTool.getCall(e.getStackTrace(),
-										tc.getName()), e, tc);
+								attachExceptionToTestCase(
+										"Exception raised during run() at " + StackTraceTool.getCall(e.getStackTrace(), tc.getName()), e,
+										tc);
 							} catch(Exception e2) {
 								e.printStackTrace();
 							}
@@ -647,8 +624,9 @@ public abstract class TestHarness {
 
 						} catch(Exception e) {
 							try {
-								attachExceptionToTestCase("Exception raised during afterRun() at "
-										+ StackTraceTool.getComingStackTraceElementLocation(e, TestHarness.class), e, tc);
+								attachExceptionToTestCase(
+										"Exception raised during afterRun() at " + StackTraceTool.getComingStackTraceElementLocation(e,
+												TestHarness.class), e, tc);
 							} catch(Exception e2) {
 								e.printStackTrace();
 							}
@@ -656,8 +634,9 @@ public abstract class TestHarness {
 						}
 					}
 				} catch(Throwable e) {
-					attachExceptionToTestCase("Exception raised during beforeRun() at " + StackTraceTool.getComingStackTraceElementLocation(
-							e, TestHarness.class), e, tc);
+					attachExceptionToTestCase(
+							"Exception raised during beforeRun() at " + StackTraceTool.getComingStackTraceElementLocation(e,
+									TestHarness.class), e, tc);
 
 				} finally {
 					try {
@@ -673,7 +652,7 @@ public abstract class TestHarness {
 	}
 
 	OutputStream getLogOutputStream(TestCase tc) throws IOException {
-		String logFileName = "logs/" + tc.getLocalName() + ".log";
+		String logFileName = String.format("target/qualify-reports/%s/%s.log", tc.getLocalName(), tc.getLocalName());
 		File logFile = new File(logFileName);
 		logFile.getParentFile().mkdirs();
 		logFile.createNewFile();
@@ -934,8 +913,8 @@ public abstract class TestHarness {
 					overrideReferenceReleaseNote = true;
 				}
 			} else {
-				ErrorsAndWarnings.addWarning("Reference release note '" + referenceReleaseNote.getAbsolutePath()
-						+ "' does not exist, so it is generated.");
+				ErrorsAndWarnings.addWarning(
+						"Reference release note '" + referenceReleaseNote.getAbsolutePath() + "' does not exist, so it is generated.");
 				overrideReferenceReleaseNote = true;
 			}
 		}
@@ -946,8 +925,8 @@ public abstract class TestHarness {
 				ReleaseNote.generateReleaseNote(th, releaseNoteFile);
 				logAttachment(releaseNoteFile);
 				if(overrideReferenceReleaseNote) {
-					TestToolFile.copyFile(new File(Qualify.getOptionValue(Qualify.OPTION_RELEASE_NOTE_FILE_NAME)), new File(
-							Qualify.getOptionValue(Qualify.OPTION_REFERENCE_RELEASE_NOTE)));
+					TestToolFile.copyFile(new File(Qualify.getOptionValue(Qualify.OPTION_RELEASE_NOTE_FILE_NAME)),
+							new File(Qualify.getOptionValue(Qualify.OPTION_REFERENCE_RELEASE_NOTE)));
 				}
 			} catch(IOException e) {
 				e.printStackTrace();
@@ -1004,7 +983,7 @@ public abstract class TestHarness {
 
 	/**
 	 * Logs a synthesis for one test case
-	 * 
+	 *
 	 * @param tc
 	 */
 	protected final void printTestCaseSynthesis(TestCase tc) {
@@ -1021,7 +1000,7 @@ public abstract class TestHarness {
 
 	/**
 	 * Logs the results of one test case
-	 * 
+	 *
 	 * @param tc
 	 */
 	protected final void printTestCaseResults(TestCase tc) {
@@ -1045,8 +1024,8 @@ public abstract class TestHarness {
 
 			if(!testCase.isSuccessful()) {
 				if(runFailedOption == null) {
-					runFailedOption = new StringBuilder("-D" + CommandLineTool.OPTION_SYSTEM_PROPERTIES_PREFIX + Qualify.OPTION_TEST_TO_RUN
-							+ "=" + testCaseName);
+					runFailedOption = new StringBuilder(
+							"-D" + CommandLineTool.OPTION_SYSTEM_PROPERTIES_PREFIX + Qualify.OPTION_TEST_TO_RUN + "=" + testCaseName);
 				} else {
 					runFailedOption.append("," + testCaseName);
 				}

@@ -19,18 +19,10 @@ import groovy.lang.Binding;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyShell;
 import groovy.lang.MissingPropertyException;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-
 import org.apache.log4j.Logger;
 import org.codehaus.groovy.control.CompilationFailedException;
 import org.codehaus.groovy.control.CompilationUnit;
 import org.codehaus.groovy.control.CompilerConfiguration;
-
 import qualify.doc.Preprocessor;
 import qualify.doc.TestReport;
 import qualify.doc.TestSource;
@@ -38,6 +30,12 @@ import qualify.server.HTTPHandler;
 import qualify.server.apps.WebApp;
 import qualify.tools.TestToolFile;
 import qualify.tools.TestToolStrings;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 
 public class TestScript {
 
@@ -50,12 +48,11 @@ public class TestScript {
 
 	private static void init() {
 		if(shell == null) {
-			Qualify.initLogs();
 			Binding binding = new Binding();
 			shell = new GroovyShell(Thread.currentThread().getContextClassLoader(), binding);
 		}
 	}
-	
+
 	public static void loadDependencies(File dependencyFolder) {
 		init();
 		// Configure
@@ -63,7 +60,7 @@ public class TestScript {
 		File binDir = new File(dependencyFolder.getAbsolutePath() + "/bin");
 		try {
 			TestToolFile.createDir(binDir);
-		} catch (IOException e) {
+		} catch(IOException e) {
 			ErrorsAndWarnings.addException(e);
 			e.printStackTrace();
 		}
@@ -71,12 +68,12 @@ public class TestScript {
 		CompilationUnit cu = new CompilationUnit(gcl);
 		cu.configure(conf);
 		// Add more all files to the compilation unit
-		cu.addSources(TestToolFile.listFiles(dependencyFolder, ".*\\.groovy", true).toArray(new File[]{}));
-		// Compile…
+		cu.addSources(TestToolFile.listFiles(dependencyFolder, ".*\\.groovy", true).toArray(new File[] {}));
+		// Compileï¿½
 		cu.compile();
 		shell.getClassLoader().addClasspath(binDir.getAbsolutePath());
 	}
-	
+
 	public static void loadScripts(File scriptsFolder) throws MalformedURLException {
 		URL[] urls = new URL[] { scriptsFolder.toURI().toURL() };
 		URLClassLoader ucl = new URLClassLoader(urls, shell.getClassLoader());
@@ -86,6 +83,7 @@ public class TestScript {
 	/**
 	 * Reads a script file. Preprocesses the file if one of the registered preprocessors matches the file's name.
 	 * Compile the preprocessed source to create a TestCase and returns it.
+	 *
 	 * @param scriptFile The original file to load as a script
 	 * @return the script, preprocessed (if Preprocessors) and compiled as TestCase
 	 * @throws CompilationFailedException
@@ -93,9 +91,10 @@ public class TestScript {
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 */
-	public static TestCase loadTestCaseFromScript(File scriptFile) throws CompilationFailedException, IOException, InstantiationException, IllegalAccessException, MissingPropertyException {
+	public static TestCase loadTestCaseFromScript(File scriptFile)
+			throws CompilationFailedException, IOException, InstantiationException, IllegalAccessException, MissingPropertyException {
 		init();
-		
+
 		TestCase result = null;
 		TestSource testSource = TestSource.createTestSource(scriptFile);
 		File fileToCompile = scriptFile;
@@ -109,7 +108,7 @@ public class TestScript {
 
 		if(scriptCanBeCompiled) {
 			logger.info("loading script: " + scriptFile.getAbsolutePath());
-			
+
 			// Default preprocessing
 			Preprocessor.defaultPreprocessor.process(testSource);
 
@@ -127,9 +126,9 @@ public class TestScript {
 			Class<?> groovyClass = shell.getClassLoader().parseClass(fileToCompile);
 
 			try {
-			// Instantiating the class as a new TestCase
+				// Instantiating the class as a new TestCase
 				result = (TestCase) groovyClass.newInstance();
-			} catch (MissingPropertyException e) {
+			} catch(MissingPropertyException e) {
 				throw e;
 			}
 
@@ -144,7 +143,7 @@ public class TestScript {
 
 	public static void loadScript(File scriptFile) throws CompilationFailedException, IOException, ClassNotFoundException {
 		init();
-		
+
 		TestSource testSource = TestSource.createTestSource(scriptFile);
 		File fileToCompile = scriptFile;
 
@@ -157,7 +156,7 @@ public class TestScript {
 
 		if(scriptCanBeCompiled) {
 			logger.info("loading dependency script: " + scriptFile.getAbsolutePath());
-			
+
 			// Default preprocessing
 			Preprocessor.defaultPreprocessor.process(testSource);
 
@@ -173,7 +172,8 @@ public class TestScript {
 		}
 	}
 
-	public static Preprocessor loadPreprocessorFromScript(File scriptFile) throws CompilationFailedException, IOException, InstantiationException, IllegalAccessException {
+	public static Preprocessor loadPreprocessorFromScript(File scriptFile)
+			throws CompilationFailedException, IOException, InstantiationException, IllegalAccessException {
 		init();
 		logger.info("registering preprocessor: " + scriptFile.getAbsolutePath());
 
@@ -185,8 +185,9 @@ public class TestScript {
 		Preprocessor.registerPreprocessor(result);
 		return result;
 	}
-	
-	public static WebApp loadAppFromScript(File scriptFile) throws CompilationFailedException, IOException, InstantiationException, IllegalAccessException {
+
+	public static WebApp loadAppFromScript(File scriptFile)
+			throws CompilationFailedException, IOException, InstantiationException, IllegalAccessException {
 		init();
 		logger.info("compiling app: " + scriptFile.getAbsolutePath());
 

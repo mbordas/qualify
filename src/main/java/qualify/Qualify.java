@@ -15,8 +15,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package qualify;
 
-import org.apache.log4j.Appender;
-import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -24,9 +22,7 @@ import org.apache.log4j.PatternLayout;
 import qualify.server.HTTPServer;
 import qualify.tools.CommandLineTool;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.HashMap;
 
 public class Qualify {
@@ -56,8 +52,6 @@ public class Qualify {
 	public static final String OPTION_REQUIREMENT_TO_TEST = "requirement";
 	public static final String OPTION_NO_SANITY = "no_sanity";
 	public static final String OPTION_RUN_LAST_FAILED = "run_last_failed";
-	public static final String OPTION_LOG_LEVEL = "log_level";
-	public static final String OPTION_LOG_OUTPUT_FILE_NAME = "log_file";
 	public static final String OPTION_HTTP_SERVER = "http_server";
 	public static final String OPTION_HTTP_SERVER_WEBAPPS_DIR = "http_server_webapps_dir";
 	public static final String OPTION_HTTP_SERVER_ROOT_DIR = "http_server_root_dir";
@@ -66,8 +60,6 @@ public class Qualify {
 	private static HashMap<String, String> options = null;
 
 	public static void main(String[] args) {
-		Qualify.initLogs();
-
 		if(args.length == 0) {
 			args = new String[] { OPTION_OPTIONS_FILE + "=options.xml" };
 		}
@@ -75,24 +67,6 @@ public class Qualify {
 		CommandLineTool cmd = new CommandLineTool(args);
 		Qualify.setOptions(cmd.getOptions());
 
-		if(cmd.isOptionInCommandLine(Qualify.OPTION_LOG_OUTPUT_FILE_NAME)) {
-			String logFileName = cmd.getOptionValue(Qualify.OPTION_LOG_OUTPUT_FILE_NAME);
-			logger.info("Setting log file: " + logFileName);
-			try {
-				Qualify.setLogFile(logFileName);
-			} catch(IOException e) {
-				e.printStackTrace();
-				ErrorsAndWarnings.addError("Cannot set log file '" + new File(logFileName).getAbsolutePath() + "'");
-			}
-		}
-
-		if(cmd.isOptionInCommandLine(Qualify.OPTION_LOG_LEVEL)) {
-			String logLevel = cmd.getOptionValue(Qualify.OPTION_LOG_LEVEL);
-			logger.info("Setting log level to: " + logLevel);
-			Qualify.setLogLevel(logLevel);
-		}
-
-		HTTPServer server = null;
 		if(cmd.isOptionInCommandLine(Qualify.OPTION_HTTP_SERVER)) {
 			int serverPort = Integer.valueOf(cmd.getOptionValue(Qualify.OPTION_HTTP_SERVER));
 			logger.info("Starting HTTP Server using port: " + serverPort);
@@ -157,30 +131,6 @@ public class Qualify {
 	public static final String LOGGER_PATTERN = "%d{ISO8601} [%.20t] %-5p %c %x - %m%n";
 	public static String LOGGER_OUTPUT_FILE_NAME = "traces.txt";
 	private static boolean initialized = false;
-
-	public static synchronized void initLogs() {
-		if(initialized == false) {
-			boolean consoleAppenderExists = false;
-			@SuppressWarnings("unchecked") Enumeration<Appender> appenders = (Enumeration<Appender>) Logger.getRootLogger().getAllAppenders();
-			while(appenders.hasMoreElements()) {
-				Appender appender = appenders.nextElement();
-				if(appender.getClass() == ConsoleAppender.class) {
-					consoleAppenderExists = true;
-				}
-			}
-			Logger.getRootLogger().setLevel(Level.INFO);
-			if(!consoleAppenderExists) {
-				Logger.getRootLogger().addAppender(new ConsoleAppender(new PatternLayout(LOGGER_PATTERN)));
-			}
-			try {
-				Logger.getRootLogger().addAppender(new FileAppender(new PatternLayout(LOGGER_PATTERN), "qualify.log"));
-			} catch(IOException e) {
-				System.out.println("Error when initializing file log appender: " + e.getMessage() + "\n");
-				e.printStackTrace(System.out);
-			}
-			initialized = true;
-		}
-	}
 
 	public static void setLogFile(String logFileName) throws IOException {
 		Logger.getRootLogger().addAppender(new FileAppender(new PatternLayout(LOGGER_PATTERN), logFileName));
