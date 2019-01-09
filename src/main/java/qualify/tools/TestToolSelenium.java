@@ -29,7 +29,6 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import qualify.TestCase;
@@ -176,18 +175,47 @@ public abstract class TestToolSelenium {
 		}
 	}
 
-	private Alert waitAlert(int defaultTimeout_s) {
-		WebDriverWait wait = new WebDriverWait(driver, defaultTimeout_s);
-		return wait.until(ExpectedConditions.alertIsPresent());
+	public boolean isAlertPresent() {
+		try {
+			driver.switchTo().alert();
+			return true;
+		} catch(Exception e) {
+			return false;
+		}
+	}
+
+	private Alert waitAlert(int timeout_s) {
+		logger.info("waitAlert(timeout_s) isAlertPresent=" + isAlertPresent());
+		long start_ms = System.currentTimeMillis();
+		while(!isAlertPresent() && System.currentTimeMillis() < start_ms + timeout_s * 1000) {
+			try {
+				Thread.sleep(500);
+			} catch(InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		if(isAlertPresent()) {
+			return driver.switchTo().alert();
+		} else {
+			throw new TestException("No alert present after %d seconds", (System.currentTimeMillis() - start_ms) / 1000);
+		}
 	}
 
 	private Alert waitAlert() {
+		logger.info("waitAlert() isAlertPresent=" + isAlertPresent());
 		return waitAlert((int) defaultTimeout_s);
 	}
 
 	private void waitNoAlert() {
-		WebDriverWait wait = new WebDriverWait(driver, (int) defaultTimeout_s);
-		wait.until(ExpectedConditions.not(ExpectedConditions.alertIsPresent()));
+		logger.info("waitAlert(timeout_s) isAlertPresent=" + isAlertPresent());
+		long start_ms = System.currentTimeMillis();
+		while(isAlertPresent() && System.currentTimeMillis() < start_ms + defaultTimeout_s * 1000) {
+			try {
+				Thread.sleep(500);
+			} catch(InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public boolean checkAlert(String textRegex) {
@@ -209,10 +237,13 @@ public abstract class TestToolSelenium {
 	 */
 	public void acceptAlert() throws InterruptedException {
 		Alert alert = waitAlert();
-		String text = alert.getText();
+		final String text = alert.getText();
+		logger.info("Accepting alert '" + text + "'");
 		alert.accept();
 
-		// When alert is accepted current Java thread goes one, but the alert could persist in the browser.
+		Thread.sleep(1000);
+
+		// When alert is accepted current Java thread goes on, but the alert could persist in the browser.
 		// Some milliseconds later, a call to checkAlert could check the same alert one more time (because it not
 		// closed in the browser).
 

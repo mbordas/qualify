@@ -21,4 +21,8 @@ public class TestException extends RuntimeException {
 		super(localizedMessage);
 	}
 
+	public TestException(String format, Object... args) {
+		this(String.format(format, args));
+	}
+
 }
