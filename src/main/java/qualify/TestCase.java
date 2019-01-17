@@ -15,19 +15,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package qualify;
 
-import java.io.File;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
-
 import qualify.doc.Attachment;
 import qualify.doc.Base64Image;
 import qualify.doc.DocList;
@@ -38,6 +30,14 @@ import qualify.doc.Table;
 import qualify.doc.TestReport;
 import qualify.doc.TestSource;
 import qualify.tools.StackTraceTool;
+
+import java.io.File;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Properties;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Extend TestCase to create a new testing scenario. You must extend TestCase and override the main method run()
@@ -303,7 +303,7 @@ public abstract class TestCase {
 
 	/**
 	 * Main check method.
-	 * 
+	 *
 	 * @param condition
 	 * @param requirement
 	 * @return
@@ -326,7 +326,7 @@ public abstract class TestCase {
 	/**
 	 * The need() method interrupts the run() execution if 'condition' is false. If condition is true, need() behaves like a check(). If
 	 * condition is false, need() simulates a check(false) and throws an exception. Such exception is catched by the TestHarness.
-	 * 
+	 *
 	 * @param condition
 	 * @return
 	 */
@@ -398,8 +398,9 @@ public abstract class TestCase {
 			list.addItem(new Field("Cause", e.getCause().toString()));
 		}
 		for(StackTraceElement element : e.getStackTrace()) {
-			String traceLine = element.getClassName() + ":" + element.getMethodName() + " (" + element.getFileName() + ":"
-					+ element.getLineNumber() + ")";
+			String traceLine =
+					element.getClassName() + ":" + element.getMethodName() + " (" + element.getFileName() + ":" + element.getLineNumber()
+							+ ")";
 			list.addItem(new DocString(traceLine));
 		}
 		comment(list);
@@ -429,7 +430,7 @@ public abstract class TestCase {
 
 	/**
 	 * Creates a TestResult. The source file and line will correspond to the Class that calls the 'calledClass'.
-	 * 
+	 *
 	 * @param condition
 	 * @param comment
 	 * @return
@@ -487,9 +488,8 @@ public abstract class TestCase {
 
 	/**
 	 * Sets the current requirement. Call that method before performing checks about this requirement.
-	 * 
-	 * @param requirementId
-	 *            The same id as in the SRD
+	 *
+	 * @param requirementId The same id as in the SRD
 	 */
 	protected void setRequirementTarget(String requirementId) {
 		if(requirementId != null) {
@@ -508,7 +508,7 @@ public abstract class TestCase {
 
 	/**
 	 * Returns the current target Requirement. That method is used to process Exceptions thrown during run()
-	 * 
+	 *
 	 * @return
 	 */
 	public String getRequirementTarget() {
@@ -517,9 +517,8 @@ public abstract class TestCase {
 
 	/**
 	 * Sets the current requirement when requirement is written in test case.
-	 * 
-	 * @param requirementId
-	 *            A new id, that cannot be found in SRD
+	 *
+	 * @param requirementId A new id, that cannot be found in SRD
 	 */
 	protected void setInlineRequirement(String requirementId) {
 		setRequirementTarget(requirementId);
@@ -527,14 +526,13 @@ public abstract class TestCase {
 
 	/**
 	 * Stops the execution of the test case during expected time.
-	 * 
-	 * @param timeInSeconds
-	 *            The time to pause in seconds. Precision is millisecond.
+	 *
+	 * @param timeInSeconds The time to pause in seconds. Precision is millisecond.
 	 */
 	protected void pause(double timeInSeconds) {
 		DateTime start = new DateTime();
 		try {
-			Thread.sleep((long) (timeInSeconds * 1000));
+			Thread.sleep((long) (timeInSeconds * DateTimeConstants.MILLIS_PER_SECOND));
 			DateTime end = new DateTime();
 			long duration_ms = new Duration(start, end).getMillis();
 			comment("Duration = " + duration_ms + " ms");
@@ -546,9 +544,8 @@ public abstract class TestCase {
 
 	/**
 	 * Stops the execution of the test case during expected time.
-	 * 
-	 * @param timeInSeconds
-	 *            The time to pause in seconds.
+	 *
+	 * @param timeInSeconds The time to pause in seconds.
 	 */
 	protected void pause(int timeInSeconds) {
 		pause((double) timeInSeconds);
@@ -557,8 +554,41 @@ public abstract class TestCase {
 	protected void pause(DateTime until) {
 		long delay_ms = until.getMillis() - System.currentTimeMillis();
 		if(delay_ms > 0) {
-			pause(delay_ms / 1000);
+			pause(delay_ms * 1d / DateTimeConstants.MILLIS_PER_SECOND);
 		}
+	}
+
+	protected boolean waitUntil(WaitCondition waitCondition, final int timeout_s) {
+		final long defaultSleep_ms = 500L;
+		return waitUntil(waitCondition, timeout_s, defaultSleep_ms);
+	}
+
+	/**
+	 * Wait until a specific condition is respected
+	 * <p>
+	 * Note: for waits relative to DOM elements, use TestToolSelenium.wait* methods
+	 * </p>
+	 *
+	 * @param waitCondition Condition to check
+	 * @param timeout_s     Timeout in seconds before wait fails
+	 * @param sleep_ms      Time to sleep in ms between each checks
+	 * @return Condition is successfull
+	 */
+	protected boolean waitUntil(WaitCondition waitCondition, final int timeout_s, final long sleep_ms) {
+		final long start = System.currentTimeMillis();
+		boolean success = false;
+		Throwable throwable = null;
+		while(!success && throwable == null && System.currentTimeMillis() < start + (timeout_s * DateTimeConstants.MILLIS_PER_SECOND)) {
+			try {
+				success = waitCondition.check();
+				if(!success) {
+					pause(sleep_ms * 1d / DateTimeConstants.MILLIS_PER_SECOND);
+				}
+			} catch(Throwable t) {
+				throwable = t;
+			}
+		}
+		return success;
 	}
 
 	protected void suppressWarnings() {
@@ -571,14 +601,14 @@ public abstract class TestCase {
 
 	/**
 	 * That method is automatically called by TestHarness one time per test case. You have to describe the scenario of your test case here.
-	 * 
+	 *
 	 * @throws Throwable
 	 */
 	public abstract void run() throws Throwable;
 
 	/**
 	 * That method is automatically called by TestHarness just before calling run(). run() will be called only if beforeRun() returns TRUE
-	 * 
+	 *
 	 * @throws Throwable
 	 */
 	public void beforeRun() throws Throwable {
@@ -586,7 +616,7 @@ public abstract class TestCase {
 
 	/**
 	 * That method is automatically called by TestHarness just after calling run().
-	 * 
+	 *
 	 * @throws Throwable
 	 */
 	public void afterRun() throws Throwable {
@@ -667,4 +697,7 @@ public abstract class TestCase {
 		return errors;
 	}
 
+	public interface WaitCondition {
+		boolean check() throws Throwable;
+	}
 }
