@@ -328,40 +328,52 @@ public abstract class TestToolSelenium {
 		return element.isEnabled();
 	}
 
-	public boolean waitPresent(final String elementIdentifier, final double timeoutInSeconds) {
+	private boolean explicitWait(ExpectedCondition<Boolean> condition, final double timeout_s) {
+		boolean result;
 		try {
-			(new WebDriverWait(driver, Double.valueOf(timeoutInSeconds).intValue())).until(new ExpectedCondition<Boolean>() {
-				public Boolean apply(WebDriver d) {
-					return isPresent(elementIdentifier);
-				}
-			});
+			(new WebDriverWait(driver, Double.valueOf(timeout_s).intValue())).until(condition);
+			result = true;
 		} catch(TimeoutException e) {
+			result = false;
 		}
-		return isPresent(elementIdentifier);
+		return result;
 	}
 
-	public boolean waitPresent(final By by, final double timeoutInSeconds) {
-		try {
-			(new WebDriverWait(driver, Double.valueOf(timeoutInSeconds).intValue())).until(new ExpectedCondition<Boolean>() {
-				public Boolean apply(WebDriver d) {
-					return isPresent(by);
-				}
-			});
-		} catch(TimeoutException e) {
-		}
-		return isPresent(by);
+	public boolean waitPresent(final String elementIdentifier, final double timeout_s) {
+		return explicitWait(new ExpectedCondition<Boolean>() {
+			@Override
+			public Boolean apply(WebDriver webDriver) {
+				return isPresent(elementIdentifier);
+			}
+		}, timeout_s);
 	}
 
-	public boolean waitVanish(final String elementIdentifier, final double timeoutInSeconds) {
-		try {
-			(new WebDriverWait(driver, Double.valueOf(timeoutInSeconds).intValue())).until(new ExpectedCondition<Boolean>() {
-				public Boolean apply(WebDriver d) {
-					return (!isPresent(elementIdentifier));
-				}
-			});
-		} catch(TimeoutException e) {
-		}
-		return (!isPresent(elementIdentifier));
+	public boolean waitPresent(final By by, final double timeout_s) {
+		return explicitWait(new ExpectedCondition<Boolean>() {
+			@Override
+			public Boolean apply(WebDriver webDriver) {
+				return isPresent(by);
+			}
+		}, timeout_s);
+	}
+
+	public boolean waitVanish(final String elementIdentifier, final double timeout_s) {
+		return explicitWait(new ExpectedCondition<Boolean>() {
+			@Override
+			public Boolean apply(WebDriver webDriver) {
+				return !isPresent(elementIdentifier);
+			}
+		}, timeout_s);
+	}
+
+	public boolean waitText(final String elementIdentifier, final String text, final double timeout_s) {
+		return explicitWait(new ExpectedCondition<Boolean>() {
+			@Override
+			public Boolean apply(WebDriver webDriver) {
+				return isPresent(elementIdentifier) && ((text != null && text.equals(getText(elementIdentifier)))
+						|| getText(elementIdentifier) == null);
+			}
+		}, timeout_s);
 	}
 
 	public String getPageSource() {
