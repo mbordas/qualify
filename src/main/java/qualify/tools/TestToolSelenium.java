@@ -376,6 +376,21 @@ public abstract class TestToolSelenium {
 		}, timeout_s);
 	}
 
+	public boolean waitElementProperty(final String elementIdentifier, final String propertyName, final String expectedValue,
+			final double timeout_s) {
+		return explicitWait(new ExpectedCondition<Boolean>() {
+			@Override
+			public Boolean apply(WebDriver webDriver) {
+				WebElement element = findElementById(elementIdentifier);
+				if(element != null) {
+					String value = element.getAttribute(propertyName);
+					return expectedValue.equals(value);
+				}
+				return false;
+			}
+		}, timeout_s);
+	}
+
 	public String getPageSource() {
 		return driver.getPageSource();
 	}
