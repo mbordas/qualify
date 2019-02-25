@@ -15,6 +15,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package qualify.tools;
 
+import name.fraser.neil.plaintext.diff_match_patch;
+import name.fraser.neil.plaintext.diff_match_patch.Diff;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
+import qualify.TestCase;
+import qualify.doc.DocList;
+import qualify.doc.DocString;
+import qualify.doc.DomElementAble;
+import qualify.doc.Field;
+import qualify.doc.Span;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
@@ -25,19 +36,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import name.fraser.neil.plaintext.diff_match_patch;
-import name.fraser.neil.plaintext.diff_match_patch.Diff;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
-
-import qualify.TestCase;
-import qualify.doc.DocList;
-import qualify.doc.DocString;
-import qualify.doc.DomElementAble;
-import qualify.doc.Field;
-import qualify.doc.Span;
 
 /**
  * TestToolStrings provides tools for checking String objects.
@@ -53,7 +51,7 @@ public class TestToolStrings {
 	/**
 	 * Checks that the two strings given through parameters are equal. Returns true if both are null. Use checkEquality(expectedString,
 	 * testedString, false) if you want to check equality without case sensitive.
-	 * 
+	 *
 	 * @param expectedString
 	 * @param testedString
 	 */
@@ -63,13 +61,10 @@ public class TestToolStrings {
 
 	/**
 	 * Returns true if both strings are equal. Set caseSensitive to 'false' in order to ignore characters' case for comparison.
-	 * 
-	 * @param expectedString
-	 *            The expected value.
-	 * @param testedString
-	 *            The value to compare.
-	 * @param caseSensitive
-	 *            Set 'false' in order to ignore characters' case. Set 'true' otherwise.
+	 *
+	 * @param expectedString The expected value.
+	 * @param testedString   The value to compare.
+	 * @param caseSensitive  Set 'false' in order to ignore characters' case. Set 'true' otherwise.
 	 * @return 'true' if both strings are equal. 'false' otherwise.
 	 */
 	public static boolean equals(String expectedString, String testedString, boolean caseSensitive) {
@@ -84,11 +79,10 @@ public class TestToolStrings {
 
 	/**
 	 * Checks that the two strings given through parameters are equal. Returns true if both are null.
-	 * 
+	 *
 	 * @param expectedString
 	 * @param testedString
-	 * @param caseSensitive
-	 *            must comparison care about case sensitive?
+	 * @param caseSensitive  must comparison care about case sensitive?
 	 */
 	public boolean checkEquality(String expectedString, String testedString, boolean caseSensitive) {
 		return checkEquality(m_testCase, expectedString, testedString, caseSensitive);
@@ -115,11 +109,9 @@ public class TestToolStrings {
 	/**
 	 * Return a Span object (see package qualify.doc) corresponding to the compared string: differing characters are highlighted. Use that
 	 * Span object to add comment to your TestCase.
-	 * 
-	 * @param referenceString
-	 *            The string that is used as referenced.
-	 * @param stringToCompare
-	 *            The string to compare. That string will be reported into the returned Span.
+	 *
+	 * @param referenceString The string that is used as referenced.
+	 * @param stringToCompare The string to compare. That string will be reported into the returned Span.
 	 * @return
 	 */
 	public static Span getComparedDocString(String referenceString, String stringToCompare) {
@@ -141,7 +133,7 @@ public class TestToolStrings {
 	/**
 	 * Returns a DocList (see package qualify.doc) that shows the differences between two strings. Differing characters are highlighted. Use
 	 * that DocList object to add comment to your TestCase.
-	 * 
+	 *
 	 * @param expectedString
 	 * @param testedString
 	 * @return
@@ -191,13 +183,10 @@ public class TestToolStrings {
 
 	/**
 	 * Returns 'true' if the expected string is contained into the tested string.
-	 * 
-	 * @param expectedContainedString
-	 *            The string that is expected.
-	 * @param testedString
-	 *            The string into witch the expected string should be contained.
-	 * @param caseSensitive
-	 *            Set to 'true' if you do care about the case for string comparison.
+	 *
+	 * @param expectedContainedString The string that is expected.
+	 * @param testedString            The string into witch the expected string should be contained.
+	 * @param caseSensitive           Set to 'true' if you do care about the case for string comparison.
 	 * @return 'true' if the expected string is contained into the tested string. Returns 'false' otherwise.
 	 */
 	public boolean contains(String expectedContainedString, String testedString, boolean caseSensitive) {
@@ -227,7 +216,7 @@ public class TestToolStrings {
 		}
 		return result;
 	}
-	
+
 	public boolean checkDoesntContain(String expectedContainedString, String testedString, boolean caseSensitive) {
 		boolean result = false;
 		if(testedString == null) {
@@ -276,7 +265,7 @@ public class TestToolStrings {
 
 	/**
 	 * Checks that the Levenshtein's distance between strings a and b is less or equal to maxExpectedDistance.
-	 * 
+	 *
 	 * @param a
 	 * @param b
 	 * @param maxExpectedDistance
@@ -288,7 +277,7 @@ public class TestToolStrings {
 
 	/**
 	 * Returns the Levenshtein's distance between strings a and b.
-	 * 
+	 *
 	 * @param a
 	 * @param b
 	 * @return The Levenshtein's distance between strings a and b.
@@ -299,13 +288,10 @@ public class TestToolStrings {
 
 	/**
 	 * Returns true if the tested String is contained in at least one of the referenced Strings.
-	 * 
-	 * @param referencedStrings
-	 *            The Strings into where tested string should be contained
-	 * @param testedStrings
-	 *            The String to look for
-	 * @param caseSensitive
-	 *            Set true if characters'case is needed.
+	 *
+	 * @param referencedStrings The Strings into where tested string should be contained
+	 * @param testedStrings     The String to look for
+	 * @param caseSensitive     Set true if characters'case is needed.
 	 * @return true if the tested String is contained in at least one of the referenced String. False otherwise.
 	 */
 	public boolean isContained(String[] referencedStrings, String testedString, boolean caseSensitive) {
@@ -320,13 +306,10 @@ public class TestToolStrings {
 
 	/**
 	 * Returns true if the expected String is contained in at least one of the Strings of the tested array.
-	 * 
-	 * @param expectedContainedString
-	 *            The String to look for into the string array
-	 * @param testedStrings
-	 *            The array of Strings where expected String is searched.
-	 * @param caseSensitive
-	 *            Set true if characters'case is needed.
+	 *
+	 * @param expectedContainedString The String to look for into the string array
+	 * @param testedStrings           The array of Strings where expected String is searched.
+	 * @param caseSensitive           Set true if characters'case is needed.
 	 * @return true if the expected String is contained in at least one of the Strings of the tested array. False otherwise.
 	 */
 	public boolean contains(String expectedContainedString, String[] testedStrings, boolean caseSensitive) {
@@ -342,44 +325,43 @@ public class TestToolStrings {
 	/**
 	 * Checks that the expected String is contained into at least one of the strings of the array. (See contains(String
 	 * expectedContainedString, String[] testedStrings, boolean caseSensitive) for details.
-	 * 
-	 * @param expectedContainedString
-	 *            The String to look for into the string array
-	 * @param testedStrings
-	 *            The array of Strings where expected String is searched.
-	 * @param caseSensitive
-	 *            Set true if characters'case is needed.
+	 *
+	 * @param expectedContainedString The String to look for into the string array
+	 * @param testedStrings           The array of Strings where expected String is searched.
+	 * @param caseSensitive           Set true if characters'case is needed.
 	 */
 	public void checkArrayContains(String expectedContainedString, String[] testedStrings, boolean caseSensitive) {
-		m_testCase.addTestResult(contains(expectedContainedString, testedStrings, caseSensitive), "expected contained string = '"
-				+ expectedContainedString + "' | tested strings array contains " + testedStrings.length + " string(s)");
+		m_testCase.addTestResult(contains(expectedContainedString, testedStrings, caseSensitive),
+				"expected contained string = '" + expectedContainedString + "' | tested strings array contains " + testedStrings.length
+						+ " string(s)");
 	}
 
 	/**
 	 * Checks that the expected String is not contained into at least one of the strings of the array. (See contains(String
 	 * expectedContainedString, String[] testedStrings, boolean caseSensitive) for details.
-	 * 
-	 * @param expectedContainedString
-	 *            The String to look for into the string array
-	 * @param testedStrings
-	 *            The array of Strings where expected String is searched.
-	 * @param caseSensitive
-	 *            Set true if characters'case is needed.
+	 *
+	 * @param expectedContainedString The String to look for into the string array
+	 * @param testedStrings           The array of Strings where expected String is searched.
+	 * @param caseSensitive           Set true if characters'case is needed.
 	 */
 	public void checkDoesntContain(String expectedContainedString, String[] testedStrings, boolean caseSensitive) {
-		m_testCase.addTestResult(!contains(expectedContainedString, testedStrings, caseSensitive), "expected contained string = '"
-				+ expectedContainedString + "' | tested strings array contains " + testedStrings.length + " string(s)");
+		m_testCase.addTestResult(!contains(expectedContainedString, testedStrings, caseSensitive),
+				"expected contained string = '" + expectedContainedString + "' | tested strings array contains " + testedStrings.length
+						+ " string(s)");
+	}
+
+	public void checkDoesntContain(String expectedContainedString, List<String> testedStrings, boolean caseSensitive) {
+		m_testCase.addTestResult(!contains(expectedContainedString, toArray(testedStrings), caseSensitive),
+				"expected contained string = '" + expectedContainedString + "' | tested strings array contains " + testedStrings.size()
+						+ " string(s)");
 	}
 
 	/**
 	 * Returns true if both strings arrays contain the same values, regardless of the order.
-	 * 
-	 * @param expectedStrings
-	 *            The expected strings array.
-	 * @param testedStrings
-	 *            The strings array to compare.
-	 * @param caseSensitive
-	 *            Set true if characters'case is needed.
+	 *
+	 * @param expectedStrings The expected strings array.
+	 * @param testedStrings   The strings array to compare.
+	 * @param caseSensitive   Set true if characters'case is needed.
 	 * @return True if both strings arrays contain the same values, regardless of the order. False otherwise.
 	 */
 	public boolean sameValues(String[] expectedStrings, String[] testedStrings, boolean caseSensitive) {
@@ -419,13 +401,10 @@ public class TestToolStrings {
 	/**
 	 * Checks that the tested string array has the same values as the expected one, that means: same number, same values. That check does
 	 * not verify the order of the values.
-	 * 
-	 * @param expectedStrings
-	 *            Expected strings as an array.
-	 * @param testedStrings
-	 *            The string array to check.
-	 * @param caseSensitive
-	 *            Set to 'true' if you do care about the case for string comparison.
+	 *
+	 * @param expectedStrings Expected strings as an array.
+	 * @param testedStrings   The string array to check.
+	 * @param caseSensitive   Set to 'true' if you do care about the case for string comparison.
 	 */
 	public void checkSameValues(String[] expectedStrings, String[] testedStrings, boolean caseSensitive) {
 		if((testedStrings == null) || (expectedStrings == null)) {
@@ -433,11 +412,11 @@ public class TestToolStrings {
 			if((testedStrings == null) && (expectedStrings == null)) {
 				m_testCase.addTestResult(true, "expected array is null | tested strings array is null");
 			} else if(testedStrings == null) {
-				m_testCase.addTestResult(false, "expected array is not null (" + expectedStrings.length
-						+ " values) | tested strings array is null");
+				m_testCase.addTestResult(false,
+						"expected array is not null (" + expectedStrings.length + " values) | tested strings array is null");
 			} else {
-				m_testCase.addTestResult(false, "expected array is null | tested strings array is not null (" + testedStrings.length
-						+ " values)");
+				m_testCase.addTestResult(false,
+						"expected array is null | tested strings array is not null (" + testedStrings.length + " values)");
 			}
 		} else {
 			boolean sameNumberOfValues = (expectedStrings.length == testedStrings.length);
@@ -459,21 +438,23 @@ public class TestToolStrings {
 
 			if(sameNumberOfValues) {
 				if(sameValues) {
-					m_testCase.addTestResult(true, "expected string array (" + expectedStrings.length + " values | "
-							+ "tested string array (" + expectedStrings.length + " values");
+					m_testCase.addTestResult(true,
+							"expected string array (" + expectedStrings.length + " values | " + "tested string array ("
+									+ expectedStrings.length + " values");
 				} else {
 					m_testCase.addTestResult(false, "" + expectedValuesNotFoundCount + " expected values not found in tested string array");
 				}
 			} else {
-				m_testCase.addTestResult(false, "expected array has " + expectedStrings.length + " values | tested strings array has "
-						+ testedStrings.length + " values");
+				m_testCase.addTestResult(false,
+						"expected array has " + expectedStrings.length + " values | tested strings array has " + testedStrings.length
+								+ " values");
 			}
 		}
 	}
 
 	/**
 	 * Converts an Enumeration to a List.
-	 * 
+	 *
 	 * @param strings
 	 * @return
 	 */
@@ -507,7 +488,7 @@ public class TestToolStrings {
 
 	/**
 	 * Creates a DocList from a HashMap composed of String elements. Use that DocList as comments.
-	 * 
+	 *
 	 * @param strings
 	 * @return
 	 */
@@ -526,9 +507,8 @@ public class TestToolStrings {
 	/**
 	 * Returns a list containing the each original string one single time, even if these values are contained several times in the original
 	 * list.
-	 * 
-	 * @param originalList
-	 *            The list of strings to clean (remove doubles).
+	 *
+	 * @param originalList The list of strings to clean (remove doubles).
 	 * @return A list containing the each original string one single time
 	 */
 	public static List<String> cleanDoubles(List<String> originalList) {
@@ -543,7 +523,7 @@ public class TestToolStrings {
 
 	/**
 	 * Indicates if the string does match the regular expression
-	 * 
+	 *
 	 * @param regex
 	 * @param string
 	 * @return
@@ -577,7 +557,7 @@ public class TestToolStrings {
 	/**
 	 * Returns the groups catched by the regular expression into the string. Group 0 is composed by the whole string. So the first extracted
 	 * group is group with index 1.
-	 * 
+	 *
 	 * @param regex
 	 * @param string
 	 * @return
@@ -598,7 +578,7 @@ public class TestToolStrings {
 
 	/**
 	 * Concatenate too String arrays.
-	 * 
+	 *
 	 * @param a
 	 * @param b
 	 * @return a + b
@@ -615,7 +595,7 @@ public class TestToolStrings {
 
 	/**
 	 * Concatenate too String arrays. Only the part of 'b' from startIndex to endIndex is added at the end of 'a'
-	 * 
+	 *
 	 * @param a
 	 * @param b
 	 * @param startIndex
