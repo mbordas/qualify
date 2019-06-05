@@ -35,6 +35,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
@@ -535,7 +536,9 @@ public abstract class TestCase {
 			Thread.sleep((long) (timeInSeconds * DateTimeConstants.MILLIS_PER_SECOND));
 			DateTime end = new DateTime();
 			long duration_ms = new Duration(start, end).getMillis();
-			comment("Duration = " + duration_ms + " ms");
+			String text = String.format("Duration %d ms from %s to %s", duration_ms, start.toString("HH:mm:ss", Locale.getDefault()),
+					end.toString("HH:mm:ss", Locale.getDefault()));
+			comment(text);
 		} catch(InterruptedException e) {
 			e.printStackTrace();
 			addError("An Exception occured during Thread.sleep");
