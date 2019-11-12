@@ -60,52 +60,52 @@ public class TestToolNumbers {
 
 	public void checkGreater(int limitInteger, int testedInteger, boolean allowEquality) {
 		if(allowEquality) {
-			testCase.addTestResult(testedInteger >= limitInteger, "limit=" + limitInteger + " >= tested=" + testedInteger);
+			testCase.addTestResult(testedInteger >= limitInteger, "limit=" + limitInteger + " , tested=" + testedInteger);
 		} else {
-			testCase.addTestResult(testedInteger > limitInteger, "limit=" + limitInteger + " > tested=" + testedInteger);
+			testCase.addTestResult(testedInteger > limitInteger, "limit=" + limitInteger + " , tested=" + testedInteger);
 		}
 	}
 
 	public void checkGreater(long limitLong, long testedLong, boolean allowEquality) {
 		if(allowEquality) {
-			testCase.addTestResult(testedLong >= limitLong, "limit=" + limitLong + " =< tested=" + testedLong);
+			testCase.addTestResult(testedLong >= limitLong, "limit=" + limitLong + " , tested=" + testedLong);
 		} else {
-			testCase.addTestResult(testedLong > limitLong, "limit=" + limitLong + " < tested=" + testedLong);
+			testCase.addTestResult(testedLong > limitLong, "limit=" + limitLong + " , tested=" + testedLong);
 		}
 	}
 
 	public boolean checkGreater(double limitDouble, double testedDouble, boolean allowEquality) {
 		boolean success = false;
 		if(allowEquality) {
-			success = testCase.addTestResult(testedDouble >= limitDouble, "limit=" + limitDouble + " >= tested=" + testedDouble);
+			success = testCase.addTestResult(testedDouble >= limitDouble, "limit=" + limitDouble + " , tested=" + testedDouble);
 
 		} else {
-			success = testCase.addTestResult(testedDouble > limitDouble, "limit=" + limitDouble + " > tested=" + testedDouble);
+			success = testCase.addTestResult(testedDouble > limitDouble, "limit=" + limitDouble + " , tested=" + testedDouble);
 		}
 		return success;
 	}
 
 	public void checkLesser(int limitInteger, int testedInteger, boolean allowEquality) {
 		if(allowEquality) {
-			testCase.addTestResult(testedInteger <= limitInteger, "limit=" + limitInteger + " <= tested=" + testedInteger);
+			testCase.addTestResult(testedInteger <= limitInteger, "limit=" + limitInteger + " , tested=" + testedInteger);
 		} else {
-			testCase.addTestResult(testedInteger < limitInteger, "limit=" + limitInteger + " < tested=" + testedInteger);
+			testCase.addTestResult(testedInteger < limitInteger, "limit=" + limitInteger + " , tested=" + testedInteger);
 		}
 	}
 
 	public void checkLesser(long limitLong, long testedLong, boolean allowEquality) {
 		if(allowEquality) {
-			testCase.addTestResult(testedLong <= limitLong, "limit=" + limitLong + " <= tested=" + testedLong);
+			testCase.addTestResult(testedLong <= limitLong, "limit=" + limitLong + " , tested=" + testedLong);
 		} else {
-			testCase.addTestResult(testedLong < limitLong, "limit=" + limitLong + " < tested=" + testedLong);
+			testCase.addTestResult(testedLong < limitLong, "limit=" + limitLong + " , tested=" + testedLong);
 		}
 	}
 
 	public void checkLesser(double limitDouble, double testedDouble, boolean allowEquality) {
 		if(allowEquality) {
-			testCase.addTestResult(testedDouble <= limitDouble, "limit=" + limitDouble + " <= tested=" + testedDouble);
+			testCase.addTestResult(testedDouble <= limitDouble, "limit=" + limitDouble + " , tested=" + testedDouble);
 		} else {
-			testCase.addTestResult(testedDouble < limitDouble, "limit=" + limitDouble + " < tested=" + testedDouble);
+			testCase.addTestResult(testedDouble < limitDouble, "limit=" + limitDouble + " , tested=" + testedDouble);
 		}
 	}
 
