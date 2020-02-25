@@ -681,6 +681,12 @@ public abstract class TestToolSelenium {
 		select.selectByVisibleText(optionText);
 	}
 
+	public void selectByValue(String identifier, String optionValue) {
+		click(identifier);
+		Select select = new Select(driver.findElement(getElementIdentifier(identifier)));
+		select.selectByValue(optionValue);
+	}
+
 	public void selectCheckbox(String identifier, boolean checked) {
 		WebElement element = findElement(getElementIdentifier(identifier));
 		if(element != null) {
