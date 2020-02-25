@@ -406,6 +406,34 @@ public abstract class TestToolSelenium {
 		}, timeout_s);
 	}
 
+	public boolean waitEnabled(final String elementIdentifier, final double timeout_s) {
+
+		return explicitWait(new ExpectedCondition<Boolean>() {
+			@Override
+			public Boolean apply(WebDriver webDriver) {
+				WebElement element = findElementById(elementIdentifier);
+				if(element != null) {
+					return element.isEnabled();
+				}
+				return false;
+			}
+		}, timeout_s);
+	}
+
+	public boolean waitDisabled(final String elementIdentifier, final double timeout_s) {
+
+		return explicitWait(new ExpectedCondition<Boolean>() {
+			@Override
+			public Boolean apply(WebDriver webDriver) {
+				WebElement element = findElementById(elementIdentifier);
+				if(element != null) {
+					return !element.isEnabled();
+				}
+				return false;
+			}
+		}, timeout_s);
+	}
+
 	public String getPageSource() {
 		return driver.getPageSource();
 	}
