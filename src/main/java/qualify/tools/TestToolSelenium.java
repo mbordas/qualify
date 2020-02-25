@@ -40,6 +40,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 
 /**
  * TestToolSelenium extends the FirefoxDriver object from Selenium 2 API. New convenient methods are added, such as isPresent, waitPresent
@@ -95,6 +96,18 @@ public abstract class TestToolSelenium {
 		}
 	}
 
+	public boolean checkNotExists(String elementId) {
+		driver.manage().timeouts().implicitlyWait(200, TimeUnit.MILLISECONDS);
+		final boolean result = findElementById(elementId) == null;
+		if(result) {
+			testCase.addTestResult(true, "Not expected dom element not found from id '" + elementId + "'");
+		} else {
+			testCase.addTestResult(false, "Not expected dom element found from id '" + elementId + "'");
+		}
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		return result;
+	}
+
 	/**
 	 * Checks that the element identified by the specified ID is present in the actual web page
 	 *
@@ -102,9 +115,9 @@ public abstract class TestToolSelenium {
 	 * @return
 	 */
 	public boolean checkFindElementById(String elementId) {
-		boolean result = false;
+		boolean result;
 		result = (findElementById(elementId) != null);
-		if(result == true) {
+		if(result) {
 			testCase.addTestResult(true, "Expected dom element found from id '" + elementId + "'");
 		} else {
 			testCase.addTestResult(false, "Expected dom element not found from id '" + elementId + "'");
