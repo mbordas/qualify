@@ -300,6 +300,8 @@ public abstract class TestToolSelenium {
 	public void clear(By elementIdentifier) {
 		WebElement w = findElement(elementIdentifier);
 		if(w != null) {
+			w.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+			w.sendKeys(Keys.BACK_SPACE);
 			w.clear();
 		} else {
 			testCase.addTestResult(false, "Cannot clear null element (identifier='" + elementIdentifier + "').");
