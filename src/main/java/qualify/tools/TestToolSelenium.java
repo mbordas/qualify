@@ -676,6 +676,7 @@ public abstract class TestToolSelenium {
 	}
 
 	public void select(String identifier, String optionText) {
+		click(identifier);
 		Select select = new Select(driver.findElement(getElementIdentifier(identifier)));
 		select.selectByVisibleText(optionText);
 	}
