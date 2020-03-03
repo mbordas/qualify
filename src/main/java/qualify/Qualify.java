@@ -99,11 +99,12 @@ public class Qualify {
 		String value = System.getProperty(CommandLineTool.OPTION_SYSTEM_PROPERTIES_PREFIX + optionName);
 		if(value == null) {
 			value = options.get(optionName);
-			return Boolean.valueOf(value);
-		} else if("".equalsIgnoreCase(value)) {
+		}
+
+		if(value == null || value.equals("")) {
 			return true;
 		} else {
-			return false;
+			return Boolean.valueOf(value);
 		}
 	}
 
