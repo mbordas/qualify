@@ -15,17 +15,16 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package qualify.tools;
 
-import java.text.DecimalFormat;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
-
 import qualify.TestCase;
+
+import java.text.DecimalFormat;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class TestToolDates {
 
@@ -39,13 +38,10 @@ public class TestToolDates {
 
 	/**
 	 * Checks the expected date. Equality is verified respecting the given date format precision.
-	 * 
-	 * @param expectedDateString
-	 *            The expected date as a formatted string (respecting simpleDateFormat)
-	 * @param simpleDateFormat
-	 *            The string that specifies the date format (see java.text.SimpleDateFormat for details)
-	 * @param testedDate
-	 *            The expected date
+	 *
+	 * @param expectedDateString The expected date as a formatted string (respecting simpleDateFormat)
+	 * @param simpleDateFormat   The string that specifies the date format (see java.text.SimpleDateFormat for details)
+	 * @param testedDate         The expected date
 	 */
 	public void checkEquality(String expectedDateString, String simpleDateFormat, Date testedDate) {
 		if(simpleDateFormat == null) {
@@ -76,11 +72,9 @@ public class TestToolDates {
 
 	/**
 	 * Checks the expected date in regard of the default date format: DEFAULT_SIMPLE_FORMAT = "yyyyMMdd"
-	 * 
-	 * @param expectedDate
-	 *            The expected date object
-	 * @param testedDate
-	 *            The verified date object
+	 *
+	 * @param expectedDate The expected date object
+	 * @param testedDate   The verified date object
 	 */
 	public boolean checkDayEquality(Date expectedDate, Date testedDate) {
 		return checkTimeEquality(expectedDate, testedDate, DEFAULT_SIMPLE_FORMAT);
@@ -88,6 +82,11 @@ public class TestToolDates {
 
 	public boolean checkTimeEquality(Date expectedDate, Date testedDate) {
 		return checkTimeEquality(expectedDate, testedDate, DEFAULT_TIMESTAMP_FORMAT);
+	}
+
+	public boolean checkTimeEquality(DateTime expectedDate, DateTime testedDate) {
+		return checkTimeEquality(expectedDate == null ? null : expectedDate.toDate(),
+				testedDate == null ? null : testedDate.toDate());
 	}
 
 	public boolean checkTimeEquality(Date expectedDate, Date testedDate, String dateFormat) {
@@ -148,8 +147,7 @@ public class TestToolDates {
 	}
 
 	/**
-	 * @param dateString
-	 *            The date's string respecting DEFAULT_SIMPLE_FORMAT
+	 * @param dateString The date's string respecting DEFAULT_SIMPLE_FORMAT
 	 * @return
 	 */
 	public Date getDate(String dateString) {
@@ -157,10 +155,8 @@ public class TestToolDates {
 	}
 
 	/**
-	 * @param dateString
-	 *            The date's string
-	 * @param simpleDateFormat
-	 *            The format used to create the Date
+	 * @param dateString       The date's string
+	 * @param simpleDateFormat The format used to create the Date
 	 * @return
 	 */
 	public Date getDate(String dateString, String simpleDateFormat) {
@@ -168,10 +164,8 @@ public class TestToolDates {
 	}
 
 	/**
-	 * @param date
-	 *            The date to convert into string
-	 * @param simpleDateFormat
-	 *            The simple format used for conversion (see java.text.SimpleDateFormat for details)
+	 * @param date             The date to convert into string
+	 * @param simpleDateFormat The simple format used for conversion (see java.text.SimpleDateFormat for details)
 	 * @return
 	 */
 	public String toString(Date date, String simpleDateFormat) {
@@ -188,8 +182,8 @@ public class TestToolDates {
 
 	/**
 	 * Returns a formatted string that represents the period. The format is: hh:mm:ss.SSS The precision is day to millisecond
-	 * 
-	 * @param duration
+	 *
+	 * @param period
 	 * @return
 	 */
 	public static String toString(Period period) {
@@ -210,7 +204,7 @@ public class TestToolDates {
 
 	/**
 	 * Returns a formatted string that represents the duration. The format is: hh:mm:ss.SSS The precision is day to millisecond
-	 * 
+	 *
 	 * @param duration
 	 * @return
 	 */
@@ -264,10 +258,6 @@ public class TestToolDates {
 			result = true;
 		}
 		return result;
-	}
-
-	public void checkTimeEquality(DateTime d1, DateTime d2) {
-		checkTimeEquality(d1.toDate(), d2.toDate());
 	}
 
 }
