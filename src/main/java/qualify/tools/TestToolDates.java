@@ -16,21 +16,22 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package qualify.tools;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Duration;
 import org.joda.time.Period;
-import org.joda.time.format.DateTimeFormat;
 import qualify.TestCase;
 
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class TestToolDates {
 
 	private TestCase testCase = null;
 
-	public static final String DEFAULT_SIMPLE_FORMAT = "yyyyMMdd", DEFAULT_TIMESTAMP_FORMAT = "yyyyMMddHHmmSSsss";
+	public static final String DEFAULT_SIMPLE_FORMAT = "yyyyMMdd", DEFAULT_TIMESTAMP_FORMAT = "yyyyMMddHHmmssSSS";
 
 	public TestToolDates(TestCase tc) {
 		testCase = tc;
@@ -126,21 +127,23 @@ public class TestToolDates {
 			if(limitDate == null) {
 				testCase.addTestResult(true, "limit date is null | tested date is null");
 			} else {
-				testCase.addTestResult(false, "limit='" + toString(limitDate, DEFAULT_SIMPLE_FORMAT) + "' [" + DEFAULT_SIMPLE_FORMAT
+				testCase.addTestResult(false, "limit='" + toString(limitDate, DEFAULT_TIMESTAMP_FORMAT) + "' [" + DEFAULT_TIMESTAMP_FORMAT
 						+ "] | tested date is null");
 			}
 		} else {
 			if(limitDate == null) {
-				testCase.addTestResult(false, "limit date is null | tested='" + toString(testedDate, DEFAULT_SIMPLE_FORMAT) + "' ["
-						+ DEFAULT_SIMPLE_FORMAT + "]");
+				testCase.addTestResult(false, "limit date is null | tested='" + toString(testedDate, DEFAULT_TIMESTAMP_FORMAT) + "' ["
+						+ DEFAULT_TIMESTAMP_FORMAT + "]");
 			} else {
-				String testedDateString = toString(testedDate, DEFAULT_SIMPLE_FORMAT);
-				if(testedDate.isAfter(limitDate)) {
-					testCase.addTestResult(true, "limit='" + toString(limitDate, DEFAULT_SIMPLE_FORMAT) + "' [" + DEFAULT_SIMPLE_FORMAT
-							+ "] | tested='" + testedDateString + "' [" + DEFAULT_SIMPLE_FORMAT + "]");
+				String testedDateString = toString(testedDate, DEFAULT_TIMESTAMP_FORMAT);
+				if(testedDate.getMillis() >= limitDate.getMillis()) {
+					testCase.addTestResult(true,
+							"limit='" + toString(limitDate, DEFAULT_TIMESTAMP_FORMAT) + "' [" + DEFAULT_TIMESTAMP_FORMAT
+									+ "] | tested='" + testedDateString + "' [" + DEFAULT_TIMESTAMP_FORMAT + "]");
 				} else {
-					testCase.addTestResult(false, "limit='" + toString(limitDate, DEFAULT_SIMPLE_FORMAT) + "' [" + DEFAULT_SIMPLE_FORMAT
-							+ "] | tested='" + testedDateString + "' [" + DEFAULT_SIMPLE_FORMAT + "]");
+					testCase.addTestResult(false,
+							"limit='" + toString(limitDate, DEFAULT_TIMESTAMP_FORMAT) + "' [" + DEFAULT_TIMESTAMP_FORMAT
+									+ "] | tested='" + testedDateString + "' [" + DEFAULT_TIMESTAMP_FORMAT + "]");
 				}
 			}
 		}
@@ -165,19 +168,20 @@ public class TestToolDates {
 
 	/**
 	 * @param date             The date to convert into string
-	 * @param simpleDateFormat The simple format used for conversion (see java.text.SimpleDateFormat for details)
+	 * @param simpleDateFormat The simple format used for conversion
 	 * @return
 	 */
 	public String toString(Date date, String simpleDateFormat) {
 		return new SimpleDateFormat(simpleDateFormat).format(date);
 	}
 
-	public static String toString(DateTime date, String simpleDateFormat) {
-		return date.toString(DateTimeFormat.forPattern(simpleDateFormat));
+	public static String toString(DateTime dateTime, String simpleDateFormat) {
+		DateTime date = dateTime.withZone(DateTimeZone.getDefault());
+		return date.toString(simpleDateFormat, Locale.getDefault());
 	}
 
-	public static String toString(DateTime date) {
-		return date.toString(DateTimeFormat.forPattern(DEFAULT_SIMPLE_FORMAT));
+	public static String toString(DateTime dateTime) {
+		return toString(dateTime, DEFAULT_SIMPLE_FORMAT);
 	}
 
 	/**
