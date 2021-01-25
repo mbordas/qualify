@@ -40,6 +40,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -650,7 +651,7 @@ public abstract class TestToolSelenium {
 
 		WebElement element = findElementById(id);
 		if(element != null) {
-			result = new ArrayList<String>();
+			result = new ArrayList<>();
 			Select select = new Select(element);
 			for(WebElement option : select.getOptions()) {
 				result.add(option.getAttribute("value"));
@@ -707,6 +708,14 @@ public abstract class TestToolSelenium {
 		click(identifier);
 		Select select = new Select(driver.findElement(getElementIdentifier(identifier)));
 		select.selectByVisibleText(optionText);
+	}
+
+	public void selectMultiple(String identifier, List<String> optionsTexts) {
+		click(identifier);
+		Select select = new Select(driver.findElement(getElementIdentifier(identifier)));
+		for(String optionText : optionsTexts) {
+			select.selectByVisibleText(optionText);
+		}
 	}
 
 	public void selectByValue(String identifier, String optionValue) {
