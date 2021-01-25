@@ -711,7 +711,6 @@ public abstract class TestToolSelenium {
 	}
 
 	public void selectMultiple(String identifier, List<String> optionsTexts) {
-		click(identifier);
 		Select select = new Select(driver.findElement(getElementIdentifier(identifier)));
 		for(String optionText : optionsTexts) {
 			select.selectByVisibleText(optionText);
