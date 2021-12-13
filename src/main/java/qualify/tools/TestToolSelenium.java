@@ -404,6 +404,14 @@ public abstract class TestToolSelenium {
 		}, timeout_s);
 	}
 
+	public String getElementProperty(final String elementIdentifier, final String propertyName) {
+		final WebElement element = findElementById(elementIdentifier);
+		if(element != null) {
+			return element.getAttribute(propertyName);
+		}
+		return null;
+	}
+
 	public boolean waitEnabled(final String elementIdentifier, final double timeout_s) {
 
 		return explicitWait(webDriver -> {

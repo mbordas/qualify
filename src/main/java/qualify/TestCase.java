@@ -62,8 +62,8 @@ public abstract class TestCase {
 	private LinkedList<TestComment> comments = null;
 	private LinkedList<String> keywords = null;
 
-	private static LinkedList<String> warnings = new LinkedList<String>();
-	private static LinkedList<String> errors = new LinkedList<String>();
+	private static LinkedList<String> warnings = new LinkedList<>();
+	private static LinkedList<String> errors = new LinkedList<>();
 
 	private static final String TAG_NAME = "test_case", NAME_ATTRIBUTE_NAME = "name";
 
@@ -106,9 +106,9 @@ public abstract class TestCase {
 
 	public TestCase() {
 		this.name = this.getClass().getName();
-		results = new LinkedList<TestResult>();
-		comments = new LinkedList<TestComment>();
-		keywords = new LinkedList<String>();
+		results = new LinkedList<>();
+		comments = new LinkedList<>();
+		keywords = new LinkedList<>();
 	}
 
 	public static void activateTestToolsLog(boolean shouldActivate) {
@@ -304,10 +304,6 @@ public abstract class TestCase {
 
 	/**
 	 * Main check method.
-	 *
-	 * @param condition
-	 * @param requirement
-	 * @return
 	 */
 	private boolean check(boolean condition, String requirementId, String comment) {
 		// Searching java file and line number of test file
@@ -410,7 +406,7 @@ public abstract class TestCase {
 	protected void comment(Properties properties) {
 		Table table = new Table(new String[] { "Key", "Value" });
 
-		Set<String> keys = new TreeSet<String>();
+		Set<String> keys = new TreeSet<>();
 
 		for(Object key : properties.keySet()) {
 			keys.add(key.toString());
@@ -647,7 +643,7 @@ public abstract class TestCase {
 	}
 
 	public static List<String> getLocalNames(Collection<TestCase> testCases) {
-		List<String> result = new LinkedList<String>();
+		List<String> result = new LinkedList<>();
 		for(TestCase tc : testCases) {
 			result.add(tc.getLocalName());
 		}
