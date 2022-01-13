@@ -15,16 +15,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package qualify.doc;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
+import qualify.Requirement;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
-
-import qualify.Requirement;
 
 public class DocumentUtils {
 
@@ -32,15 +31,10 @@ public class DocumentUtils {
 
 	/**
 	 * Makes a copy of one internal resource file to a relative folder from ouputFile's parent folder.
-	 * 
-	 * @param outputFile
-	 *            The file from which the relative path will determine where to to copy the resource.
-	 * @param resourceFilePath
-	 *            The internal path of the resource.
-	 * @param relativeOutputPath
-	 *            The relative path of the copied file from the output file's parent folder.
-	 * @throws IOException
-	 *             Thrown if the resource cannot be copied on file system.
+	 *
+	 * @param resourceFilePath   The internal path of the resource.
+	 * @param relativeOutputPath The relative path of the copied file from the output file's parent folder.
+	 * @throws IOException Thrown if the resource cannot be copied on file system.
 	 */
 	public static void copyFileFromResources(File outputDir, String resourceFilePath, String relativeOutputPath) throws IOException {
 		logger.debug("copyFileFromResources('" + outputDir.getAbsolutePath() + "', '" + resourceFilePath + "', '" + relativeOutputPath

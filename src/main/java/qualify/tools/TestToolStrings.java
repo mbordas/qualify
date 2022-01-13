@@ -42,7 +42,7 @@ import java.util.regex.Pattern;
  */
 public class TestToolStrings {
 
-	private TestCase m_testCase = null;
+	private final TestCase m_testCase;
 
 	public TestToolStrings(TestCase tc) {
 		m_testCase = tc;
@@ -51,9 +51,6 @@ public class TestToolStrings {
 	/**
 	 * Checks that the two strings given through parameters are equal. Returns true if both are null. Use checkEquality(expectedString,
 	 * testedString, false) if you want to check equality without case sensitive.
-	 *
-	 * @param expectedString
-	 * @param testedString
 	 */
 	public boolean checkEquality(String expectedString, String testedString) {
 		return checkEquality(expectedString, testedString, true);
@@ -80,9 +77,7 @@ public class TestToolStrings {
 	/**
 	 * Checks that the two strings given through parameters are equal. Returns true if both are null.
 	 *
-	 * @param expectedString
-	 * @param testedString
-	 * @param caseSensitive  must comparison care about case sensitive?
+	 * @param caseSensitive must comparison care about case sensitive?
 	 */
 	public boolean checkEquality(String expectedString, String testedString, boolean caseSensitive) {
 		return checkEquality(m_testCase, expectedString, testedString, caseSensitive);
@@ -112,7 +107,6 @@ public class TestToolStrings {
 	 *
 	 * @param referenceString The string that is used as referenced.
 	 * @param stringToCompare The string to compare. That string will be reported into the returned Span.
-	 * @return
 	 */
 	public static Span getComparedDocString(String referenceString, String stringToCompare) {
 		diff_match_patch dmp = new diff_match_patch();
@@ -133,10 +127,6 @@ public class TestToolStrings {
 	/**
 	 * Returns a DocList (see package qualify.doc) that shows the differences between two strings. Differing characters are highlighted. Use
 	 * that DocList object to add comment to your TestCase.
-	 *
-	 * @param expectedString
-	 * @param testedString
-	 * @return
 	 */
 	public static DocList getDocListComparison(String expectedString, String testedString) {
 		DomElementAble firstLine = null, secondLine = null;
@@ -265,10 +255,6 @@ public class TestToolStrings {
 
 	/**
 	 * Checks that the Levenshtein's distance between strings a and b is less or equal to maxExpectedDistance.
-	 *
-	 * @param a
-	 * @param b
-	 * @param maxExpectedDistance
 	 */
 	public void checkLevenshteinDistance(String a, String b, int maxExpectedDistance) {
 		int d = getLevenshteinDistance(a, b);
@@ -278,8 +264,6 @@ public class TestToolStrings {
 	/**
 	 * Returns the Levenshtein's distance between strings a and b.
 	 *
-	 * @param a
-	 * @param b
 	 * @return The Levenshtein's distance between strings a and b.
 	 */
 	public static int getLevenshteinDistance(String a, String b) {
@@ -290,7 +274,7 @@ public class TestToolStrings {
 	 * Returns true if the tested String is contained in at least one of the referenced Strings.
 	 *
 	 * @param referencedStrings The Strings into where tested string should be contained
-	 * @param testedStrings     The String to look for
+	 * @param testedString      The String to look for
 	 * @param caseSensitive     Set true if characters'case is needed.
 	 * @return true if the tested String is contained in at least one of the referenced String. False otherwise.
 	 */
@@ -454,12 +438,9 @@ public class TestToolStrings {
 
 	/**
 	 * Converts an Enumeration to a List.
-	 *
-	 * @param strings
-	 * @return
 	 */
 	public static List<String> toList(Enumeration<String> strings) {
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 		if(strings == null) {
 			result = null;
 		} else {
@@ -471,7 +452,7 @@ public class TestToolStrings {
 	}
 
 	public static List<String> toList(String[] strings) {
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 		if(strings == null) {
 			result = null;
 		} else {
@@ -488,9 +469,6 @@ public class TestToolStrings {
 
 	/**
 	 * Creates a DocList from a HashMap composed of String elements. Use that DocList as comments.
-	 *
-	 * @param strings
-	 * @return
 	 */
 	public static DocList toDocList(HashMap<String, String> strings) {
 		DocList result = new DocList();
@@ -512,7 +490,7 @@ public class TestToolStrings {
 	 * @return A list containing the each original string one single time
 	 */
 	public static List<String> cleanDoubles(List<String> originalList) {
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 		for(String value : originalList) {
 			if(!result.contains(value)) {
 				result.add(value);
@@ -523,10 +501,6 @@ public class TestToolStrings {
 
 	/**
 	 * Indicates if the string does match the regular expression
-	 *
-	 * @param regex
-	 * @param string
-	 * @return
 	 */
 	public static boolean matches(String regex, String testedString) {
 		Pattern p = Pattern.compile(regex);
@@ -557,10 +531,6 @@ public class TestToolStrings {
 	/**
 	 * Returns the groups catched by the regular expression into the string. Group 0 is composed by the whole string. So the first extracted
 	 * group is group with index 1.
-	 *
-	 * @param regex
-	 * @param string
-	 * @return
 	 */
 	public static String[] getGroups(String regex, String string) {
 		String[] result = null;
@@ -579,8 +549,6 @@ public class TestToolStrings {
 	/**
 	 * Concatenate too String arrays.
 	 *
-	 * @param a
-	 * @param b
 	 * @return a + b
 	 */
 	public static String[] concat(String[] a, String[] b) {
@@ -596,10 +564,6 @@ public class TestToolStrings {
 	/**
 	 * Concatenate too String arrays. Only the part of 'b' from startIndex to endIndex is added at the end of 'a'
 	 *
-	 * @param a
-	 * @param b
-	 * @param startIndex
-	 * @param endIndex
 	 * @return a + b[startIndex -> endIndex]
 	 */
 	public static String[] concat(String[] a, String[] b, int startIndex, int endIndex) {
