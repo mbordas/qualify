@@ -69,6 +69,15 @@ public class TestToolSeleniumFirefox extends TestToolSelenium {
 		}
 
 		options.setCapability("marionette", true);
+
+		if(downloadDir != null) {
+			final String downloadDirPath = downloadDir.getAbsolutePath();
+			options.addPreference("browser.download.dir", downloadDirPath);
+			options.addPreference("browser.download.lastDir", downloadDirPath);
+			options.addPreference("browser.download.folderList", 2);
+			System.out.println("Browser download directory set to : " + downloadDirPath);
+		}
+
 		driver = new FirefoxDriver(options);
 
 		driver.manage().window().setSize(new Dimension(1920, 1080));

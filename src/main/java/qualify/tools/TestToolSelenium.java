@@ -38,6 +38,7 @@ import qualify.doc.DocString;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -58,11 +59,20 @@ public abstract class TestToolSelenium {
 
 	protected WebDriver driver = null;
 	protected TestCase testCase = null;
+	protected final File downloadDir;
 
 	private double defaultTimeout_s = 10.0;
 
 	public TestToolSelenium(TestCase tc) {
 		testCase = tc;
+
+		File _downloadDir = null;
+		try {
+			_downloadDir = Files.createTempDirectory("testToolSeleniumFirefox").toFile();
+		} catch(Exception e) {
+			System.out.println("Could not get download directory");
+		}
+		downloadDir = _downloadDir;
 	}
 
 	public void get(String url) {
@@ -768,6 +778,10 @@ public abstract class TestToolSelenium {
 		} else {
 			throw new Exception("Can not take screenshots with driver '" + driverClass.getName() + "'");
 		}
+	}
+
+	public File getDownloadDir() {
+		return downloadDir;
 	}
 
 	public static class ElementNotFoundException extends Exception {
