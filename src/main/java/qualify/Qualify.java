@@ -102,7 +102,7 @@ public class Qualify {
 		}
 
 		if(value == null || value.equals("")) {
-			return true;
+			return false;
 		} else {
 			return Boolean.valueOf(value);
 		}
