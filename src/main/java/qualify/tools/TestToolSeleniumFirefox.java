@@ -35,6 +35,7 @@ public class TestToolSeleniumFirefox extends TestToolSelenium {
 	public static final String OPTION_FIREFOX_BINARY = "firefox_binary";
 	public static final String OPTION_FIREFOX_PROFILE = "firefox_profile";
 	public static final String OPTION_FIREFOX_HEADLESS = "firefox_headless";
+	public static final String OPTION_FIREFOX_LANGUAGE = "firefox_language"; // ex: en-GB
 	public static final String OPTION_FIREFOX_GECKODRIVER_BINARY = "firefox_geckodriver_binary";
 	public static final String OPTION_FIREFOX_PRIVATE_BROWSER = "firefox_private_browser";
 
@@ -50,12 +51,20 @@ public class TestToolSeleniumFirefox extends TestToolSelenium {
 
 		final String profilePath = Qualify.getOptionValue(OPTION_FIREFOX_PROFILE);
 		if(profilePath != null) {
-			options.setProfile(new FirefoxProfile(new File(profilePath)));
+			FirefoxProfile profile = new FirefoxProfile(new File(profilePath));
+			options.setProfile(profile);
+		}
+		if(Qualify.isOption(OPTION_FIREFOX_LANGUAGE)) {
+			final String language = Qualify.getOptionValue(OPTION_FIREFOX_LANGUAGE);
+			System.out.println("Setting Firefox language: " + language);
+			options.addPreference("intl.locale.requested", language);
 		}
 
 		final String binaryPath = Qualify.getOptionValue(OPTION_FIREFOX_BINARY);
 		if(binaryPath != null) {
-			options.setBinary(new FirefoxBinary(new File(binaryPath)));
+			final File firefoxBinary = new File(binaryPath);
+			assert firefoxBinary.exists();
+			options.setBinary(new FirefoxBinary(firefoxBinary));
 		}
 
 		if(Qualify.isOptionSet(OPTION_FIREFOX_HEADLESS)) {

@@ -87,6 +87,9 @@ public class Qualify {
 		options = opts;
 	}
 
+	/**
+	 * Tells if the option is defined through arguments or options.xml.
+	 */
 	public static boolean isOption(String optionName) {
 		if(options != null) {
 			return options.containsKey(optionName);
@@ -95,6 +98,9 @@ public class Qualify {
 		}
 	}
 
+	/**
+	 * Tells if given option is set at {@code true} through arguments or options.xml. Any other value will return {@code false}.
+	 */
 	public static boolean isOptionSet(String optionName) {
 		String value = System.getProperty(CommandLineTool.OPTION_SYSTEM_PROPERTIES_PREFIX + optionName);
 		if(value == null) {
