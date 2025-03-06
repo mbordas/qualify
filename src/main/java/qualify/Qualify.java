@@ -57,7 +57,7 @@ public class Qualify {
 	public static final String OPTION_HTTP_SERVER_ROOT_DIR = "http_server_root_dir";
 	public static final String OPTION_TEST_CASE_MAX_ATTEMPT = "max_attempt_per_test_case";
 
-	private static HashMap<String, String> options = null;
+	private static HashMap<String, String> options = new HashMap<>();
 
 	public static void main(String[] args) {
 		if(args.length == 0) {
@@ -85,6 +85,10 @@ public class Qualify {
 
 	public static void setOptions(HashMap<String, String> opts) {
 		options = opts;
+	}
+
+	public static void setOptionValue(String key, String value) {
+		options.put(key, value);
 	}
 
 	/**

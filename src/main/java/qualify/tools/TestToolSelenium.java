@@ -121,9 +121,6 @@ public abstract class TestToolSelenium {
 
 	/**
 	 * Checks that the element identified by the specified ID is present in the actual web page
-	 *
-	 * @param elementId
-	 * @return
 	 */
 	public boolean checkFindElementById(String elementId) {
 		boolean result;
@@ -256,8 +253,6 @@ public abstract class TestToolSelenium {
 
 	/**
 	 * Accepts alert and waits until it is no more displayed.
-	 *
-	 * @throws InterruptedException
 	 */
 	public void acceptAlert() throws InterruptedException {
 		Alert alert = waitAlert();
@@ -313,8 +308,6 @@ public abstract class TestToolSelenium {
 
 	/**
 	 * Clear text of element.
-	 *
-	 * @param elementIdentifier
 	 */
 	public void clear(String elementIdentifier) {
 		By by = getElementIdentifier(elementIdentifier);
@@ -613,9 +606,6 @@ public abstract class TestToolSelenium {
 
 	/**
 	 * Returns the text or the 'value' attribute of element.
-	 *
-	 * @param elementId
-	 * @return
 	 */
 	public String getText(String elementId) {
 		By by = getElementIdentifier(elementId);
@@ -642,9 +632,6 @@ public abstract class TestToolSelenium {
 
 	/**
 	 * Returns the 'value' attribute of element.
-	 *
-	 * @param elementId
-	 * @return
 	 */
 	public String getValue(String elementId) {
 		return getAttribute(elementId, "value");
@@ -675,10 +662,6 @@ public abstract class TestToolSelenium {
 
 	/**
 	 * Returns the value of element's attribute <code>key</code>.
-	 *
-	 * @param elementId
-	 * @param key
-	 * @return
 	 */
 	public String getAttribute(String elementId, String key) {
 		WebElement element = findElementById(elementId);
@@ -707,9 +690,6 @@ public abstract class TestToolSelenium {
 
 	/**
 	 * Clears input text then type <code>value</code>.
-	 *
-	 * @param elementId
-	 * @param value
 	 */
 	public void setInput(String elementId, String value) {
 		clear(elementId);
@@ -746,9 +726,6 @@ public abstract class TestToolSelenium {
 
 	/**
 	 * Generate a screenshot of the current view of the WebDriver and save it as a file
-	 *
-	 * @param outputFile
-	 * @throws Exception
 	 */
 	public void getScreenshotAsFile(File outputFile) throws Exception {
 		Class<? extends WebDriver> driverClass = driver.getClass();
@@ -764,9 +741,6 @@ public abstract class TestToolSelenium {
 
 	/**
 	 * Generate a screenshot of the current view of the WebDriver and get it as a Base64 encoded string
-	 *
-	 * @return
-	 * @throws Exception
 	 */
 	public String getScreenshotAsBase64() throws Exception {
 		Class<? extends WebDriver> driverClass = driver.getClass();
