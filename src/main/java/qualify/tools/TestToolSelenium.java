@@ -350,7 +350,7 @@ public abstract class TestToolSelenium {
 	private boolean explicitWait(ExpectedCondition<Boolean> condition, final double timeout_s) {
 		boolean result;
 		try {
-			(new WebDriverWait(driver, Double.valueOf(timeout_s).intValue())).until(condition);
+			(new WebDriverWait(driver, java.time.Duration.ofSeconds(Double.valueOf(timeout_s).intValue()))).until(condition);
 			result = true;
 		} catch(TimeoutException e) {
 			result = false;
