@@ -1,4 +1,4 @@
-/*Copyright (c) 2011-2012, Mathieu Bordas
+/*Copyright (c) 2011-2025, Mathieu Bordas
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -16,21 +16,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package qualify.tools;
 
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import qualify.Qualify;
 import qualify.TestCase;
 
 import java.io.File;
-import java.util.concurrent.TimeUnit;
 
 public class TestToolSeleniumFirefox extends TestToolSelenium {
-
-	private static final Logger LOG = LoggerFactory.getLogger(TestToolSeleniumFirefox.class);
 
 	public static final String OPTION_FIREFOX_BINARY = "firefox_binary";
 	public static final String OPTION_FIREFOX_PROFILE = "firefox_profile";
@@ -64,7 +58,7 @@ public class TestToolSeleniumFirefox extends TestToolSelenium {
 		if(binaryPath != null) {
 			final File firefoxBinary = new File(binaryPath);
 			assert firefoxBinary.exists();
-			options.setBinary(new FirefoxBinary(firefoxBinary));
+			options.setBinary(binaryPath);
 		}
 
 		if(Qualify.isOptionSet(OPTION_FIREFOX_HEADLESS)) {
@@ -77,8 +71,6 @@ public class TestToolSeleniumFirefox extends TestToolSelenium {
 			options.addArguments("--private");
 		}
 
-		options.setCapability("marionette", true);
-
 		if(downloadDir != null) {
 			final String downloadDirPath = downloadDir.getAbsolutePath();
 			options.addPreference("browser.download.dir", downloadDirPath);
@@ -90,6 +82,6 @@ public class TestToolSeleniumFirefox extends TestToolSelenium {
 		driver = new FirefoxDriver(options);
 
 		driver.manage().window().setSize(new Dimension(1920, 1080));
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(java.time.Duration.ofSeconds(10L));
 	}
 }
