@@ -323,9 +323,6 @@ public abstract class TestCase {
 	/**
 	 * The need() method interrupts the run() execution if 'condition' is false. If condition is true, need() behaves like a check(). If
 	 * condition is false, need() simulates a check(false) and throws an exception. Such exception is catched by the TestHarness.
-	 *
-	 * @param condition
-	 * @return
 	 */
 	protected boolean need(boolean condition) {
 		if(requirementTarget == null) {
@@ -374,7 +371,7 @@ public abstract class TestCase {
 		}
 	}
 
-	protected void comment(DomElementAble element) {
+	public void comment(DomElementAble element) {
 		// Searching java file and line number of test file
 		String testSource = null;
 		int testSourceLine = 0;
@@ -427,10 +424,6 @@ public abstract class TestCase {
 
 	/**
 	 * Creates a TestResult. The source file and line will correspond to the Class that calls the 'calledClass'.
-	 *
-	 * @param condition
-	 * @param comment
-	 * @return
 	 */
 	public boolean addTestResult(boolean condition, String comment) {
 		StackTraceElement se = StackTraceTool.getTestCaseCall();
@@ -505,8 +498,6 @@ public abstract class TestCase {
 
 	/**
 	 * Returns the current target Requirement. That method is used to process Exceptions thrown during run()
-	 *
-	 * @return
 	 */
 	public String getRequirementTarget() {
 		return requirementTarget;
@@ -600,23 +591,17 @@ public abstract class TestCase {
 
 	/**
 	 * That method is automatically called by TestHarness one time per test case. You have to describe the scenario of your test case here.
-	 *
-	 * @throws Throwable
 	 */
 	public abstract void run() throws Throwable;
 
 	/**
 	 * That method is automatically called by TestHarness just before calling run(). run() will be called only if beforeRun() returns TRUE
-	 *
-	 * @throws Throwable
 	 */
 	public void beforeRun() throws Throwable {
 	}
 
 	/**
 	 * That method is automatically called by TestHarness just after calling run().
-	 *
-	 * @throws Throwable
 	 */
 	public void afterRun() throws Throwable {
 	}
