@@ -249,7 +249,7 @@ public abstract class TestCase {
 	 * Use that method for TestCase checks. It registers a TestResult with values: success/failure, current requirement if set, test case
 	 * source file and line.
 	 */
-	protected boolean check(boolean condition) {
+	public boolean check(boolean condition) {
 		if(requirementTarget == null) {
 			setRequirementTarget(Requirement.EMPTY_REQUIREMENT_ID);
 		}
@@ -517,7 +517,7 @@ public abstract class TestCase {
 	 *
 	 * @param timeInSeconds The time to pause in seconds. Precision is millisecond.
 	 */
-	protected void pause(double timeInSeconds) {
+	public void pause(double timeInSeconds) {
 		DateTime start = new DateTime();
 		try {
 			Thread.sleep((long) (timeInSeconds * DateTimeConstants.MILLIS_PER_SECOND));
