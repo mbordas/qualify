@@ -268,7 +268,7 @@ public abstract class TestCase {
 		return result;
 	}
 
-	protected boolean checkNull(Object value) {
+	public boolean checkNull(Object value) {
 		boolean result = false;
 		if(value == null) {
 			addTestResult(true, "expected is null | tested is null");
@@ -280,7 +280,7 @@ public abstract class TestCase {
 		return result;
 	}
 
-	protected boolean checkEquality(Object expectedObject, Object testedObject) {
+	public boolean checkEquality(Object expectedObject, Object testedObject) {
 		boolean result = false;
 		if(testedObject == null) {
 			if(expectedObject == null) {
@@ -324,7 +324,7 @@ public abstract class TestCase {
 	 * The need() method interrupts the run() execution if 'condition' is false. If condition is true, need() behaves like a check(). If
 	 * condition is false, need() simulates a check(false) and throws an exception. Such exception is catched by the TestHarness.
 	 */
-	protected boolean need(boolean condition) {
+	public boolean need(boolean condition) {
 		if(requirementTarget == null) {
 			setRequirementTarget(Requirement.EMPTY_REQUIREMENT_ID);
 		}
@@ -336,7 +336,7 @@ public abstract class TestCase {
 
 	}
 
-	protected void comment(String text) {
+	public void comment(String text) {
 		// Searching java file and line number of test file
 		String testSource = null;
 		int testSourceLine = 0;
@@ -349,23 +349,23 @@ public abstract class TestCase {
 		addTestComment(testComment);
 	}
 
-	protected void comment(int i) {
+	public void comment(int i) {
 		comment("" + i);
 	}
 
-	protected void comment(float f) {
+	public void comment(float f) {
 		comment("" + f);
 	}
 
-	protected void comment(double d) {
+	public void comment(double d) {
 		comment("" + d);
 	}
 
-	protected void comment(boolean b) {
+	public void comment(boolean b) {
 		comment("" + b);
 	}
 
-	protected void commentAll(Collection<? extends Object> objects) {
+	public void commentAll(Collection<? extends Object> objects) {
 		for(Object object : objects) {
 			comment(object.toString());
 		}
@@ -384,7 +384,7 @@ public abstract class TestCase {
 		addTestComment(testComment);
 	}
 
-	protected void comment(Throwable e) {
+	public void comment(Throwable e) {
 		DocList list = new DocList();
 		list.addItem(new Field("Message", e.getMessage()));
 		list.addItem(new Field("LocalizedMessage", e.getLocalizedMessage()));
@@ -400,7 +400,7 @@ public abstract class TestCase {
 		comment(list);
 	}
 
-	protected void comment(Properties properties) {
+	public void comment(Properties properties) {
 		Table table = new Table(new String[] { "Key", "Value" });
 
 		Set<String> keys = new TreeSet<>();
@@ -417,7 +417,7 @@ public abstract class TestCase {
 		comment(table);
 	}
 
-	protected void commentBase64Image(String image) {
+	public void commentBase64Image(String image) {
 		Base64Image domImage = new Base64Image(image);
 		comment(domImage);
 	}
@@ -481,7 +481,7 @@ public abstract class TestCase {
 	 *
 	 * @param requirementId The same id as in the SRD
 	 */
-	protected void setRequirementTarget(String requirementId) {
+	public void setRequirementTarget(String requirementId) {
 		if(requirementId != null) {
 			this.requirementTarget = requirementId;
 		} else {
@@ -492,7 +492,7 @@ public abstract class TestCase {
 		}
 	}
 
-	protected void resetRequirementTarget() {
+	public void resetRequirementTarget() {
 		this.requirementTarget = Requirement.EMPTY_REQUIREMENT_ID;
 	}
 
@@ -508,7 +508,7 @@ public abstract class TestCase {
 	 *
 	 * @param requirementId A new id, that cannot be found in SRD
 	 */
-	protected void setInlineRequirement(String requirementId) {
+	public void setInlineRequirement(String requirementId) {
 		setRequirementTarget(requirementId);
 	}
 
@@ -537,18 +537,18 @@ public abstract class TestCase {
 	 *
 	 * @param timeInSeconds The time to pause in seconds.
 	 */
-	protected void pause(int timeInSeconds) {
+	public void pause(int timeInSeconds) {
 		pause((double) timeInSeconds);
 	}
 
-	protected void pause(DateTime until) {
+	public void pause(DateTime until) {
 		long delay_ms = until.getMillis() - System.currentTimeMillis();
 		if(delay_ms > 0) {
 			pause(delay_ms * 1d / DateTimeConstants.MILLIS_PER_SECOND);
 		}
 	}
 
-	protected boolean waitUntil(WaitCondition waitCondition, final int timeout_s) {
+	public boolean waitUntil(WaitCondition waitCondition, final int timeout_s) {
 		final long defaultSleep_ms = 500L;
 		return waitUntil(waitCondition, timeout_s, defaultSleep_ms);
 	}
@@ -564,7 +564,7 @@ public abstract class TestCase {
 	 * @param sleep_ms      Time to sleep in ms between each checks
 	 * @return Condition is successfull
 	 */
-	protected boolean waitUntil(WaitCondition waitCondition, final int timeout_s, final long sleep_ms) {
+	public boolean waitUntil(WaitCondition waitCondition, final int timeout_s, final long sleep_ms) {
 		final long start = System.currentTimeMillis();
 		boolean success = false;
 		Throwable throwable = null;
@@ -581,11 +581,11 @@ public abstract class TestCase {
 		return success;
 	}
 
-	protected void suppressWarnings() {
+	public void suppressWarnings() {
 		ErrorsAndWarnings.suppressWarnings();
 	}
 
-	protected void activateWarnings() {
+	public void activateWarnings() {
 		ErrorsAndWarnings.activateWarnings();
 	}
 
