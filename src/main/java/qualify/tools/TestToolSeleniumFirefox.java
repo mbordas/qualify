@@ -22,6 +22,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import qualify.Qualify;
 import qualify.TestCase;
 
+import java.awt.*;
 import java.io.File;
 
 public class TestToolSeleniumFirefox extends TestToolSelenium {
@@ -61,7 +62,7 @@ public class TestToolSeleniumFirefox extends TestToolSelenium {
 			options.setBinary(binaryPath);
 		}
 
-		if(Qualify.isOptionSet(OPTION_FIREFOX_HEADLESS)) {
+		if(Qualify.isOptionSet(OPTION_FIREFOX_HEADLESS) || GraphicsEnvironment.isHeadless()) {
 			System.out.println("Using Firefox headless");
 			options.addArguments("--headless");
 		}
