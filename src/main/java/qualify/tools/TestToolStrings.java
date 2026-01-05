@@ -18,7 +18,7 @@ package qualify.tools;
 import name.fraser.neil.plaintext.diff_match_patch;
 import name.fraser.neil.plaintext.diff_match_patch.Diff;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import qualify.TestCase;
 import qualify.doc.DocList;
 import qualify.doc.DocString;
