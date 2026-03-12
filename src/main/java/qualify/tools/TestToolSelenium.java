@@ -85,6 +85,14 @@ public abstract class TestToolSelenium {
 		}
 	}
 
+	public String getCurrentURL() {
+		return driver.getCurrentUrl();
+	}
+
+	public String getTitle() {
+		return driver.getTitle();
+	}
+
 	/**
 	 * Redefines the Selenium findElement(By) in order to catch exception
 	 */
